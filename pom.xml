@@ -15,6 +15,7 @@
     </properties>
 
     <dependencies>
+        <!-- html analysis -->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -51,6 +52,7 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.0-alpha1</version> <!-- 使用最新版本 -->
         </dependency>
+
     </dependencies>
 
 </project>
