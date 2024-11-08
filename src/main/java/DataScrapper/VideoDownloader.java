@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 public class VideoDownloader {
-    private static final String path = "./cache";
+    private static final String path = "./cache/";
     public static void downloadFile(String fileUrl, String fileName) throws IOException {
         fileName = path + fileName;
         URL url = new URL(fileUrl);
