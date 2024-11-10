@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
-public class ClassRoomExecutor {
-
-    /* please use try-finally with the class */
+public class ClassRoomExecutor implements ICrawlable {
 
     private static final ClassRoomExecutor instance = new ClassRoomExecutor();
 
@@ -38,7 +36,7 @@ public class ClassRoomExecutor {
     private String teacher;
     private String timeTable;
 
-    private ClassListExecutor classListExecutor = new ClassListExecutor();
+    private final ClassListExecutor classListExecutor = new ClassListExecutor();
     private TeacherExecutor teacherExecutor;
     private TimeTableExecutor timeTableExecutor;
 
@@ -109,6 +107,8 @@ public class ClassRoomExecutor {
         this.number = number;
         this.password = password;
         this.name = name;
+        ssoLog.setNumber(number);
+        ssoLog.setPassword(password);
     }
 
     private void setupTeacherExecutor() {
@@ -122,9 +122,8 @@ public class ClassRoomExecutor {
     /**
      * turn into the iframe first and send then login
      * @return true iff login successfully
-     * @throws Exception
      */
-    public boolean login() throws Exception {
+    public boolean login() {
         try {
             driver.get(LOGIN_URL);
             ssoLog.login(driver, wait);
@@ -139,9 +138,8 @@ public class ClassRoomExecutor {
      * directly visit searching web for the course
      * @param course target course to search
      * @return true iff search the courses successfully
-     * @throws Exception
      */
-    public boolean searchCourse(String course) throws Exception {
+    public boolean searchCourse(String course) {
         setCourse(course);
 
         try {
@@ -228,6 +226,17 @@ public class ClassRoomExecutor {
         return true;
     }
 
+    public boolean gotoTargetTeacherCourse(String teacher) {
+        try {
+            gotoTargetCourse(teacher);
+            targetCourseTimeTable();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     /**
      * List<String> params is like
      * [智播, 第1周星期2第3,4节, 刘子鹏, 回放, 上次学到 00:00:03]
@@ -273,7 +282,7 @@ public class ClassRoomExecutor {
      * download the video to the default local path
      * @return true iff download successfully
      */
-    public boolean downloadCourseVideo() throws Exception {
+    public boolean downloadCourseVideo() {
         try {
             wait.until(driver -> ((JavascriptExecutor) driver)
                     .executeScript("return document.readyState").equals("complete"));
@@ -305,40 +314,7 @@ public class ClassRoomExecutor {
         return classListExecutor.getCourseList();
     }
 
-    public static void main(String[] args) throws Exception {
-        try {
-            String number = "22375080";
-            String password = "njqyb18283827207";
-            String name = "杨佳宇轩";
-
-            String course = "计算机硬件基础（软件专业）";
-            String teacher = "邓莹莹";
-            String timeTable = "第9周星期5第6,7节";
-
-            ssoLog.setNumber(number);
-            ssoLog.setPassword(password);
-
-            ClassRoomExecutor classRoomExecutor = ClassRoomExecutor.getInstance();
-            classRoomExecutor.initial(number, password, name);
-
-            classRoomExecutor.login();
-
-            List<String> classes = classRoomExecutor.getCourseList();
-            System.out.println(classes);
-            classRoomExecutor.searchCourse(course);
-
-            List<String> teachers = classRoomExecutor.getTeachers();
-            System.out.println(teachers);
-            classRoomExecutor.gotoTargetCourse(teacher);
-
-            classRoomExecutor.targetCourseTimeTable();
-
-            List<String> courseTimeTable = classRoomExecutor.getCourseTimeTable();
-            System.out.println(courseTimeTable);
-            classRoomExecutor.gotoCourseTime(timeTable);
-            classRoomExecutor.downloadCourseVideo();
-        } finally {
-            driver.quit();
-        }
+    public void quit() {
+        driver.quit();
     }
 }
