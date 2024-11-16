@@ -51,6 +51,40 @@
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.0-alpha1</version> <!-- 使用最新版本 -->
         </dependency>
+<!--        javafx -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>17.0.6</version>
+        </dependency>
+<!--        图标库-->
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-fontawesome</artifactId>
+            <version>4.7.0-9.1.2</version>
+        </dependency>
+<!--        非常好 ui 库-->
+        <dependency>
+            <groupId>io.vproxy</groupId>
+            <artifactId>vfx</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>
