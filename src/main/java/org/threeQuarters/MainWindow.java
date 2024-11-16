@@ -46,10 +46,12 @@ public class MainWindow {
         // 创建 DirectoryChooser 实例
         DirectoryChooser directoryChooser = new DirectoryChooser();
 
+//        File selectedDirectory
+
 //        // 设置初始目录，如果需要的话
 //        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-
-
+//
+//
 //        btnOpenFile.setOnAction(e -> {
 //            // 打开文件夹选择对话框
 //            File selectedDirectory = directoryChooser.showDialog(primaryStage);
@@ -61,21 +63,7 @@ public class MainWindow {
 //        });
 
 
-        // 响应文件的点击事件
-        fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                File selectedFile = newValue.getValue();
-                String fileName = selectedFile.getName();
 
-                FileTreeItem fileTreeItem = (FileTreeItem)newValue;
-                // 获取文件内容
-                String fileContent = fileTreeItem.getFileContent(); // 获取 userData
-
-                textArea.setText(fileContent);
-                // 更新 MainApp 中的 TextArea 或其他组件来显示文件内容
-//                updateTextArea(fileName, fileContent);
-            }
-        });
 
 
         // 创建布局并将文件树视图放置在中间
