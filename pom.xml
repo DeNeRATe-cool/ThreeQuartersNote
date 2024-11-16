@@ -78,6 +78,11 @@
             <artifactId>fontawesomefx-fontawesome</artifactId>
             <version>4.7.0-9.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>12.3.0</version>
+        </dependency>
 <!--        非常好 ui 库-->
         <dependency>
             <groupId>io.vproxy</groupId>

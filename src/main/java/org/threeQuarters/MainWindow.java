@@ -3,6 +3,7 @@ package org.threeQuarters;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import org.threeQuarters.controls.FileTreeCell;
@@ -19,20 +20,22 @@ public class MainWindow {
 
     public MainWindow() throws IOException {
 
-        // 文件树
+//        // 文件树
+//
+//        FileTreeView fileTreeView = new FileTreeView();
+//
+//        // 获取文件根目录
+//        File rootDirectory = new File(Options.getCurrentRootPath());
+//        FileTreeItem rootItem = new FileTreeItem(rootDirectory);
+//
+//        // 设置根目录
+//        fileTreeView.setRoot(rootItem);
+//
+//        rootItem.refresh();
+//
+//        fileTreeView.setCellFactory(treeView -> new FileTreeCell());
 
-        FileTreeView fileTreeView = new FileTreeView();
-
-        // 获取文件根目录
-        File rootDirectory = new File(Options.getCurrentRootPath());
-        FileTreeItem rootItem = new FileTreeItem(rootDirectory);
-
-        // 设置根目录
-        fileTreeView.setRoot(rootItem);
-
-        rootItem.refresh();
-
-        fileTreeView.setCellFactory(treeView -> new FileTreeCell());
+        FileManager fileManager = FileManager.getInstance();
 
         // TextArea
 
@@ -41,10 +44,8 @@ public class MainWindow {
 
         // 文件打开
         // 创建一个按钮，点击时打开文件对话框
-        Button btnOpenFile = new Button("打开文件");
+//        Button btnOpenFile = new Button("Open Folder");
 
-        // 创建 DirectoryChooser 实例
-        DirectoryChooser directoryChooser = new DirectoryChooser();
 
 //        File selectedDirectory
 
@@ -69,16 +70,42 @@ public class MainWindow {
         // 创建布局并将文件树视图放置在中间
         BorderPane rootLayout = new BorderPane();
         BorderPane fileLayout = new BorderPane();
-        fileLayout.setCenter(fileTreeView);
-        fileLayout.setTop(btnOpenFile);
+        BorderPane mainLayout = new BorderPane();
+        mainLayout.setPrefSize(800,600);
+        fileLayout.setCenter(fileManager.getFileLeftPane());
         rootLayout.setLeft(fileLayout);
-        rootLayout.setCenter(textArea);
+        mainLayout.setCenter(fileManager.getOpenedFilesTabPane());
+        rootLayout.setCenter(mainLayout);
 
 
         scene = new Scene(rootLayout);
 
+        // 创建响应事件
+
+        setAction();
+
     }
 
     Scene getScene(){return scene;}
+
+
+    public void setAction(){
+        setKeyBoardAction();
+    }
+
+    public void setKeyBoardAction()
+    {
+        scene.setOnKeyPressed(event -> {
+            if(event.isControlDown() && event.getCode() == KeyCode.S)
+            {
+                System.out.println("try saving");
+                try {
+                    FileManager.getInstance().saveEditingFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
 
 }

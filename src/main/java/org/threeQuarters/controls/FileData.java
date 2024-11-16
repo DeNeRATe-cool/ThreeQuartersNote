@@ -10,8 +10,9 @@ import java.nio.file.Path;
 public class FileData {
 
     private String content;
-
-    FileData(File file) throws IOException {
+    File file;
+    public FileData(File file) throws IOException {
+        this.file = file;
         if(Utils.fileOpenAble(file) && Utils.isTextFile(file))
         {
             this.content = (new String(Files.readAllBytes(Path.of(file.getAbsolutePath()))));
@@ -23,6 +24,15 @@ public class FileData {
     }
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAbsolutePath() {
+        return file.getAbsolutePath();
+    }
+
+    public String getName()
+    {
+        return file.getName();
     }
 
 }

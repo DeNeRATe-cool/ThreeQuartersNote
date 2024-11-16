@@ -9,9 +9,12 @@ public class ThreeQuartersApp extends Application {
 
     private MainWindow mainWindow;
 
+    private static Stage primaryStage;
+
     public void start(Stage primaryStage) throws Exception {
 
         AppConfig.loadConfig();
+        this.primaryStage = primaryStage;
 
         // 主界面
         mainWindow = new MainWindow();
@@ -22,6 +25,10 @@ public class ThreeQuartersApp extends Application {
         primaryStage.setTitle("Quarters App");
 
         primaryStage.show();
+    }
+
+    public static Stage getPrimaryStage() {
+        return primaryStage;
     }
 
 }
