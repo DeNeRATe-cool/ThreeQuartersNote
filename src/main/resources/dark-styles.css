@@ -1,0 +1,16 @@
+
+.text-area {
+    -fx-background-color: #2b2b2b; /* 外部背景颜色 */
+    -fx-text-fill: #ffffff;       /* 文本颜色 */
+    -fx-font-family: "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-border-color: #444444;   /* 边框颜色 */
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+/* 内部内容区域的背景颜色 */
+.text-area .content {
+    -fx-background-color: #2b2b2b; /* 确保内部内容背景也变成深色 */
+}

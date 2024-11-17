@@ -1,16 +1,22 @@
 package org.threeQuarters;
 
 
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
 import org.threeQuarters.controls.FileData;
 import org.threeQuarters.controls.FileTreeView;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.projects.ProjectFileTreeView;
+import org.threeQuarters.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +32,8 @@ public class FileManager {
     private Map<String,FileEditorTab> openTabs;
 
     private static FileManager instance;
+
+    private BooleanProperty openWebView;
 
     static {
         try {
@@ -58,16 +66,18 @@ public class FileManager {
         return instance;
     }
 
+
     public void initialized() throws IOException {
         // 标签栏
         openedFilesTabPane = new TabPane();
-
 
         // 已经打开的文件
         openTabs = new HashMap<>();
         directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        openFolderButton = new Button("Open Folder");
+        openFolderButton = new Button();
+        Utils.applyTooltip(openFolderButton, "Open Folder");
+        openFolderButton.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT));
 //        projectFileTreeView = new ProjectFileTreeView();
         setOpenFolderButtonAction();
         projectFileTreeView = new ProjectFileTreeView();
@@ -75,6 +85,20 @@ public class FileManager {
         fileLeftPane = new BorderPane();
         fileLeftPane.setCenter(projectFileTreeView.getFileTreeView());
         fileLeftPane.setTop(openFolderButton);
+
+        // 是否打开WebView面板
+        openWebView = new SimpleBooleanProperty(false);
+
+        // 响应 标签切换事件
+        setTabChangedAction();
+    }
+
+    // 响应标签切换事件
+    public void setTabChangedAction()
+    {
+        openedFilesTabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            ModeManager.getInstance().setOpenWebViewBoolean(false);
+        });
     }
 
     private void setOpenFolderButtonAction() throws IOException {
@@ -96,6 +120,7 @@ public class FileManager {
         return openedFilesTabPane;
     }
 
+    // 更新文件树的显示
     private void updateProjectFileTreeView() throws IOException {
         projectFileTreeView = new ProjectFileTreeView();
         fileLeftPane.setCenter(projectFileTreeView.getFileTreeView());
@@ -135,12 +160,33 @@ public class FileManager {
         if(nowSelectedTab instanceof FileEditorTab fileEditorTab)
         {
             try {
-                System.out.println("saveint");
                 fileEditorTab.saveFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    // 当前是否正在编辑 markdown 类型文件
+    public boolean editingMarkDownFile()
+    {
+        Tab nowSelectedTab = openedFilesTabPane.getSelectionModel().getSelectedItem();
+        if(nowSelectedTab instanceof FileEditorTab fileEditorTab)
+        {
+            return Utils.isMarkdownFile(new File(fileEditorTab.getFileData().getAbsolutePath()));
+        }
+        return false;
+    }
+
+    // 获取当前 markdown 文件的 webview 控件
+    public WebView getMDWebView()
+    {
+        Tab nowSelectedTab = openedFilesTabPane.getSelectionModel().getSelectedItem();
+        if(nowSelectedTab instanceof FileEditorTab fileEditorTab)
+        {
+            return fileEditorTab.getWebView();
+        }
+        return null;
     }
 
 }

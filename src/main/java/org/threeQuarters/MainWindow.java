@@ -1,10 +1,13 @@
 package org.threeQuarters;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import org.threeQuarters.controls.FileTreeCell;
 import org.threeQuarters.controls.FileTreeItem;
@@ -13,10 +16,22 @@ import org.threeQuarters.options.Options;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class MainWindow {
 
     private final Scene scene;
+
+    // 布局容器
+    BorderPane rootLayout;
+    BorderPane fileLayout;
+    BorderPane mainLayout;
+
+
+    // manager
+    FileManager fileManager;
+    ModeManager modeManager;
+
 
     public MainWindow() throws IOException {
 
@@ -35,7 +50,8 @@ public class MainWindow {
 //
 //        fileTreeView.setCellFactory(treeView -> new FileTreeCell());
 
-        FileManager fileManager = FileManager.getInstance();
+        fileManager = FileManager.getInstance();
+        modeManager = ModeManager.getInstance();
 
         // TextArea
 
@@ -68,22 +84,30 @@ public class MainWindow {
 
 
         // 创建布局并将文件树视图放置在中间
-        BorderPane rootLayout = new BorderPane();
-        BorderPane fileLayout = new BorderPane();
-        BorderPane mainLayout = new BorderPane();
-        mainLayout.setPrefSize(800,600);
+        rootLayout = new BorderPane();
+        fileLayout = new BorderPane();
+
         fileLayout.setCenter(fileManager.getFileLeftPane());
         rootLayout.setLeft(fileLayout);
+
+        mainLayout = new BorderPane();
+        mainLayout.setPrefSize(800,600);
+        mainLayout.setTop(modeManager.getHBox());
         mainLayout.setCenter(fileManager.getOpenedFilesTabPane());
+        mainLayout.setRight(fileManager.getMDWebView());
         rootLayout.setCenter(mainLayout);
 
 
         scene = new Scene(rootLayout);
-
         // 创建响应事件
 
         setAction();
 
+    }
+
+
+    public BorderPane getMainLayout() {
+        return mainLayout;
     }
 
     Scene getScene(){return scene;}
@@ -91,6 +115,23 @@ public class MainWindow {
 
     public void setAction(){
         setKeyBoardAction();
+
+
+
+        Options.getIsWebViewOpenedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue == Boolean.TRUE)
+            {
+                try {
+                    mainLayout.setRight(FileManager.getInstance().getMDWebView());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            else
+            {
+                mainLayout.setRight(null);
+            }
+        });
     }
 
     public void setKeyBoardAction()
@@ -98,7 +139,6 @@ public class MainWindow {
         scene.setOnKeyPressed(event -> {
             if(event.isControlDown() && event.getCode() == KeyCode.S)
             {
-                System.out.println("try saving");
                 try {
                     FileManager.getInstance().saveEditingFile();
                 } catch (IOException e) {

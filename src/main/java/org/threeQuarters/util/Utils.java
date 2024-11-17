@@ -1,6 +1,14 @@
 package org.threeQuarters.util;
 
 
+import de.jensd.fx.glyphs.GlyphIcon;
+import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.scene.Node;
+import javafx.scene.control.Control;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+
 import java.io.File;
 import java.util.*;
 import java.util.prefs.Preferences;
@@ -16,6 +24,9 @@ public class Utils {
     {
         return file != null && file.isFile() && file.length() < MAX_FILE_SIZE && file.canRead();
     }
+
+    // Markdown 文件的扩展名列表
+    private static final List<String> MARKDOWN_EXTENSIONS = Arrays.asList(".md", ".markdown", ".mkd", ".mkdn");
 
     // 定义可在记事本中正常显示的文件扩展名集合
     private static final Set<String> TEXT_FILE_EXTENSIONS = new HashSet<>(Arrays.asList(
@@ -163,5 +174,42 @@ public class Utils {
             return def;
         }
     }
+
+    public static boolean isMarkdownFile(File file) {
+        if (file == null || !file.exists() || file.isDirectory()) {
+            return false;
+        }
+
+        // 获取文件名并转换为小写字母
+        String fileName = file.getName().toLowerCase();
+        // 检查文件名的后缀是否在 Markdown 扩展名列表中
+        for (String ext : MARKDOWN_EXTENSIONS) {
+            if (fileName.endsWith(ext)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void applyTooltip(Node node, String tooltipText) {
+        Tooltip tooltip = new Tooltip(tooltipText);
+
+        // 设置 Tooltip 的样式
+        tooltip.setStyle("-fx-background-color: #333333; -fx-text-fill: white; "
+                + "-fx-font-size: 14px; -fx-padding: 10px; -fx-background-radius: 5px;");
+
+        // 设置显示和隐藏的延迟时间
+        tooltip.setShowDelay(Duration.millis(200)); // 200 毫秒后显示
+        tooltip.setHideDelay(Duration.millis(200)); // 鼠标移开 200 毫秒后隐藏
+
+        if (node instanceof Control) {
+            // 对 Control 类型的节点，直接调用 setTooltip
+            ((Control) node).setTooltip(tooltip);
+        } else {
+            // 对非 Control 类型的节点，使用 Tooltip.install
+            Tooltip.install(node, tooltip);
+        }
+    }
+
 
 }

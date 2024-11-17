@@ -53,6 +53,8 @@ public class ProjectFileTreeView {
         fileTreeView.setCellFactory(treeView -> new FileTreeCell());
     }
 
+
+
     public void fileOnClick(){
         // 响应文件的点击事件
         fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -66,6 +68,7 @@ public class ProjectFileTreeView {
                         throw new RuntimeException(e);
                     }
                 }
+//                fileTreeView.getSelectionModel().clearSelection();
 //                FileTreeItem fileTreeItem = (FileTreeItem)newValue;
 //                // 获取文件内容
 //                String fileContent = fileTreeItem.getFileContent(); // 获取 userData

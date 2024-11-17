@@ -20,7 +20,7 @@ public class ThreeQuartersApp extends Application {
         mainWindow = new MainWindow();
 
         primaryStage.setScene(mainWindow.getScene());
-
+        mainWindow.getScene().getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         primaryStage.setTitle("Quarters App");
 

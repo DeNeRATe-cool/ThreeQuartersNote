@@ -1,7 +1,11 @@
 package org.threeQuarters.options;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import org.threeQuarters.util.PrefsBooleanProperty;
 import org.threeQuarters.util.PrefsStringProperty;
+
+import javax.swing.text.StyledEditorKit;
 
 public class Options {
 
@@ -12,6 +16,20 @@ public class Options {
 //绑定属性：markdownFileExtensionsProperty() 返回一个 StringProperty 对象，允许在 JavaFX 中进行绑定或监听属性的变化。
 //通过这些方法，程序可以灵活地管理与 Markdown 文件扩展名相关的设置，并可以将其与用户界面（如设置界面）或其他程序部分进行交互。
 // 'markdownFileExtensions' property
+
+
+    private static final PrefsBooleanProperty testbool = new PrefsBooleanProperty(false);
+    private static boolean getTestbool(){return testbool.get();}
+    public static void setTestbool(boolean value){testbool.set(value);}
+    public static BooleanProperty getTestboolProperty(){return testbool;}
+
+
+    private static final PrefsBooleanProperty isWebViewOpened = new PrefsBooleanProperty(false);
+    public static boolean getIsWebViewOpened() {return isWebViewOpened.get();}
+    public static void setIsWebViewOpened(boolean value) {
+        Options.isWebViewOpened.set(value);
+    }
+    public static BooleanProperty getIsWebViewOpenedProperty() {return isWebViewOpened;}
 
     //在这段代码中，markdownFileExtensions 是用来保存 Markdown 文件扩展名的一个全局配置项。这个设置会在整个程序中共享，它并不为每一个 .md 文件单独设置一个扩展名。相反，它是用来管理你希望程序默认使用的扩展名。
     //

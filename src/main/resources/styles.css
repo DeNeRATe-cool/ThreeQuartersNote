@@ -1,0 +1,299 @@
+/* 设置文本区域的背景色和文字颜色 */
+.text-area {
+    -fx-background-color: #f8f9fa; /* 浅灰背景 */
+    -fx-text-fill: #343a40; /* 深灰文本颜色 */
+    -fx-font-family: "Helvetica", "Times New Roman", sans-serif; /* 简洁字体 */
+    -fx-font-size: 14px; /* 字体大小 */
+    -fx-border-color: #dee2e6; /* 边框颜色 */
+    -fx-border-width: 1.5px; /* 边框宽度 */
+    -fx-border-radius: 8px; /* 圆角边框 */
+    -fx-background-radius: 8px; /* 圆角背景 */
+    -fx-padding: 8px; /* 内边距 */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.05), 5, 0, 0, 2); /* 微弱阴影 */
+    -fx-transition: all 0.3s ease-in-out; /* 动画过渡 */
+}
+
+/* 聚焦时的反馈效果 */
+.text-area:focused {
+    -fx-border-color: #51cf66; /* 绿色边框 */
+    -fx-background-color: #e9f7ef; /* 浅绿背景 */
+    -fx-effect: dropshadow(gaussian, rgba(81, 207, 102, 0.6), 10, 0, 0, 3); /* 聚焦阴影 */
+}
+
+/* 鼠标悬停的反馈效果 */
+.text-area:hover {
+    -fx-border-color: #adb5bd; /* 浅灰边框 */
+    -fx-background-color: #f1f3f5; /* 更浅的灰色背景 */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 7, 0, 0, 2); /* 提升阴影 */
+}
+
+/* 禁用时的效果 */
+.text-area:disabled {
+    -fx-background-color: #e9ecef; /* 灰色背景 */
+    -fx-border-color: #ced4da; /* 灰色边框 */
+    -fx-text-fill: #adb5bd; /* 浅灰文本 */
+    -fx-effect: none; /* 移除阴影 */
+}
+
+/* 垂直滚动条 */
+.text-area .scroll-bar:vertical {
+    -fx-background-color: transparent; /* 背景透明 */
+    -fx-pref-width: 8px; /* 滚动条宽度 */
+    -fx-opacity: 0; /* 初始透明度 */
+    -fx-transition: opacity 0.3s ease-in-out; /* 添加过渡动画 */
+}
+
+/* 水平滚动条 */
+.text-area .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* 背景透明 */
+    -fx-pref-height: 8px; /* 滚动条高度 */
+    -fx-opacity: 0; /* 初始透明度 */
+    -fx-transition: opacity 0.3s ease-in-out; /* 添加过渡动画 */
+}
+
+/* 滚动条滑块部分 */
+.text-area .scroll-bar .thumb:vertical,
+.text-area .scroll-bar .thumb:horizontal {
+    -fx-background-color: #0078D7; /* 滑块颜色 */
+    -fx-background-radius: 4px; /* 滑块圆角 */
+    -fx-opacity: 0.6; /* 滑块透明度 */
+}
+
+/* 滚动条滑块的悬浮效果 */
+.text-area .scroll-bar .thumb:vertical:hover,
+.text-area .scroll-bar .thumb:horizontal:hover {
+    -fx-background-color: #005BB5; /* 滑块悬浮时的颜色 */
+    -fx-opacity: 1.0; /* 滑块悬浮时的透明度 */
+}
+
+/* 滚动条轨道部分 */
+.text-area .scroll-bar .track:vertical,
+.text-area .scroll-bar .track:horizontal {
+    -fx-background-color: #e0e0e0; /* 滚动条轨道颜色 */
+    -fx-background-radius: 4px; /* 轨道圆角 */
+}
+
+/* 滚动条当内容需要滚动时显示 */
+.text-area .scroll-bar:vertical.visible,
+.text-area .scroll-bar:horizontal.visible {
+    -fx-opacity: 1; /* 显示时的透明度 */
+}
+
+/* 滚动条的动画效果：在内容滚动时逐渐显示 */
+.text-area:hover .scroll-bar:vertical,
+.text-area:hover .scroll-bar:horizontal {
+    -fx-opacity: 1;
+}
+
+
+/* 设置tabpane样式 */
+
+.tab-pane {
+    -fx-tab-min-width: 100px; /* 设置 Tab 的最小宽度 */
+    -fx-tab-max-width: 150px; /* 设置 Tab 的最大宽度 */
+    -fx-tab-min-height: 20px; /* 设置 Tab 的高度 */
+    -fx-tab-background-color: #ffffff; /* TabPane 的背景颜色 */
+    -fx-background-color: #f5f5f5; /* 整体背景颜色 */
+    -fx-border-color: transparent; /* 移除边框 */
+    -fx-padding: 10px;
+    -fx-border-radius: 15px; /* 圆角 */
+    -fx-background-radius: 15px;
+}
+
+.tab-header-background {
+    -fx-background-color: #ffffff; /* Tab 区域背景 */
+    -fx-border-radius: 15px; /* 圆角边框 */
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 2); /* 阴影效果 */
+}
+
+/* 设置tab 样式 */
+
+.tab {
+    -fx-background-color: #ffffff; /* 未选中 Tab 的背景 */
+    -fx-background-radius: 15px;
+    -fx-padding: 5px 10px;
+    -fx-text-fill: #666666; /* 未选中文字颜色 */
+}
+
+.tab:hover {
+    -fx-background-color: #e8f5e9; /* 悬停时的背景色 */
+    -fx-text-fill: #333333; /* 悬停时的文字颜色 */
+}
+
+.tab:selected {
+    -fx-background-color: #80deea; /* 选中时的背景颜色 */
+    -fx-text-fill: #ffffff; /* 选中时的文字颜色 */
+    -fx-border-color: #4dd0e1; /* 选中时的边框颜色 */
+    -fx-border-radius: 15px; /* 圆角边框 */
+    -fx-border-width: 2px;
+}
+
+.tab-label {
+    -fx-font-family: "Arial", sans-serif; /* 字体样式 */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.content {
+    -fx-background-color: #ffffff; /* Tab 内容区域的背景色 */
+    -fx-border-color: transparent; /* 内容边框 */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+
+/* 设置按钮的样式 */
+.button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+    -fx-border-color: #005BB5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #005BB5;
+}
+
+
+/* 文件树样式设置 */
+
+/* 整体 FileTreeView 样式 */
+.tree-view {
+    -fx-background-color: #fefefe; /* 浅白背景色 */
+    -fx-border-color: #dddddd;    /* 边框颜色 */
+    -fx-border-radius: 8px;       /* 圆角边框 */
+    -fx-padding: 10px;            /* 内边距 */
+}
+
+/* TreeCell 样式 */
+.tree-cell {
+    -fx-text-fill: #6a6a6a;       /* 默认文本颜色 */
+    -fx-font-family: "Arial";     /* 字体样式 */
+    -fx-font-size: 16px;          /* 字体大小 */
+    -fx-background-color: transparent; /* 默认背景透明 */
+    -fx-padding: 5px 10px;        /* 内边距 */
+    -fx-border-radius: 6px;       /* 圆角边框 */
+    -fx-transition: all 0.3s ease-in-out; /* 平滑动画 */
+}
+
+/* 鼠标悬停时 */
+.tree-cell:hover {
+    -fx-background-color: #f0f8ff; /* 浅蓝色背景 */
+    -fx-text-fill: #333333;        /* 深色文本 */
+}
+
+/* 选中状态 */
+.tree-cell:selected {
+    -fx-background-color: #d6e4ff; /* 淡蓝色背景 */
+    -fx-text-fill: #003a8c;        /* 深蓝色文本 */
+    -fx-font-weight: bold;         /* 加粗字体 */
+    -fx-border-color: #003a8c;     /* 边框颜色 */
+    -fx-border-width: 1px;         /* 边框宽度 */
+}
+
+/* 垂直滚动条 */
+.tree-view .scroll-bar:vertical {
+    -fx-background-color: transparent; /* 背景透明 */
+    -fx-pref-width: 8px; /* 滚动条宽度 */
+    -fx-opacity: 0; /* 初始透明度 */
+    -fx-transition: opacity 0.3s ease-in-out; /* 添加过渡动画 */
+}
+
+/* 水平滚动条 */
+.tree-view .scroll-bar:horizontal {
+    -fx-background-color: transparent; /* 背景透明 */
+    -fx-pref-height: 8px; /* 滚动条高度 */
+    -fx-opacity: 0; /* 初始透明度 */
+    -fx-transition: opacity 0.3s ease-in-out; /* 添加过渡动画 */
+}
+
+/* 滚动条滑块部分 */
+.tree-view .scroll-bar .thumb:vertical,
+.tree-view .scroll-bar .thumb:horizontal {
+    -fx-background-color: #0078D7; /* 滑块颜色 */
+    -fx-background-radius: 4px; /* 滑块圆角 */
+    -fx-opacity: 0.6; /* 滑块透明度 */
+}
+
+/* 滚动条滑块的悬浮效果 */
+.tree-view .scroll-bar .thumb:vertical:hover,
+.tree-view .scroll-bar .thumb:horizontal:hover {
+    -fx-background-color: #005BB5; /* 滑块悬浮时的颜色 */
+    -fx-opacity: 1.0; /* 滑块悬浮时的透明度 */
+}
+
+/* 滚动条轨道部分 */
+.tree-view .scroll-bar .track:vertical,
+.tree-view .scroll-bar .track:horizontal {
+    -fx-background-color: #e0e0e0; /* 滚动条轨道颜色 */
+    -fx-background-radius: 4px; /* 轨道圆角 */
+}
+
+/* 滚动条的动画效果：在内容滚动时逐渐显示 */
+.tree-view:hover .scroll-bar:vertical,
+.tree-view:hover .scroll-bar:horizontal {
+    -fx-opacity: 1;
+}
+
+/* 滚动条当内容需要滚动时显示 */
+.tree-view .scroll-bar:vertical.visible,
+.tree-view .scroll-bar:horizontal.visible {
+    -fx-opacity: 1; /* 显示时的透明度 */
+}
+
+
+/* toggle button */
+/* 基础按钮样式 */
+/* 设置 ToggleButton 未选中的样式 */
+.toggle-button {
+    -fx-background-color: #0078D7; /* 初始背景色 */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+    -fx-border-color: #005BB5;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5;
+}
+
+/* 设置 ToggleButton 选中的样式 */
+.toggle-button:selected {
+    -fx-background-color: #005BB5;  /* 选中时背景色 */
+    -fx-text-fill: white;
+}
+
+/* 设置 ToggleButton 鼠标悬停时的样式 */
+.toggle-button:hover {
+    -fx-background-color: #005BB5;
+}
+
+/* 设置 ToggleButton 选中时鼠标悬停的样式 */
+.toggle-button:selected:hover {
+    -fx-background-color: #003C82; /* 选中时鼠标悬停时的背景色 */
+}
+
+
+.tooltip {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+/* button 图标颜色 */
+.toggle-button .glyph-icon {
+    -fx-font-size: 30px; /* 图标大小 */
+    -fx-fill: #CFAFAF;
+}
+
+.button .glyph-icon {
+    -fx-font-size: 30px;
+    -fx-fill: #AFAFAF
+}
