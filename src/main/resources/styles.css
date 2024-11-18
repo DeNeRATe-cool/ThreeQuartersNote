@@ -145,12 +145,12 @@
 
 /* 设置按钮的样式 */
 .button {
-    -fx-background-color: #0078D7;
+    -fx-background-color: #FFFFFF;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 5 10;
-    -fx-background-radius: 5;
-    -fx-border-color: #005BB5;
+    -fx-background-radius:5;
+    -fx-border-color: #FFFFFF;
     -fx-border-width: 1px;
     -fx-border-radius: 5;
 }
@@ -251,12 +251,12 @@
 /* 基础按钮样式 */
 /* 设置 ToggleButton 未选中的样式 */
 .toggle-button {
-    -fx-background-color: #0078D7; /* 初始背景色 */
+    -fx-background-color: #FFFFFF; /* 初始背景色 */
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 5 10;
     -fx-background-radius: 5;
-    -fx-border-color: #005BB5;
+    -fx-border-color: #FFFFFF;
     -fx-border-width: 1px;
     -fx-border-radius: 5;
 }
@@ -296,4 +296,19 @@
 .button .glyph-icon {
     -fx-font-size: 30px;
     -fx-fill: #AFAFAF
+}
+
+
+/* webview */
+
+.web-view {
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+}
+
+.web-view.focused-webview {
+    -fx-border-color: #0078D7;
+    -fx-border-radius: 5px;
+    -fx-border-width: 2px;
+    -fx-background-color: #f3f3f3;
 }

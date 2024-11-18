@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.threeQuarters.controls.FileData;
 import org.threeQuarters.util.Utils;
@@ -37,10 +38,24 @@ public class FileEditorTab extends Tab{
         this.textArea = new TextArea();
         textArea.setEditable(true);
         textArea.setText(fileData.getContent());
+        // 设置 WebView 为可编辑
+        String editableContent = "<html><body>" +
+                "<h2 style='text-align: center;'>这是一个可编辑的区域</h2>" +
+                "<div contenteditable='true' style='width: 80%; margin: auto; padding: 20px; border: 2px solid #ccc; border-radius: 10px;'>" +
+                "<p>您可以在这里编辑文本，输入内容，或者删除。</p>" +
+                "<p>例如：输入一些内容或删除它。</p>" +
+                "</div>" +
+                "</body></html>";
+
+
+
 
         // markdown 渲染器
         webView = new WebView();
         webView.setContextMenuEnabled(false);
+
+        // 设置 WebView 内容
+        webView.getEngine().loadContent(editableContent);
 
         parser = Parser.builder().build();
         renderer = HtmlRenderer.builder().build();
@@ -68,8 +83,29 @@ public class FileEditorTab extends Tab{
                 saveProperty.set(false);
                 updateState();
                 updateMarkDownShow();
+                // 获取 WebView 的 WebEngine
+                WebEngine webEngine = webView.getEngine();
+
+                // 执行 JavaScript，滚动到页面顶部
+                webEngine.executeScript("window.scrollTo(0, 0);");
+                System.out.println("window.scrollTo(0, 0);");
             }
         });
+
+        webView.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                System.out.println("WebView is focused");
+                webView.getStyleClass().add("focused-webview");
+                textArea.requestFocus();
+            } else {
+                System.out.println("WebView is not focused");
+                webView.getStyleClass().remove("focused-webview");
+            }
+        });
+
+
+
+
     }
 
     public void updateMarkDownShow()
