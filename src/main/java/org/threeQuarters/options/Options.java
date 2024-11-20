@@ -24,7 +24,7 @@ public class Options {
     public static BooleanProperty getTestboolProperty(){return testbool;}
 
 
-    private static final PrefsBooleanProperty isWebViewOpened = new PrefsBooleanProperty(false);
+    private static final PrefsBooleanProperty isWebViewOpened = new PrefsBooleanProperty(true);
     public static boolean getIsWebViewOpened() {return isWebViewOpened.get();}
     public static void setIsWebViewOpened(boolean value) {
         Options.isWebViewOpened.set(value);

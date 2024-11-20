@@ -24,6 +24,7 @@ public class ModeManager {
 
         openWebView = new ToggleButton();
         openWebView.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.EYE));
+        openWebView.setSelected(true);
         Utils.applyTooltip(openWebView,"Open WebView");
 
         hBox.getChildren().add(openWebView);
@@ -46,6 +47,13 @@ public class ModeManager {
 
     public void setAction()
     {
+        Options.getIsWebViewOpenedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                openWebView.setSelected(true);
+            }
+            else openWebView.setSelected(false);
+        });
+
         openWebView.selectedProperty().addListener((observable, oldValue, newValue)->{
             if(newValue){
                 try {

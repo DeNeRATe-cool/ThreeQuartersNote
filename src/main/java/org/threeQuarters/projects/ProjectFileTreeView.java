@@ -53,13 +53,28 @@ public class ProjectFileTreeView {
         fileTreeView.setCellFactory(treeView -> new FileTreeCell());
     }
 
+    public void refresh() throws IOException {
+        rootItem.refresh();
+        fileTreeView.setCellFactory(treeView -> new FileTreeCell());
+    }
 
+    public File getDirectFolder()
+    {
+        if(fileTreeView.getSelectionModel().getSelectedItem() == null)return new File(Options.getCurrentRootPath());
+        File file = fileTreeView.getSelectionModel().getSelectedItem().getValue();
+        if(file!=null)
+        {
+            if(file.isDirectory())return file;
+            else return file.getParentFile();
+        }
+        return new File(Options.getCurrentRootPath());
+    }
 
     public void fileOnClick(){
-        // 响应文件的点击事件
-        fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                File selectedFile = newValue.getValue();
+        // 两次点击
+        fileTreeView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {  // 判断是否为双击
+                File selectedFile = fileTreeView.getSelectionModel().getSelectedItem().getValue();  // 获取当前选中的 TreeItem
                 if(Utils.fileOpenAble(selectedFile) && Utils.isTextFile(selectedFile)){
                     String fileName = selectedFile.getName();
                     try {
@@ -68,16 +83,24 @@ public class ProjectFileTreeView {
                         throw new RuntimeException(e);
                     }
                 }
-//                fileTreeView.getSelectionModel().clearSelection();
-//                FileTreeItem fileTreeItem = (FileTreeItem)newValue;
-//                // 获取文件内容
-//                String fileContent = fileTreeItem.getFileContent(); // 获取 userData
-
-//                textArea.setText(fileContent);
-                // 更新 MainApp 中的 TextArea 或其他组件来显示文件内容
-//                updateTextArea(fileName, fileContent);
             }
         });
+
+        // 响应文件的点击事件
+//        fileTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null) {
+//                File selectedFile = newValue.getValue();
+//                if(Utils.fileOpenAble(selectedFile) && Utils.isTextFile(selectedFile)){
+//                    String fileName = selectedFile.getName();
+//                    try {
+//                        FileManager.getInstance().OpenFileInTab(new FileData(selectedFile));
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//
+//            }
+//        });
     }
 
 }

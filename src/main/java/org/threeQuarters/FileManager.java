@@ -5,10 +5,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.Button;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
@@ -16,11 +13,14 @@ import org.threeQuarters.controls.FileData;
 import org.threeQuarters.controls.FileTreeView;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.projects.ProjectFileTreeView;
+import org.threeQuarters.toolkit.SimpleInputDialog;
 import org.threeQuarters.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,6 +121,7 @@ public class FileManager {
     }
 
     // 更新文件树的显示
+    // 创建一个新的文件树
     private void updateProjectFileTreeView() throws IOException {
         projectFileTreeView = new ProjectFileTreeView();
         fileLeftPane.setCenter(projectFileTreeView.getFileTreeView());
@@ -150,7 +151,27 @@ public class FileManager {
         openTabs.put(filePath,fileEditorTab);
 
         fileEditorTab.setOnClosed(e->openTabs.remove(filePath));
+        Options.setIsWebViewOpened(true);
 
+    }
+
+    // 删除指定文件对应的 Tab
+    public void closeFileTab(FileData fileData) throws IOException {
+        String filePath = fileData.getAbsolutePath();
+
+        // 检查是否已经打开该文件
+        if (openTabs.containsKey(filePath)) {
+            FileEditorTab fileEditorTab = openTabs.get(filePath);
+
+            // 从 TabPane 中移除该 Tab
+            openedFilesTabPane.getTabs().remove(fileEditorTab);
+
+            // 更新 openTabs，移除对应的 Tab
+            openTabs.remove(filePath);
+
+            // 这里你可以选择进一步处理，比如关闭文件等
+//            fileEditorTab.close();
+        }
     }
 
     // 保存文件
@@ -187,6 +208,116 @@ public class FileManager {
             return fileEditorTab.getWebView();
         }
         return null;
+    }
+
+    public void createNewFolder()
+    {
+        SimpleInputDialog inputDialog = new SimpleInputDialog();
+        inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"new Folder",input -> {
+            File directFolder = projectFileTreeView.getDirectFolder();
+            if(directFolder != null)
+            {
+                Path filePath = Paths.get(directFolder.getAbsolutePath(),input);
+
+                if (!Files.exists(directFolder.getAbsoluteFile().toPath())) {
+                    try {
+                        Files.createDirectories(directFolder.getAbsoluteFile().toPath());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                // 创建文件
+                if (!Files.exists(filePath)) {
+                    try {
+                        Files.createDirectory(filePath);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+
+        try {
+            projectFileTreeView.refresh();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createNewFile()
+    {
+        SimpleInputDialog inputDialog = new SimpleInputDialog();
+        inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"new File",input -> {
+            File directFolder = projectFileTreeView.getDirectFolder();
+            if(directFolder != null)
+            {
+                if(!Utils.isMarkdownFile(input))input += ".md";
+                Path filePath = Paths.get(directFolder.getAbsolutePath(),input);
+
+                // 检查文件夹是否存在，如果不存在则创建
+                try {
+                    // 如果文件夹不存在，创建文件夹
+                    if (!Files.exists(directFolder.getAbsoluteFile().toPath())) {
+                        Files.createDirectories(directFolder.getAbsoluteFile().toPath());
+                    }
+
+                    // 创建文件
+                    if (!Files.exists(filePath)) {
+                        Files.createFile(filePath);
+                    } else {
+                    }
+
+                } catch (IOException e) {
+                    System.err.println("文件或文件夹创建失败: " + e.getMessage());
+                }
+            }
+            try {
+                projectFileTreeView.refresh();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    public void delFile()
+    {
+        File selectedFile = projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem().getValue();
+        if(selectedFile != null)
+        {
+            if(selectedFile.getAbsolutePath().equals(Options.getCurrentRootPath()))return;
+            if(selectedFile.isDirectory())
+            {
+                openTabs.forEach((k,v)->{
+                    if(Utils.isFileInDirectory(new File(v.getFileData().getAbsolutePath()),selectedFile))
+                    {
+                        try {
+                            closeFileTab(v.getFileData());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+            }
+            else if(selectedFile.isFile())
+            {
+                if(openTabs.containsKey(selectedFile.getName()))
+                {
+                    System.out.println(selectedFile.getName());
+                    try {
+                        closeFileTab(openTabs.get(selectedFile.getName()).getFileData());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            Utils.deleteFile(selectedFile);
+            try {
+                projectFileTreeView.refresh();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 }

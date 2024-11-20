@@ -45,7 +45,13 @@ public class FileTreeItem
     //第二个构造方法：接收一个 File 对象和一个 FilenameFilter，用于创建一个 FileTreeItem，并初始化 filter。
 
     public FileTreeItem(File file) throws IOException {
-        this(file, null);
+        this(file, new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                // 只接受扩展名为 .md 的文件
+                return name.endsWith(".md") || new File(dir, name).isDirectory();
+            }
+        });
         fileData = new FileData(file);
     }
 
@@ -98,6 +104,7 @@ public class FileTreeItem
                     Arrays.sort(files, FILE_COMPARATOR);
                     ArrayList<TreeItem<File>> children = new ArrayList<>();
                     for (File file : files) {
+//                        if(!Utils.isMarkdownFile(file))continue;
                         try {
                             children.add(new FileTreeItem(file, filter));
                         } catch (IOException e) {

@@ -11,7 +11,7 @@ public class AppConfig {
         // 模拟加载配置文件
 //        System.out.println("加载配置文件: " + CONFIG_PATH);
         // 此处可以添加读取配置文件的代码
-        Options.setCurrentRootPath(ThreeQuartersApp.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        Options.setCurrentRootPath(System.getProperty("user.dir"));
 
     }
 

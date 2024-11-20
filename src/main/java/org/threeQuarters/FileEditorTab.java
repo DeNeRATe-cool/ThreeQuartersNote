@@ -10,6 +10,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.robot.Robot;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import org.threeQuarters.controls.FileData;
@@ -29,23 +32,20 @@ public class FileEditorTab extends Tab{
     private WebView webView;
     private Parser parser;
     private HtmlRenderer renderer;
+    Robot robot;
+    boolean robotOpened = false;
 
     public FileEditorTab(FileData fileData)
     {
         super(fileData.getName());
+
+        robot = new Robot();
         setClosable(true);
         this.fileData = fileData;
         this.textArea = new TextArea();
+        textArea.setWrapText(true);
         textArea.setEditable(true);
         textArea.setText(fileData.getContent());
-        // 设置 WebView 为可编辑
-        String editableContent = "<html><body>" +
-                "<h2 style='text-align: center;'>这是一个可编辑的区域</h2>" +
-                "<div contenteditable='true' style='width: 80%; margin: auto; padding: 20px; border: 2px solid #ccc; border-radius: 10px;'>" +
-                "<p>您可以在这里编辑文本，输入内容，或者删除。</p>" +
-                "<p>例如：输入一些内容或删除它。</p>" +
-                "</div>" +
-                "</body></html>";
 
 
 
@@ -54,8 +54,6 @@ public class FileEditorTab extends Tab{
         webView = new WebView();
         webView.setContextMenuEnabled(false);
 
-        // 设置 WebView 内容
-        webView.getEngine().loadContent(editableContent);
 
         parser = Parser.builder().build();
         renderer = HtmlRenderer.builder().build();
@@ -66,6 +64,13 @@ public class FileEditorTab extends Tab{
         setTextAreaChangedAction();
         updateMarkDownShow();
         updateState();
+
+        // 监听 TextArea 的滚动事件
+        textArea.setOnScroll(event -> syncScroll(textArea, webView));
+
+        // 监听 WebView 的滚动事件
+        webView.setOnScroll(event -> syncScroll(webView, textArea));
+
     }
 
     public FileData getFileData() {
@@ -76,42 +81,96 @@ public class FileEditorTab extends Tab{
         return webView;
     }
 
+    // 同步滚动条位置的方法
+    private void syncScroll(Object source, Object target) {
+        if (source instanceof TextArea && target instanceof WebView) {
+            TextArea sourceTextArea = (TextArea) source;
+            WebView targetWebView = (WebView) target;
+
+            // 获取 TextArea 的滚动位置并同步到 WebView
+            double scrollPosition = sourceTextArea.getScrollTop();
+            double scrollHeight = sourceTextArea.getHeight();
+            targetWebView.getEngine().executeScript("window.scrollTo(0, " + (scrollPosition / scrollHeight * 100) + ");");
+        } else if (source instanceof WebView && target instanceof TextArea) {
+            WebView sourceWebView = (WebView) source;
+            TextArea targetTextArea = (TextArea) target;
+
+            // 获取 WebView 的滚动位置并同步到 TextArea
+//            double scrollPosition = (double) sourceWebView.getEngine().executeScript("return document.documentElement.scrollTop;");
+//            double scrollHeight = targetTextArea.getHeight();
+//            targetTextArea.setScrollTop(scrollPosition / 100 * scrollHeight);
+        }
+    }
+
+
+
     private void setTextAreaChangedAction()
     {
+        // 添加 Tab 键监听
+        this.textArea.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.TAB) {
+                int caretPosition = textArea.getCaretPosition();
+                textArea.insertText(caretPosition, "    "); // 插入 4 个空格
+                event.consume(); // 阻止默认 Tab 行为
+            }
+
+            // 及时 markdown 渲染
+            translatorForTextAreaToWebView(textArea.getText(),textArea.getCaretPosition());
+            updateMarkDownShow();
+        });
+
         this.textArea.textProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 saveProperty.set(false);
                 updateState();
                 updateMarkDownShow();
                 // 获取 WebView 的 WebEngine
-                WebEngine webEngine = webView.getEngine();
 
-                // 执行 JavaScript，滚动到页面顶部
-                webEngine.executeScript("window.scrollTo(0, 0);");
-                System.out.println("window.scrollTo(0, 0);");
             }
         });
 
         webView.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                System.out.println("WebView is focused");
                 webView.getStyleClass().add("focused-webview");
                 textArea.requestFocus();
             } else {
-                System.out.println("WebView is not focused");
                 webView.getStyleClass().remove("focused-webview");
             }
         });
 
-
-
-
     }
+
+
+    public static String translatorForTextAreaToWebView(String text,int pos)
+    {
+        if(text == null || text.equals(""))return "";
+        text = Utils.getNearLines(text,20,pos);
+        return text.replaceAll("\n","\n\n");
+    }
+
 
     public void updateMarkDownShow()
     {
         if(!Utils.isMarkdownFile(new File(fileData.getAbsolutePath())))return;
-        com.vladsch.flexmark.util.ast.Document document = parser.parse(textArea.getText());
+        com.vladsch.flexmark.util.ast.Document document = parser.parse(translatorForTextAreaToWebView(textArea.getText(), textArea.getCaretPosition()));
+        WebEngine webEngine = webView.getEngine();
+        webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                // 执行 JavaScript，滚动页面到底部
+//                webEngine.executeScript("window.scrollTo(0, document.body.scrollHeight);");
+                // 获取 TextArea 的滚动位置并同步到 WebView
+
+                String script = String.format(
+                        "var scrollHeight = document.documentElement.scrollHeight;" +
+                                "var windowHeight = window.innerHeight;" +
+                                "var scrollToY = (scrollHeight - windowHeight) * %f ;" +
+                                "window.scrollTo(0, scrollToY);", Utils.getLineRatio(textArea.getText(),textArea.getCaretPosition()));
+
+//                webEngine.executeScript("window.scrollTo(0, " + (scrollPosition / scrollHeight *ThreeQuartersApp.getPrimaryStage().getHeight()*2) + ");");
+                webEngine.executeScript(script);
+            }
+
+        });
         String htmlContent = renderer.render(document);
         webView.getEngine().loadContent(htmlContent);
     }

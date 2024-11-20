@@ -1,22 +1,13 @@
 package org.threeQuarters;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.stage.DirectoryChooser;
-import org.threeQuarters.controls.FileTreeCell;
-import org.threeQuarters.controls.FileTreeItem;
-import org.threeQuarters.controls.FileTreeView;
+import javafx.scene.layout.*;
 import org.threeQuarters.options.Options;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class MainWindow {
 
@@ -26,6 +17,9 @@ public class MainWindow {
     BorderPane rootLayout;
     BorderPane fileLayout;
     BorderPane mainLayout;
+
+//    textArea 和 Webview 实时渲染框
+    HBox editorAndWebViewPane;
 
 
     // manager
@@ -91,10 +85,32 @@ public class MainWindow {
         rootLayout.setLeft(fileLayout);
 
         mainLayout = new BorderPane();
+
         mainLayout.setPrefSize(800,600);
         mainLayout.setTop(modeManager.getHBox());
-        mainLayout.setCenter(fileManager.getOpenedFilesTabPane());
-        mainLayout.setRight(fileManager.getMDWebView());
+
+        // 放置编辑器和 webview 渲染框
+        editorAndWebViewPane = new HBox();
+        editorAndWebViewPane.getChildren().add(fileManager.getOpenedFilesTabPane());
+
+//        editorAndWebViewPane.add(fileManager.getMDWebView(),0,1);
+        mainLayout.setCenter(editorAndWebViewPane);
+
+        HBox.setHgrow(fileManager.getOpenedFilesTabPane(),Priority.ALWAYS);
+
+//        mainLayout.setCenter(fileManager.getOpenedFilesTabPane());
+//        mainLayout.setRight(fileManager.getMDWebView());
+//        rootLayout.setCenter(editorAndWebViewPane);
+
+//        borderPane.setStyle("-fx-border-color: black; " + // 边框颜色
+//                "-fx-border-width: 2px; " +  // 边框宽度
+//                "-fx-border-radius: 5px; " + // 边框圆角
+//                "-fx-padding: 10px;");       // 内边距
+//        mainLayout.setStyle("-fx-border-color: black; " + // 边框颜色
+//                "-fx-border-width: 2px; " +  // 边框宽度
+//                "-fx-border-radius: 5px; " + // 边框圆角
+//                "-fx-padding: 10px;");       // 内边距
+
         rootLayout.setCenter(mainLayout);
 
 
@@ -116,20 +132,20 @@ public class MainWindow {
     public void setAction(){
         setKeyBoardAction();
 
-
-
         Options.getIsWebViewOpenedProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue == Boolean.TRUE)
             {
-                try {
-                    mainLayout.setRight(FileManager.getInstance().getMDWebView());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                editorAndWebViewPane.getChildren().clear();
+                editorAndWebViewPane.getChildren().add(fileManager.getOpenedFilesTabPane());
+                fileManager.getOpenedFilesTabPane().setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
+                editorAndWebViewPane.getChildren().add(fileManager.getMDWebView());
+                fileManager.getMDWebView().setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
             }
             else
             {
-                mainLayout.setRight(null);
+                editorAndWebViewPane.getChildren().clear();
+                editorAndWebViewPane.getChildren().add(fileManager.getOpenedFilesTabPane());
+                fileManager.getOpenedFilesTabPane().setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
             }
         });
     }
@@ -141,6 +157,30 @@ public class MainWindow {
             {
                 try {
                     FileManager.getInstance().saveEditingFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(event.isControlDown() && event.isShiftDown() && event.getCode() == KeyCode.N)
+            {
+                try{
+                    FileManager.getInstance().createNewFolder();
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+            }
+            else if(event.isControlDown() && event.getCode() == KeyCode.N)
+            {
+                try {
+                    FileManager.getInstance().createNewFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if(event.getCode() == KeyCode.DELETE)
+            {
+                try {
+                    FileManager.getInstance().delFile();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

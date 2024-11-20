@@ -86,6 +86,7 @@
 }
 
 
+
 /* 设置tabpane样式 */
 
 .tab-pane {
@@ -159,6 +160,33 @@
     -fx-background-color: #005BB5;
 }
 
+/* 设置按钮的样式 */
+#button2 {
+    -fx-background-color: #00A1E4; /* 亮蓝色 */
+    -fx-text-fill: white; /* 白色文字 */
+    -fx-font-size: 14px;
+    -fx-padding: 8 16; /* 按钮的内边距 */
+    -fx-background-radius: 12px; /* 圆角效果 */
+    -fx-border-color: #0078D7; /* 深蓝色边框 */
+    -fx-border-width: 2px; /* 边框宽度 */
+    -fx-border-radius: 12px; /* 边框圆角 */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.15) , 4,0,0,2 ); /* 添加阴影 */
+}
+
+#button2:hover {
+    -fx-background-color: #0078D7; /* 深蓝色背景 */
+    -fx-border-color: #005BB5; /* 边框颜色更深 */
+}
+
+#button2:pressed {
+    -fx-background-color: #005BB5; /* 按下时更深的蓝色 */
+    -fx-border-color: #003C87; /* 边框颜色加深 */
+}
+
+#button2:focused {
+    -fx-border-color: #00A1E4; /* 聚焦时边框变亮蓝 */
+    -fx-border-width: 3px; /* 聚焦时边框加粗 */
+}
 
 /* 文件树样式设置 */
 
@@ -311,4 +339,45 @@
     -fx-border-radius: 5px;
     -fx-border-width: 2px;
     -fx-background-color: #f3f3f3;
+}
+
+
+.dialog-pane {
+    -fx-background-color: #ffffff; /* 背景颜色 */
+    -fx-border-color: #0078D7;    /* 边框颜色 */
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0, 0, 4);
+    -fx-padding: 20px;
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* 字体 */
+    -fx-font-size: 14px;
+}
+
+.text-field {
+    -fx-background-color: #f9f9f9; /* 输入框背景色 */
+    -fx-border-color: #0078D7;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-text-fill: #333333; /* 字体颜色 */
+}
+
+.text-field:focused {
+    -fx-border-color: #005BB5; /* 输入框聚焦时的边框颜色 */
+    -fx-effect: dropshadow(gaussian, #0078D7, 5, 0.5, 0, 0);
+}
+
+/* INS 风格的 Label */
+.label {
+    -fx-background-color: #f4f4f8; /* 淡灰色背景 */
+    -fx-text-fill: #333333; /* 深灰色文字 */
+    -fx-font-size: 16px; /* 字体大小 */
+    -fx-font-family: 'Arial', sans-serif; /* 字体类型 */
+    -fx-padding: 10 15; /* 内边距 */
+    -fx-background-radius: 8px; /* 圆角 */
+    -fx-border-color: #c7c7c7; /* 边框颜色 */
+    -fx-border-width: 0px; /* 边框宽度 */
+    -fx-border-radius: 8px; /* 边框圆角 */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.1) , 3,0,0,3 ); /* 阴影效果 */
 }
