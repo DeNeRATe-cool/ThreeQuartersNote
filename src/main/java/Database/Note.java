@@ -2,7 +2,6 @@ package Database;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
 import java.util.Date;
 
 @Entity
