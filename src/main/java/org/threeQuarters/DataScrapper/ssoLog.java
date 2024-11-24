@@ -1,4 +1,4 @@
-package DataScrapper;
+package org.threeQuarters.DataScrapper;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -41,4 +41,9 @@ public class ssoLog {
         WebElement loginButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(buttonXPath)));
         loginButton.click();
     }
+
+    public static void main(String[] args) {
+
+    }
+
 }

@@ -381,3 +381,101 @@
     -fx-border-radius: 8px; /* 边框圆角 */
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.1) , 3,0,0,3 ); /* 阴影效果 */
 }
+
+#UserLabel {
+    -fx-background-color: #f4f4f8; /* 淡灰色背景 */
+    -fx-text-fill: #333333; /* 深灰色文字 */
+    -fx-font-size: 14px; /* 字体大小 */
+    -fx-font-family: 'Arial', sans-serif; /* 字体类型 */
+    -fx-padding: 5 5; /* 内边距 */
+    -fx-background-radius: 3px; /* 圆角 */
+    -fx-border-color: #c7c7c7; /* 边框颜色 */
+    -fx-border-width: 0px; /* 边框宽度 */
+    -fx-border-radius: 3px; /* 边框圆角 */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.1) , 3,0,0,3 ); /* 阴影效果 */
+}
+
+#UserHBox{
+    -fx-padding: 5 5;
+}
+
+/* 设置按钮的样式 */
+#minoButton {
+    -fx-background-color: #00A1E4; /* 亮蓝色 */
+    -fx-text-fill: white; /* 白色文字 */
+    -fx-background-radius: 12px; /* 圆角效果 */
+    -fx-border-color: #0078D7; /* 深蓝色边框 */
+    -fx-border-radius: 3px; /* 边框圆角 */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.15) , 4,0,0,2 ); /* 添加阴影 */
+}
+
+#minoButton:hover {
+    -fx-background-color: #0078D7; /* 深蓝色背景 */
+    -fx-border-color: #005BB5; /* 边框颜色更深 */
+}
+
+#minoButton:pressed {
+    -fx-background-color: #005BB5; /* 按下时更深的蓝色 */
+    -fx-border-color: #003C87; /* 边框颜色加深 */
+}
+
+#userInputHBox .label {
+    -fx-text-fill: #333333; /* 深灰色文字 */
+    -fx-font-size: 16px; /* 字体大小 */
+    -fx-font-family: 'Arial', sans-serif; /* 字体类型 */
+    -fx-padding: 10 10;
+}
+
+#userInputHBox{
+    -fx-padding: 28 18;
+    -fx-background-color: #f4f4f8; /* 淡灰色背景 */
+    -fx-background-radius: 8px; /* 圆角 */
+    -fx-border-color: #c7c7c7; /* 边框颜色 */
+    -fx-border-width: 0px; /* 边框宽度 */
+    -fx-border-radius: 8px; /* 边框圆角 */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.1) , 3,0,0,3 ); /* 阴影效果 */
+}
+
+
+/* ComboBox样式 */
+.combo-box {
+    /*-fx-background-color: #f0f0f0;*/
+    /*-fx-border-radius: 10;*/
+    /*-fx-border-color: #d1d1d1;*/
+    /*-fx-padding: 5 10 5 10;*/
+    -fx-font-size: 14px;
+    -fx-font-family: "Helvetica Neue", sans-serif;
+}
+
+.combo-box .arrow {
+    -fx-background-color: transparent;
+    -fx-shape: "M0,0 L10,10 L20,0 Z";
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+    -fx-fill: #999;
+}
+
+.combo-box-popup {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10;
+    -fx-border-color: #d1d1d1;
+    -fx-padding: 5;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 10,0.5,0,2 );
+}
+
+/* 高亮选中项 */
+.combo-box .list-cell:hover {
+    -fx-background-color: #f3f3f3;
+}
+
+/* 下拉项的样式 */
+.combo-box .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Helvetica Neue", sans-serif;
+}
+
+/* 设置选中项的背景 */
+.combo-box .list-cell:focused {
+    -fx-background-color: #e0e0e0;
+}

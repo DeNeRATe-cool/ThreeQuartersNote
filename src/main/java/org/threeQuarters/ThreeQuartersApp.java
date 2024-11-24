@@ -3,6 +3,7 @@ package org.threeQuarters;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class ThreeQuartersApp extends Application {
@@ -15,6 +16,8 @@ public class ThreeQuartersApp extends Application {
 
         AppConfig.loadConfig();
         this.primaryStage = primaryStage;
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.TRANSPARENT);
 
         // 主界面
         mainWindow = new MainWindow();

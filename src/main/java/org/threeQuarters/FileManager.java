@@ -13,6 +13,7 @@ import org.threeQuarters.controls.FileData;
 import org.threeQuarters.controls.FileTreeView;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.projects.ProjectFileTreeView;
+import org.threeQuarters.projects.ProjectsFilesButtons;
 import org.threeQuarters.toolkit.SimpleInputDialog;
 import org.threeQuarters.util.Utils;
 
@@ -66,6 +67,9 @@ public class FileManager {
         return instance;
     }
 
+    public Button getOpenFolderButton() {
+        return openFolderButton;
+    }
 
     public void initialized() throws IOException {
         // 标签栏
@@ -75,16 +79,21 @@ public class FileManager {
         openTabs = new HashMap<>();
         directoryChooser = new DirectoryChooser();
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+        // 打开文件夹按钮
         openFolderButton = new Button();
         Utils.applyTooltip(openFolderButton, "Open Folder");
         openFolderButton.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT));
+        //
+
+
 //        projectFileTreeView = new ProjectFileTreeView();
         setOpenFolderButtonAction();
         projectFileTreeView = new ProjectFileTreeView();
 
         fileLeftPane = new BorderPane();
+        fileLeftPane.setTop(new ProjectsFilesButtons().getButtons());
         fileLeftPane.setCenter(projectFileTreeView.getFileTreeView());
-        fileLeftPane.setTop(openFolderButton);
+//        fileLeftPane.setTop(openFolderButton);
 
         // 是否打开WebView面板
         openWebView = new SimpleBooleanProperty(false);
@@ -98,6 +107,7 @@ public class FileManager {
     {
         openedFilesTabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             ModeManager.getInstance().setOpenWebViewBoolean(false);
+            ModeManager.getInstance().setOpenWebViewBoolean(true);
         });
     }
 
@@ -151,6 +161,7 @@ public class FileManager {
         openTabs.put(filePath,fileEditorTab);
 
         fileEditorTab.setOnClosed(e->openTabs.remove(filePath));
+        Options.setIsWebViewOpened(false);
         Options.setIsWebViewOpened(true);
 
     }
@@ -282,6 +293,7 @@ public class FileManager {
 
     public void delFile()
     {
+        if(projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem() == null)return;
         File selectedFile = projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem().getValue();
         if(selectedFile != null)
         {

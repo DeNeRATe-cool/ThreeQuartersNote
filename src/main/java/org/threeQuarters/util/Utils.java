@@ -1,16 +1,17 @@
 package org.threeQuarters.util;
 
 
-import de.jensd.fx.glyphs.GlyphIcon;
-import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -90,7 +91,7 @@ public class Utils {
         }
 
         String ext = filename.substring(sepIndex + 1).toLowerCase();
-        return ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("svg");
+        return ext.equals("png") || ext.equals("gif") || ext.equals("jpg") || ext.equals("images");
     }
 
     // 该方法用于将一个字符串值 value 存储到 Preferences 中，键为 key。
@@ -310,6 +311,37 @@ public class Utils {
         if(count % 2 == 1)text = "```"+text;
 //        return text.substring(st,ed+1);
         return text;
+    }
+
+    public static boolean checkUserValid(String ID,String password,String name)
+    {
+//        ICrawlable crawler = ClassRoomExecutor.getInstance();
+//        try {
+//            crawler.initial(ID, password, name);
+//
+//            crawler.login();
+//            System.out.println(crawler.getCourseList());
+//            crawler.searchCourse(course);
+//            System.out.println(crawler.getTeachers());
+//            crawler.gotoTargetTeacherCourse(teacher);
+//            System.out.println(crawler.getCourseTimeTable());
+//            crawler.gotoCourseTime(timeTable);
+//
+////            crawler.downloadCourseVideo();
+//        } finally {
+//            crawler.quit();
+//        }
+        return true;
+    }
+
+
+    public static ImageView getIcon(Image configimg)
+    {// 加载图片资源
+//        javafx.scene.image.Image configimg = new javafx.scene.image.Image(getClass().getResource("/images/configure.png").toExternalForm());
+        ImageView configIcon = new ImageView(configimg);
+        configIcon.setFitHeight(20);
+        configIcon.setFitWidth(16);
+        return configIcon;
     }
 
     public static void main(String[] args)

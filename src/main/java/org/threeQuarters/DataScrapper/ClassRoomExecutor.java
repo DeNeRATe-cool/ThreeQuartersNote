@@ -1,4 +1,4 @@
-package DataScrapper;
+package org.threeQuarters.DataScrapper;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -286,7 +286,9 @@ public class ClassRoomExecutor implements ICrawlable {
         try {
             wait.until(driver -> ((JavascriptExecutor) driver)
                     .executeScript("return document.readyState").equals("complete"));
-            WebElement video = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(videoSrcXPath)));
+//            WebElement video = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(videoSrcXPath)));
+            Thread.sleep(5000);
+            WebElement video = driver.findElement(By.xpath(videoSrcXPath));
             videoSource = video.getAttribute("src");
 
             try {

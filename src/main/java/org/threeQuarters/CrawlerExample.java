@@ -1,7 +1,7 @@
-package org.example;
+package org.threeQuarters;
 
-import DataScrapper.ClassRoomExecutor;
-import DataScrapper.ICrawlable;
+import org.threeQuarters.DataScrapper.ClassRoomExecutor;
+import org.threeQuarters.DataScrapper.ICrawlable;
 
 public class CrawlerExample {
 
@@ -26,7 +26,7 @@ public class CrawlerExample {
             System.out.println(crawler.getCourseTimeTable());
             crawler.gotoCourseTime(timeTable);
 
-            crawler.downloadCourseVideo();
+//            crawler.downloadCourseVideo();
         } finally {
             crawler.quit();
         }

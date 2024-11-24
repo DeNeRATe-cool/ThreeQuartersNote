@@ -4,7 +4,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.threeQuarters.options.Options;
+import org.threeQuarters.projects.ProjectLeftMenu;
+import org.threeQuarters.projects.ProjectTitleBar;
+import org.threeQuarters.projects.ProjectUserFace;
+import org.threeQuarters.projects.ProjectsRightOperation;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +30,7 @@ public class MainWindow {
     // manager
     FileManager fileManager;
     ModeManager modeManager;
-
+    ProjectLeftMenu projectLeftMenu;
 
     public MainWindow() throws IOException {
 
@@ -47,32 +52,6 @@ public class MainWindow {
         fileManager = FileManager.getInstance();
         modeManager = ModeManager.getInstance();
 
-        // TextArea
-
-        TextArea textArea = new TextArea();
-        textArea.setEditable(true);
-
-        // 文件打开
-        // 创建一个按钮，点击时打开文件对话框
-//        Button btnOpenFile = new Button("Open Folder");
-
-
-//        File selectedDirectory
-
-//        // 设置初始目录，如果需要的话
-//        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-//
-//
-//        btnOpenFile.setOnAction(e -> {
-//            // 打开文件夹选择对话框
-//            File selectedDirectory = directoryChooser.showDialog(primaryStage);
-//
-//            // 如果选择了文件夹
-//            if (selectedDirectory != null) {
-//                Options.setCurrentRootPath(selectedDirectory.getAbsolutePath());
-//            }
-//        });
-
 
 
 
@@ -81,13 +60,14 @@ public class MainWindow {
         rootLayout = new BorderPane();
         fileLayout = new BorderPane();
 
-        fileLayout.setCenter(fileManager.getFileLeftPane());
-        rootLayout.setLeft(fileLayout);
+        projectLeftMenu = ProjectLeftMenu.getInstance();
+//        rootLayout.setLeft(fileLayout);
+        rootLayout.setLeft(projectLeftMenu.getLeftMenuPane());
 
         mainLayout = new BorderPane();
 
         mainLayout.setPrefSize(800,600);
-        mainLayout.setTop(modeManager.getHBox());
+//        mainLayout.setTop(modeManager.getHBox());
 
         // 放置编辑器和 webview 渲染框
         editorAndWebViewPane = new HBox();
@@ -111,10 +91,14 @@ public class MainWindow {
 //                "-fx-border-radius: 5px; " + // 边框圆角
 //                "-fx-padding: 10px;");       // 内边距
 
+//        rootLayout.setTop(new ProjectUserFace().getProjectUserFacePane());
+        rootLayout.setTop(new ProjectTitleBar().getTitleBox());
         rootLayout.setCenter(mainLayout);
-
+        rootLayout.setRight(ProjectsRightOperation.getInstance().getRightPane());
 
         scene = new Scene(rootLayout);
+
+        scene.setFill(Color.TRANSPARENT);
         // 创建响应事件
 
         setAction();

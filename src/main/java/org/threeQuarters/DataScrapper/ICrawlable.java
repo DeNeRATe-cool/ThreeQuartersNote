@@ -1,4 +1,4 @@
-package DataScrapper;
+package org.threeQuarters.DataScrapper;
 
 import java.util.List;
 

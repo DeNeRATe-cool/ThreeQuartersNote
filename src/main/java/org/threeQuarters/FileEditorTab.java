@@ -38,7 +38,6 @@ public class FileEditorTab extends Tab{
     public FileEditorTab(FileData fileData)
     {
         super(fileData.getName());
-
         robot = new Robot();
         setClosable(true);
         this.fileData = fileData;
@@ -46,8 +45,6 @@ public class FileEditorTab extends Tab{
         textArea.setWrapText(true);
         textArea.setEditable(true);
         textArea.setText(fileData.getContent());
-
-
 
 
         // markdown 渲染器

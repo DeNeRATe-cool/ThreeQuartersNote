@@ -76,6 +76,7 @@ public class SimpleInputDialog {
 
         scene.getStylesheets().add(SimpleInputDialog.class.getResource("/styles.css").toExternalForm());
 
+
         // 显示对话框
         dialog.show();
     }
