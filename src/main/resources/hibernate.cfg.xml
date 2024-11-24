@@ -12,7 +12,6 @@
     <property name="hibernate.format_sql">true</property>
 
     <mapping class = "Database.Note"/>
-    <!-- DB schema will be updated if needed -->
-<!--     <property name="hibernate.hbm2ddl.auto">update</property>-->
+    <mapping class = "Database.SyncNote"/>
   </session-factory>
 </hibernate-configuration>

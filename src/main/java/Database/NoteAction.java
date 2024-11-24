@@ -280,6 +280,7 @@ public class NoteAction implements INote {
             if(transaction != null) {
                 transaction.rollback();
             }
+            e.printStackTrace();
             return null;
         } finally {
             if(session != null) {
