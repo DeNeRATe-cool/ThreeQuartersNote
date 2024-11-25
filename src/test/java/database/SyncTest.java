@@ -1,4 +1,9 @@
-package Database;
+package database;
+
+import database.sync.FileUtils;
+import database.sync.ISync;
+import database.sync.SyncAction;
+import database.sync.SyncNote;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -24,6 +29,8 @@ public class SyncTest {
     }
 
     public static void main(String[] args) {
+        DirectoryInitial.initial();
+
         String rootPath = Paths.get(Paths.get("").toAbsolutePath().toString(), "MyNoteDir").toString();
         String targetPath = "C:\\Users\\12298\\Desktop\\temp\\Dir";
         String username = "杨佳宇轩";

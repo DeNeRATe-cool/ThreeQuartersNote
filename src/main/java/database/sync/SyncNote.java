@@ -1,4 +1,4 @@
-package Database;
+package database.sync;
 
 import jakarta.persistence.*;
 

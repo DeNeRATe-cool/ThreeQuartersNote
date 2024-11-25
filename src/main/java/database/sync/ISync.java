@@ -1,4 +1,4 @@
-package Database;
+package database.sync;
 
 public interface ISync {
 

@@ -1,4 +1,4 @@
-package Database;
+package database.sync;
 
 import java.util.Date;
 import java.util.HashMap;

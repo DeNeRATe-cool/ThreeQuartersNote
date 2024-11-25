@@ -1,24 +1,10 @@
-package DataScrapper;
+package scrapper;
 
 import java.io.*;
 import java.net.URL;
 
 public class VideoDownloader {
     private static final String path = "./cache/video/";
-
-    /*
-      build ./cache/video path
-     */
-    static {
-        File directory = new File(path);
-        if (!directory.exists()) {
-            if(directory.mkdirs())
-                System.out.println("Directory created!");
-            else {
-                System.out.println("Directory failed to create...");
-            }
-        }
-    }
 
     public static void downloadFile(String fileUrl, String fileName) throws IOException {
         fileName = path + fileName;

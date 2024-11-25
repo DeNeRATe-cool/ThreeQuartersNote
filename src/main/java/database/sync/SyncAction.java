@@ -1,5 +1,6 @@
-package Database;
+package database.sync;
 
+import database.HibernateUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
@@ -85,6 +86,7 @@ public class SyncAction implements ISync {
      * @param username online username
      * @throws IllegalArgumentException if path error or username lacked
      */
+    @Override
     public void backUp(String folderPath, String username) throws IllegalArgumentException {
         if(folderPath == null || folderPath.isEmpty()) {
             throw new IllegalArgumentException("Path error");
@@ -192,6 +194,7 @@ public class SyncAction implements ISync {
      * @param username online username
      * @throws IllegalArgumentException if path or username error
      */
+    @Override
     public void sync(String targetPath, String username) throws IllegalArgumentException {
         if(targetPath == null || targetPath.isEmpty()) {
             throw new IllegalArgumentException("Path error");

@@ -1,7 +1,8 @@
 package org.example;
 
-import DataScrapper.ClassRoomExecutor;
-import DataScrapper.ICrawlable;
+import database.DirectoryInitial;
+import scrapper.ClassRoomExecutor;
+import scrapper.ICrawlable;
 
 public class CrawlerExample {
 
@@ -10,10 +11,12 @@ public class CrawlerExample {
     static String name = "杨佳宇轩";
 
     static String course = "计算机硬件基础（软件专业）";
-    static String teacher = "邓莹莹";
-    static String timeTable = "第10周星期2第3,4节";
+    static String teacher = "刘子鹏";
+    static String timeTable = "第3周星期2第3,4节";
 
     public static void main(String[] args) {
+        DirectoryInitial.initial();
+
         ICrawlable crawler = ClassRoomExecutor.getInstance();
         try {
             crawler.initial(number, password, name);

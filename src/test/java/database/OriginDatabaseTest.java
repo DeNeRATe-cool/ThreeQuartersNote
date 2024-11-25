@@ -1,4 +1,7 @@
-package Database;
+package database;
+
+import database.note.Note;
+import database.note.NoteAction;
 
 import java.util.Date;
 import java.util.UUID;
@@ -56,6 +59,8 @@ public class OriginDatabaseTest {
     }
 
     public static void main(String[] args) {
+        DirectoryInitial.initial();
+
 //        TestInsert();
 //        TestQueryAll();
 //        TestExist();

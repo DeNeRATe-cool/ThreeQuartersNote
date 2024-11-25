@@ -1,4 +1,4 @@
-package Database;
+package database.sync;
 
 import java.io.BufferedReader;
 import java.io.IOException;

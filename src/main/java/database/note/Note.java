@@ -1,4 +1,4 @@
-package Database;
+package database.note;
 
 import jakarta.persistence.*;
 

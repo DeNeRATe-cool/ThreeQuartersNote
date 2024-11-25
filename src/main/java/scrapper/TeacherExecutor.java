@@ -1,4 +1,4 @@
-package DataScrapper;
+package scrapper;
 
 import org.openqa.selenium.WebElement;
 

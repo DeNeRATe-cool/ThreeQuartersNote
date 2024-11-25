@@ -1,5 +1,6 @@
-package Database;
+package database.note;
 
+import database.HibernateUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
@@ -26,6 +27,7 @@ public class NoteAction implements INote {
      * @param note the note
      * @return true if exists
      */
+    @Override
     public boolean exist(Note note) {
         if(note == null)
             return false;
@@ -59,6 +61,7 @@ public class NoteAction implements INote {
      * insert a new shared resource
      * @param note object Note
      */
+    @Override
     public void insert(Note note) throws IllegalArgumentException {
         if(note.getUuid() == null || note.getUuid().isEmpty())
             throw new IllegalArgumentException("Note uuid cannot be empty");
@@ -85,6 +88,7 @@ public class NoteAction implements INote {
      * delete note if exist
      * @param note object note
      */
+    @Override
     public void delete(Note note) throws IllegalArgumentException {
         if(!exist(note)) {
             throw new IllegalArgumentException("Note does not exist");
@@ -117,6 +121,7 @@ public class NoteAction implements INote {
      * but renew the information
      * @param note object Note
      */
+    @Override
     public void update(Note note) throws IllegalArgumentException {
         if(!exist(note)) {
             throw new IllegalArgumentException("Note does not exist");
@@ -158,6 +163,7 @@ public class NoteAction implements INote {
      * get ALL notes
      * @return list of all notes shared
      */
+    @Override
     public List<Note> queryAll() {
         try {
             initial();
@@ -189,6 +195,7 @@ public class NoteAction implements INote {
      * @param course course name
      * @return a list of notes contain the given information
      */
+    @Override
     public List<Note> queryByCourse(String course) throws IllegalArgumentException {
         if(course == null || course.isEmpty()) {
             throw new IllegalArgumentException("Course cannot be empty");
@@ -224,6 +231,7 @@ public class NoteAction implements INote {
      * @param noteName name of note
      * @return a list of notes contain the given information
      */
+    @Override
     public List<Note> queryByNoteName(String noteName) throws IllegalArgumentException {
         if(noteName == null || noteName.isEmpty()) {
             throw new IllegalArgumentException("Course cannot be empty");
@@ -259,6 +267,7 @@ public class NoteAction implements INote {
      * @param writer writer of note
      * @return a list of notes contain the given information
      */
+    @Override
     public List<Note> queryByWriter(String writer) throws IllegalArgumentException {
         if(writer == null || writer.isEmpty()) {
             throw new IllegalArgumentException("Course cannot be empty");
