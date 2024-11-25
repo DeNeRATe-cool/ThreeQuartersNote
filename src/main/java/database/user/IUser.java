@@ -1,5 +1,7 @@
 package database.user;
 
+import jakarta.persistence.PersistenceException;
+
 import java.util.List;
 
 public interface IUser {
@@ -47,12 +49,14 @@ public interface IUser {
 
     /**
      * update new avatar of user
+     * MUST catch PersistenceException
      * @param username username
      * @param path path of new avatar picture
      * @return true if update successfully
      *         false if user doesn't exist
      * @throws IllegalArgumentException illegal parameters
+     * @throws PersistenceException if size of new local avatar is TOO large
      */
-    boolean updateAvatar(String username, String path) throws IllegalArgumentException;
+    boolean updateAvatar(String username, String path) throws IllegalArgumentException, PersistenceException;
 
 }

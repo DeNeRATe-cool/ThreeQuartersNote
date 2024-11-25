@@ -1,6 +1,7 @@
 package database.user;
 
 import database.HibernateUtils;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -245,7 +246,7 @@ public class UserAction implements IUser {
      * @throws IllegalArgumentException illegal parameters
      */
     @Override
-    public boolean updateAvatar(String username, String path) throws IllegalArgumentException {
+    public boolean updateAvatar(String username, String path) throws IllegalArgumentException, PersistenceException {
         if(username == null || username.isEmpty() || path == null || path.isEmpty()) {
             throw new IllegalArgumentException("empty arguments");
         }
