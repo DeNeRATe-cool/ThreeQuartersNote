@@ -27,8 +27,9 @@ public class FileUtils {
                     .forEach(path -> {
                         Path relativePath = basePath.relativize(path);
                         String content = readFileContent(path);
+                        String noteTitle = relativePath.getFileName().toString();
 
-                        notes.add(FileTrans.md2SyncNote(relativePath.toString(), content, username));
+                        notes.add(FileTrans.md2SyncNote(relativePath.toString(), noteTitle, content, username));
                     });
         } catch(IOException e) {
             e.printStackTrace();

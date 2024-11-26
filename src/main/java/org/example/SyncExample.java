@@ -14,7 +14,7 @@ public class SyncExample {
         ISync syncManager = new SyncAction();
         String rootPath = Paths.get(Paths.get("").toAbsolutePath().toString(), "MyNoteDir").toString();
         String targetPath = "C:\\Users\\12298\\Desktop\\temp\\notes\\sync";
-        String username = "庄耿雄";
+        String username = "杨佳宇轩";
 
         syncManager.backUp(rootPath, username);
         syncManager.sync(targetPath, username);

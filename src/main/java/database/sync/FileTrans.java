@@ -9,13 +9,18 @@ public class FileTrans {
     /**
      * transform .md file to SyncNote object
      * @param relativePath relative path to the root
-     * @param Content content of the .md file
+     * @param noteTitle note title
+     * @param content content of the .md file
      * @param username online username
      * @return object SyncNote
      */
-    public static SyncNote md2SyncNote(String relativePath, String Content, String username) {
-        String title = Content.split("---")[1];
-        String text = Content.split("---")[2].trim();
+    public static SyncNote md2SyncNote(String relativePath, String noteTitle, String content, String username) {
+        if(!content.trim().startsWith("---")) {
+            return new SyncNote(username, noteTitle, relativePath, new Date(), content.trim());
+        }
+
+        String title = content.split("---")[1];
+        String text = content.split("---")[2].trim();
 
         Map<String, String> map = new HashMap<>();
         String[] lines = title.trim().split("\n");
@@ -26,13 +31,12 @@ public class FileTrans {
             }
         }
 
-        SyncNote note = new SyncNote(username, "未命名笔记", relativePath, new Date(), text);
+        SyncNote note = new SyncNote(username, noteTitle, relativePath, new Date(), text);
 
         for(Map.Entry<String, String> entry : map.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
             switch (key) {
-                case "name" -> note.setName(value);
                 case "course" -> note.setCourse(value);
                 case "uuid" -> note.setUuid(value);
             }

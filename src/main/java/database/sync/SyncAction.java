@@ -137,18 +137,18 @@ public class SyncAction implements ISync {
      */
     private String object2Text(SyncNote note) {
         StringBuilder sb = new StringBuilder();
-        sb.append("---\n");
-        if(note.getUuid() != null) {
-            sb.append("uuid: ");
-            sb.append(note.getUuid()).append("\n");
+        if(note.getCourse() != null || note.getUuid() != null) {
+            sb.append("---\n");
+            if (note.getUuid() != null) {
+                sb.append("uuid: ");
+                sb.append(note.getUuid()).append("\n");
+            }
+            if (note.getCourse() != null) {
+                sb.append("course: ");
+                sb.append(note.getCourse()).append("\n");
+            }
+            sb.append("---\n");
         }
-        sb.append("name: ");
-        sb.append(note.getName()).append("\n");
-        if(note.getCourse() != null) {
-            sb.append("course: ");
-            sb.append(note.getCourse()).append("\n");
-        }
-        sb.append("---\n");
         sb.append(note.getContent());
         return sb.toString();
     }
