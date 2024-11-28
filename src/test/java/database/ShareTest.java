@@ -6,7 +6,7 @@ import database.note.NoteAction;
 import java.util.Date;
 import java.util.UUID;
 
-public class OriginDatabaseTest {
+public class ShareTest {
 
     private static final NoteAction action = new NoteAction();
 

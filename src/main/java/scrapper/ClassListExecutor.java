@@ -2,34 +2,16 @@ package scrapper;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassListExecutor {
+public class ClassListExecutor extends Crawler {
 
-    private static final ChromeOptions options;
-    private static final WebDriver driver;
-    private static final WebDriverWait wait;
-
-    private static final String LOGIN_URL = "https://sso.buaa.edu.cn/login";
     private static final String TARGET_URL = "https://spoc.buaa.edu.cn/spocnew/jxkj2";
     private static final String courseContentXPath = "/html/body/div[1]/div/div[9]/div[2]";
     private static final String courseClassName = "wdkc";
-
-    static {
-        WebDriverManager.chromedriver().setup();
-        options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
 
     public ClassListExecutor() {}
 
@@ -45,7 +27,7 @@ public class ClassListExecutor {
             ssoLog.login(driver, wait);
 
             // MUST wait and get page source roughly!!!
-            Thread.sleep(3000);
+            Thread.sleep(2000);
             String PageSource = driver.getPageSource();
 
             List<WebElement> courseList = driver.findElements(By.className(courseClassName));
@@ -59,5 +41,9 @@ public class ClassListExecutor {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void quit() {
+        driver.quit();
     }
 }

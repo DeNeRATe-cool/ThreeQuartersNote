@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class DatabaseExample {
+public class ShareExample {
 
     public static void main(String[] args) {
         DirectoryInitial.initial();

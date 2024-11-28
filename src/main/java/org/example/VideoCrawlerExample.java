@@ -1,13 +1,13 @@
 package org.example;
 
 import database.DirectoryInitial;
-import scrapper.ClassRoomExecutor;
-import scrapper.ICrawlable;
+import scrapper.VideoExecutor;
+import scrapper.IVideoCrawlable;
 
-public class CrawlerExample {
+public class VideoCrawlerExample {
 
-    static String number = "22375080";
-    static String password = "njqyb18283827207";
+    static String number = ""; // e.g. 22375080
+    static String password = "";
     static String name = "杨佳宇轩";
 
     static String course = "计算机硬件基础（软件专业）";
@@ -17,7 +17,7 @@ public class CrawlerExample {
     public static void main(String[] args) {
         DirectoryInitial.initial();
 
-        ICrawlable crawler = ClassRoomExecutor.getInstance();
+        IVideoCrawlable crawler = new VideoExecutor();
         try {
             crawler.initial(number, password, name);
 

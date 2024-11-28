@@ -1,24 +1,13 @@
 package scrapper;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.util.*;
 
-public class ClassRoomExecutor implements ICrawlable {
+public class VideoExecutor extends Crawler implements IVideoCrawlable {
 
-    private static final ClassRoomExecutor instance = new ClassRoomExecutor();
-
-    private static final ChromeOptions options;
-    private static final WebDriver driver;
-    private static final WebDriverWait wait;
-    private static final String LOGIN_URL = "https://sso.buaa.edu.cn/login";
     private static final String historyXPath = "/html/body/div/div[2]/div/div/div[1]/div/div[2]/p";
     private static final String timeTableContentXPath = "/html/body/div/div[2]/div/div/div[1]/div[2]/div[3]";
     private static final String videoSrcXPath = "/html/body/div[1]/div[2]/div/div/div[2]/div[2]/div[1]/div[1]/div[2]/div/div[2]/div[1]/div/div[2]/div[1]/div[1]/video";
@@ -40,20 +29,7 @@ public class ClassRoomExecutor implements ICrawlable {
     private TeacherExecutor teacherExecutor;
     private TimeTableExecutor timeTableExecutor;
 
-    static {
-        WebDriverManager.chromedriver().setup();
-        options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
-
-    private ClassRoomExecutor() {}
-
-    // 单例模式
-    public static ClassRoomExecutor getInstance() {
-        return instance;
-    }
+    public VideoExecutor() {}
 
     public String getNumber() {
         return number;
@@ -103,6 +79,7 @@ public class ClassRoomExecutor implements ICrawlable {
         this.timeTable = timeTable;
     }
 
+    @Override
     public void initial(String number, String password, String name) {
         this.number = number;
         this.password = password;
@@ -123,6 +100,7 @@ public class ClassRoomExecutor implements ICrawlable {
      * turn into the iframe first and send then login
      * @return true iff login successfully
      */
+    @Override
     public boolean login() {
         try {
             driver.get(LOGIN_URL);
@@ -139,6 +117,7 @@ public class ClassRoomExecutor implements ICrawlable {
      * @param course target course to search
      * @return true iff search the courses successfully
      */
+    @Override
     public boolean searchCourse(String course) {
         setCourse(course);
 
@@ -184,21 +163,7 @@ public class ClassRoomExecutor implements ICrawlable {
                 wait.until(driver -> ((JavascriptExecutor) driver)
                         .executeScript("return document.readyState").equals("complete"));
 
-                currentURL = driver.getWindowHandle();
-                pages.add(currentURL);
-                System.out.println("Current URL: " + currentURL);
-                Set<String> allWindowHandles = driver.getWindowHandles();
-
-                for (String windowHandle : allWindowHandles) {
-                    if(!pages.contains(windowHandle)) {
-                        pages.add(windowHandle);
-                        driver.switchTo().window(windowHandle);
-                        currentURL = driver.getWindowHandle();
-                        System.out.println("Current URL: " + currentURL);
-                        break;
-                    }
-                }
-
+                WindowUtils.switchPage(currentURL, driver, pages);
                 return true;
             }
         }
@@ -226,6 +191,7 @@ public class ClassRoomExecutor implements ICrawlable {
         return true;
     }
 
+    @Override
     public boolean gotoTargetTeacherCourse(String teacher) {
         try {
             gotoTargetCourse(teacher);
@@ -244,6 +210,7 @@ public class ClassRoomExecutor implements ICrawlable {
      * @param timeTable chosen timetable
      * @return true iff get to the timetable successfully
      */
+    @Override
     public boolean gotoCourseTime(String timeTable) {
         setTimeTable(timeTable);
         try {
@@ -282,6 +249,7 @@ public class ClassRoomExecutor implements ICrawlable {
      * download the video to the default local path
      * @return true iff download successfully
      */
+    @Override
     public boolean downloadCourseVideo() {
         try {
             wait.until(driver -> ((JavascriptExecutor) driver)
@@ -302,19 +270,24 @@ public class ClassRoomExecutor implements ICrawlable {
         return true;
     }
 
+    @Override
     public List<String> getTeachers() {
         return teacherExecutor.getTeachers();
     }
 
+    @Override
     public List<String> getCourseTimeTable() {
         return timeTableExecutor.getCourseTimeTable();
     }
 
+    @Override
     public List<String> getCourseList() {
         return classListExecutor.getCourseList();
     }
 
+    @Override
     public void quit() {
         driver.quit();
+        classListExecutor.quit();
     }
 }

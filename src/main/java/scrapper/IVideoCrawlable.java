@@ -2,11 +2,8 @@ package scrapper;
 
 import java.util.List;
 
-public interface ICrawlable {
-    /*
-      please use getInstance to get a scrapper
-      please use try-finally with the instance
-     */
+public interface IVideoCrawlable {
+    /* please use try-finally with the instance */
 
     /**
      * initialize the executor with the given params
