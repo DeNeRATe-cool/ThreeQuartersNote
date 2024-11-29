@@ -20,7 +20,7 @@ public class ThreeQuartersApp extends Application {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
 
         // 主界面
-        mainWindow = new MainWindow();
+        mainWindow = MainWindow.getMainWindow();
 
         primaryStage.setScene(mainWindow.getScene());
         mainWindow.getScene().getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());

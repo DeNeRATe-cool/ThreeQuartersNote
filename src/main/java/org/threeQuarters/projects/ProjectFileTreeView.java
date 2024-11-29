@@ -1,16 +1,23 @@
 package org.threeQuarters.projects;
 
-import org.threeQuarters.FileEditorTab;
-import org.threeQuarters.FileManager;
-import org.threeQuarters.controls.FileData;
-import org.threeQuarters.controls.FileTreeCell;
-import org.threeQuarters.controls.FileTreeItem;
-import org.threeQuarters.controls.FileTreeView;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import org.threeQuarters.FileMaster.FileManager;
+import org.threeQuarters.FileMaster.FileData;
+import org.threeQuarters.FileMaster.FileTreeCell;
+import org.threeQuarters.FileMaster.FileTreeItem;
+import org.threeQuarters.FileMaster.FileTreeView;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 // 负责文件的展示和响应
 
@@ -51,11 +58,13 @@ public class ProjectFileTreeView {
         fileTreeView.setRoot(rootItem);
         rootItem.refresh();
         fileTreeView.setCellFactory(treeView -> new FileTreeCell());
+//        fileTreeView.setCellFactory(this::createCell);
     }
 
     public void refresh() throws IOException {
         rootItem.refresh();
         fileTreeView.setCellFactory(treeView -> new FileTreeCell());
+//        fileTreeView.setCellFactory(this::createCell);
     }
 
     public File getDirectFolder()
@@ -101,6 +110,22 @@ public class ProjectFileTreeView {
 //
 //            }
 //        });
+    }
+
+    private TreeCell<File> createCell(TreeView<File> treeView) {
+        FileTreeCell treeCell = new FileTreeCell();
+        treeCell.setOnDragDetected(event -> {
+            TreeItem<File> draggedItem = treeCell.getTreeItem();
+            Dragboard db = treeCell.startDragAndDrop(TransferMode.COPY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString(draggedItem.getValue().getAbsolutePath());
+            content.put(DataFormat.FILES, Collections.singletonList(draggedItem.getValue()));
+            db.setContent(content);
+
+            event.consume();
+        });
+        return treeCell;
     }
 
 }

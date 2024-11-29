@@ -13,6 +13,17 @@ import java.util.Date;
 import java.util.List;
 
 public class NoteAction implements INote {
+
+    private static NoteAction noteManager;
+
+    public static NoteAction getInstance() {
+        if(noteManager == null)
+        {
+            return new NoteAction();
+        }
+        return noteManager;
+    }
+
     private Session session;
     private Transaction transaction;
 

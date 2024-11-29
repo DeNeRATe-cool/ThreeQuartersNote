@@ -1,4 +1,4 @@
-package org.threeQuarters;
+package org.threeQuarters.FileMaster;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
@@ -15,19 +15,21 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import org.threeQuarters.controls.FileData;
+import org.threeQuarters.util.NoteManagerUtil;
+import org.threeQuarters.util.TextAreaEnhancer;
 import org.threeQuarters.util.Utils;
 
 import java.io.*;
 
 public class FileEditorTab extends Tab{
 
-    private FileData fileData;
+    private ILocalFile fileData;
 
     // 文件是否已经保存
     BooleanProperty saveProperty = new SimpleBooleanProperty(true);
 
     private TextArea textArea;
+    private String prefsContent;
 
     private WebView webView;
     private Parser parser;
@@ -35,7 +37,7 @@ public class FileEditorTab extends Tab{
     Robot robot;
     boolean robotOpened = false;
 
-    public FileEditorTab(FileData fileData)
+    public FileEditorTab(ILocalFile fileData)
     {
         super(fileData.getName());
         robot = new Robot();
@@ -44,7 +46,7 @@ public class FileEditorTab extends Tab{
         this.textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setEditable(true);
-        textArea.setText(fileData.getContent());
+        textArea.setText(NoteManagerUtil.removeUUIDFromContent(fileData.getContent()));
 
 
         // markdown 渲染器
@@ -55,6 +57,7 @@ public class FileEditorTab extends Tab{
         parser = Parser.builder().build();
         renderer = HtmlRenderer.builder().build();
 
+        TextAreaEnhancer.enhanceTextArea(textArea);
 
 //        textArea.getStyleClass().add("text-area");
         setContent(textArea);
@@ -70,7 +73,7 @@ public class FileEditorTab extends Tab{
 
     }
 
-    public FileData getFileData() {
+    public ILocalFile getFileData() {
         return fileData;
     }
 

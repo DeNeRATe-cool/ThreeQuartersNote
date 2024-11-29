@@ -1,4 +1,4 @@
-package org.threeQuarters.controls;
+package org.threeQuarters.FileMaster;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;

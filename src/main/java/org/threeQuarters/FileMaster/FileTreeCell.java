@@ -1,16 +1,21 @@
-package org.threeQuarters.controls;
+package org.threeQuarters.FileMaster;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.scene.Node;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import org.threeQuarters.util.Utils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 
 public class FileTreeCell extends TreeCell<File>{
 
@@ -32,9 +37,77 @@ public class FileTreeCell extends TreeCell<File>{
                 ((FileTreeView)getTreeView()).handleClicks(treeItem,event.getButton(),event.getClickCount());
 
         });
+        enabledDrag();
     }
 
+    public void enabledDrag()
+    {
 
+        // 在 TreeCell 上设置拖动事件
+        setOnDragDetected(event -> {
+            if (!isEmpty()) {
+                Dragboard dragboard = startDragAndDrop(TransferMode.MOVE);  // 设置拖动操作类型
+                ClipboardContent content = new ClipboardContent();
+                content.putFiles(Collections.singletonList(getItem()));  // 存储拖动的文件
+                dragboard.setContent(content);
+                event.consume();  // 阻止事件传播
+            }
+        });
+
+        setOnDragOver(event -> {
+            if (!isEmpty()) {
+                // 如果拖拽的目标是文件类型
+                Dragboard dragboard = event.getDragboard();
+                if (dragboard.hasFiles()) {
+                    event.acceptTransferModes(TransferMode.MOVE);  // 接受文件拖放操作
+                }
+                event.consume();
+            }
+        });
+
+        setOnDragDropped(event -> {
+            if (!isEmpty()) {
+                // 获取拖拽的文件和目标文件夹
+                Dragboard dragboard = event.getDragboard();
+                if (dragboard.hasFiles()) {
+                    File sourceFile = dragboard.getFiles().get(0);
+                    File targetFolder = getItem();  // 当前目标文件夹
+                    System.out.println(sourceFile.getAbsolutePath());
+                    System.out.println(targetFolder.getAbsolutePath());
+                    try {
+                        Path targetPath = targetFolder.toPath().resolve(sourceFile.getName());
+                        Files.move(sourceFile.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+                        event.setDropCompleted(true);  // 拖放完成
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        event.setDropCompleted(false);  // 拖放失败
+                    }
+                }
+                event.consume();
+                try {
+                    FileManager.getInstance().refresh();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        setOnDragEntered(event -> {
+            if (!isEmpty()) {
+                // 这里可以做一些视图上的改变，比如高亮目标位置
+                setStyle("-fx-background-color: lightblue;");
+                event.consume();
+            }
+        });
+
+        setOnDragExited(event -> {
+            if (!isEmpty()) {
+                // 拖拽离开时恢复原样
+                setStyle("-fx-background-color: transparent;");
+                event.consume();
+            }
+        });
+    }
 
     protected void updateItem(File file, boolean empty){
         super.updateItem(file, empty);
@@ -96,6 +169,9 @@ public class FileTreeCell extends TreeCell<File>{
         }
         setText(text);
         setGraphic(graphic);
+//        HBox hBox = new HBox();
+//        if(graphic!=null)hBox.getChildren().addAll(graphic);
+//        setGraphic(hBox);
     }
 
     private FontAwesomeIcon fileIcon(String name)

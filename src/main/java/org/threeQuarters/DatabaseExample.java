@@ -11,7 +11,8 @@ import java.util.UUID;
 public class DatabaseExample {
 
     public static void main(String[] args) {
-        INote noteManager = new NoteAction();
+//        INote noteManager = new NoteAction();
+        INote noteManager = NoteAction.getInstance();
         Note note = new Note("这是一个样例笔记", "数学分析", "杨佳宇轩", new Date(), "芜湖", UUID.randomUUID().toString());
 
         List<Note> allLIst = noteManager.queryAll();

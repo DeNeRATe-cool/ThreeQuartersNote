@@ -14,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import org.threeQuarters.DataScrapper.Crawler;
-import org.threeQuarters.FileManager;
+import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
 

@@ -1,4 +1,4 @@
-package org.threeQuarters;
+package org.threeQuarters.FileMaster;
 
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -9,8 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
-import org.threeQuarters.controls.FileData;
-import org.threeQuarters.controls.FileTreeView;
+import org.threeQuarters.MainWindow;
+import org.threeQuarters.ModeManager;
+import org.threeQuarters.ThreeQuartersApp;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.projects.ProjectFileTreeView;
 import org.threeQuarters.projects.ProjectsFilesButtons;
@@ -30,7 +31,7 @@ public class FileManager {
     // 文件标签栏
     private TabPane openedFilesTabPane;
 
-    private Map<String,FileEditorTab> openTabs;
+    private Map<String, FileEditorTab> openTabs;
 
     private static FileManager instance;
 
@@ -113,8 +114,13 @@ public class FileManager {
 
     private void setOpenFolderButtonAction() throws IOException {
         openFolderButton.setOnAction(event -> {
-            File selectedFile = directoryChooser.showDialog(fileLeftPane.getScene().getWindow());
-
+//            File selectedFile = directoryChooser.showDialog(fileLeftPane.getScene().getWindow());
+            File selectedFile = null;
+            try {
+                selectedFile = directoryChooser.showDialog(MainWindow.getMainWindow().getScene().getWindow());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             if(selectedFile != null && selectedFile.isDirectory()){
                 Options.setCurrentRootPath(selectedFile.getAbsolutePath());
                 try {
@@ -143,7 +149,7 @@ public class FileManager {
     }
 
     // 打开一个可编辑的文件
-    public void OpenFileInTab(FileData fileData) throws IOException
+    public void OpenFileInTab(ILocalFile fileData) throws IOException
     {
         String filePath = fileData.getAbsolutePath();
         if(openTabs.containsKey(filePath))
@@ -167,7 +173,7 @@ public class FileManager {
     }
 
     // 删除指定文件对应的 Tab
-    public void closeFileTab(FileData fileData) throws IOException {
+    public void closeFileTab(ILocalFile fileData) throws IOException {
         String filePath = fileData.getAbsolutePath();
 
         // 检查是否已经打开该文件
@@ -221,10 +227,18 @@ public class FileManager {
         return null;
     }
 
-    public void createNewFolder()
+    public void refresh()
     {
+        try {
+            projectFileTreeView.refresh();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createNewFolder() throws IOException {
         SimpleInputDialog inputDialog = new SimpleInputDialog();
-        inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"new Folder",input -> {
+        inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"new Folder", input -> {
             File directFolder = projectFileTreeView.getDirectFolder();
             if(directFolder != null)
             {
@@ -249,11 +263,7 @@ public class FileManager {
             }
         });
 
-        try {
-            projectFileTreeView.refresh();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        projectFileTreeView.refresh();
     }
 
     public void createNewFile()
@@ -283,16 +293,11 @@ public class FileManager {
                     System.err.println("文件或文件夹创建失败: " + e.getMessage());
                 }
             }
-            try {
-                projectFileTreeView.refresh();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            projectFileTreeView.refresh();
         });
     }
 
-    public void delFile()
-    {
+    public void delFile() throws IOException {
         if(projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem() == null)return;
         File selectedFile = projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem().getValue();
         if(selectedFile != null)
@@ -324,11 +329,7 @@ public class FileManager {
                 }
             }
             Utils.deleteFile(selectedFile);
-            try {
-                projectFileTreeView.refresh();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            projectFileTreeView.refresh();
         }
     }
 

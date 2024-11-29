@@ -94,4 +94,8 @@ public class Note {
         return "Note {" + " id = " + this.id + "," + " name = " + this.name + "," + " course = " + this.course + "," +
                 " writer = " + this.writer + "," + " uploadTime = " + this.uploadTime + "," + " uuid = " + this.uuid + " }";
     }
+
+    public String simpleToString(){
+        return this.name+"/"+this.writer;
+    }
 }

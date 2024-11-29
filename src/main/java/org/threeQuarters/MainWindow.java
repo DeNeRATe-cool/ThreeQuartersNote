@@ -1,17 +1,13 @@
 package org.threeQuarters;
 
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
-import org.threeQuarters.projects.ProjectLeftMenu;
-import org.threeQuarters.projects.ProjectTitleBar;
-import org.threeQuarters.projects.ProjectUserFace;
-import org.threeQuarters.projects.ProjectsRightOperation;
+import org.threeQuarters.projects.*;
 
-import java.io.File;
 import java.io.IOException;
 
 public class MainWindow {
@@ -32,7 +28,18 @@ public class MainWindow {
     ModeManager modeManager;
     ProjectLeftMenu projectLeftMenu;
 
-    public MainWindow() throws IOException {
+    StackPane root;
+
+    private static MainWindow mainWindow;
+
+    public static MainWindow getMainWindow() throws IOException {
+        if(mainWindow == null) {
+            mainWindow = new MainWindow();
+        }
+        return mainWindow;
+    }
+
+    private MainWindow() throws IOException {
 
 //        // 文件树
 //
@@ -96,9 +103,17 @@ public class MainWindow {
         rootLayout.setCenter(mainLayout);
         rootLayout.setRight(ProjectsRightOperation.getInstance().getRightPane());
 
-        scene = new Scene(rootLayout);
+        root = new StackPane();
+        root.getChildren().add(rootLayout);
+
+        scene = new Scene(root);
 
         scene.setFill(Color.TRANSPARENT);
+//        rootLayout.setStyle("-fx-border-color: black; " + // 边框颜色
+//        "-fx-border-width: 2px; " +  // 边框宽度
+//        "-fx-border-radius: 5px; " + // 边框圆角
+//        "-fx-padding: 10px;");       // 内边距
+
         // 创建响应事件
 
         setAction();
@@ -110,7 +125,7 @@ public class MainWindow {
         return mainLayout;
     }
 
-    Scene getScene(){return scene;}
+    public Scene getScene(){return scene;}
 
 
     public void setAction(){
@@ -132,7 +147,10 @@ public class MainWindow {
                 fileManager.getOpenedFilesTabPane().setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
             }
         });
+
     }
+
+
 
     public void setKeyBoardAction()
     {

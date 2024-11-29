@@ -479,3 +479,49 @@
 .combo-box .list-cell:focused {
     -fx-background-color: #e0e0e0;
 }
+
+.list-view .virtual-flow .cell {
+    -fx-background-color: transparent; /* 隐藏空白单元格 */
+}
+
+/* ListView整体样式 */
+.list-view {
+    -fx-background-color: #f9f9f9; /* 柔和背景色 */
+    -fx-background-radius: 10px; /* 圆角 */
+    -fx-border-color: #e0e0e0; /* 边框颜色 */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2); /* 阴影效果 */
+}
+
+/* 单元格样式 */
+.list-view .list-cell {
+    -fx-background-color: white; /* 单元格背景 */
+    -fx-background-radius: 8px; /* 圆角 */
+    -fx-padding: 8px;
+    -fx-font-family: "Roboto", Arial, sans-serif; /* 字体 */
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333; /* 文本颜色 */
+    -fx-effect: none; /* 默认无阴影 */
+}
+
+/* 单元格悬停效果 */
+.list-view .list-cell:hover {
+    -fx-background-color: #f0f0f0; /* 悬停背景 */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1); /* 阴影 */
+}
+
+/* 单元格选中样式 */
+.list-view .list-cell:selected {
+    -fx-background-color: #e0e7ff; /* 选中背景 */
+    -fx-text-fill: #000000; /* 选中文本颜色 */
+}
+
+/* 隐藏多余单元格的背景 */
+.list-view .virtual-flow .cell {
+    -fx-background-color: transparent;
+}
+
+#noteLabel {
+    -fx-font-size: 14;
+}

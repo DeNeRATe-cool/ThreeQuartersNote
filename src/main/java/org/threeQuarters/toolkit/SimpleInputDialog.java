@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class SimpleInputDialog {
 
     public static void show(Stage owner, String placeholder, OnConfirmListener listener) {
@@ -46,7 +48,11 @@ public class SimpleInputDialog {
 //                        "-fx-background-radius: 5;"
 //        );
         confirmButton.setOnAction(e -> {
-            listener.onConfirm(textField.getText());
+            try {
+                listener.onConfirm(textField.getText());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
             dialog.close();
         });
 
@@ -82,6 +88,6 @@ public class SimpleInputDialog {
     }
 
     public interface OnConfirmListener {
-        void onConfirm(String input);
+        void onConfirm(String input) throws IOException;
     }
 }
