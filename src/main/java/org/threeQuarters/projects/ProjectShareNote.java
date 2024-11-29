@@ -1,7 +1,6 @@
 package org.threeQuarters.projects;
 
-import Database.Note;
-import Database.NoteAction;
+import database.note.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;

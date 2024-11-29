@@ -1,7 +1,6 @@
 package org.threeQuarters;
 
-import Database.Note;
-import Database.NoteAction;
+import database.note.*;
 import org.threeQuarters.options.Options;
 
 import java.util.prefs.Preferences;

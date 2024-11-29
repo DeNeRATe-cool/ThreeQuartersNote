@@ -1,7 +1,6 @@
 package org.threeQuarters.projects;
 
-import Database.Note;
-import Database.NoteAction;
+import database.note.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

@@ -13,7 +13,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-import org.threeQuarters.DataScrapper.Crawler;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
@@ -111,16 +110,16 @@ public class ConfigureDialog {
 
         loginButton.setOnAction(e -> {
             buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.CLOUD_DOWNLOAD));
-            boolean accepted = Crawler.userAccept(IDField.getText(), passwordField.getText());
-
-            if(accepted)
-            {
-                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.LIGHTBULB_ALT));
-            }
-            else
-            {
-                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ERASER));
-            }
+//            boolean accepted = Crawler.userAccept(IDField.getText(), passwordField.getText());
+//
+//            if(accepted)
+//            {
+//                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.LIGHTBULB_ALT));
+//            }
+//            else
+//            {
+//                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ERASER));
+//            }
 //            Options.setUserID(IDField.getText());
 //            Options.setPassWord(passwordField.getText());
 //            Options.setUserName(nameField.getText());
