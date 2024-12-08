@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
+import jdk.jshell.execution.Util;
 import org.threeQuarters.MainWindow;
 import org.threeQuarters.ModeManager;
 import org.threeQuarters.ThreeQuartersApp;
@@ -191,6 +192,13 @@ public class FileManager {
         }
     }
 
+    public FileEditorTab getEditingFileTab()
+    {
+        Tab nowSelectedTab = openedFilesTabPane.getSelectionModel().getSelectedItem();
+        if(nowSelectedTab != null && nowSelectedTab instanceof FileEditorTab)return (FileEditorTab) nowSelectedTab;
+        return null;
+    }
+
     // 保存文件
     public void saveEditingFile()
     {
@@ -328,7 +336,8 @@ public class FileManager {
                     }
                 }
             }
-            Utils.deleteFile(selectedFile);
+            System.out.println("try deleting file: " + selectedFile.getAbsolutePath());
+            System.out.println(Utils.deleteFile(selectedFile));
             projectFileTreeView.refresh();
         }
     }

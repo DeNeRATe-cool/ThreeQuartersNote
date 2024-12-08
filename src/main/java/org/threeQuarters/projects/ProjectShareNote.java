@@ -18,6 +18,7 @@ import org.threeQuarters.util.Utils;
 import java.util.List;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ProjectShareNote {
 
@@ -43,6 +44,10 @@ public class ProjectShareNote {
 
     private HBox searchHBox;
     private Button searchButton;
+
+    public static ProjectShareNote newInstance() throws IOException {
+        return new ProjectShareNote();
+    }
 
     public static ProjectShareNote getInstance() throws IOException {
         if (instance == null) {
@@ -98,6 +103,17 @@ public class ProjectShareNote {
         return items;
     }
 
+    private ObservableList<HBox> getSearchNoteItem(String searchText)
+    {
+        ObservableList<HBox> items = FXCollections.observableArrayList();
+        if(searchText == null || searchText.isEmpty())return getAllNoteItem();
+        for(Note note : noteData)
+        {
+            if(Objects.equals(note.simpleToString(), searchText))items.add(new ShareNoteItem(note).getHBox());
+        }
+        return items;
+    }
+
     private HBox noteItemFactory(String noteName,String tooltips)
     {
         HBox hBox = new HBox();
@@ -145,6 +161,7 @@ public class ProjectShareNote {
         icon.setFitHeight(20);
         icon.setFitWidth(16);
         searchButton.setGraphic(icon);
+
         return searchButton;
     }
 
@@ -201,6 +218,7 @@ public class ProjectShareNote {
     public void showListView()
     {
         resultListView.setVisible(true);
+        vBox.getChildren().remove(resultListView);
         vBox.getChildren().add(resultListView);
         borderPane.setCenter(null);
     }
@@ -208,6 +226,11 @@ public class ProjectShareNote {
     public boolean isClickOnSearchPane(Event event)
     {
         return event.getTarget() == searchField || event.getTarget() == resultListView;
+    }
+
+    private void updateAllNotesList()
+    {
+        allNotesListView.setItems(getSearchNoteItem(searchField.getText()));
     }
 
     private void setSearchFieldAction(TextField searchField) throws IOException {
@@ -224,12 +247,14 @@ public class ProjectShareNote {
                         filteredData.add(item); // 添加匹配的内容
                     }
                 }
+                updateAllNotesList();
                 resultListView.setItems(filteredData); // 更新结果列表
             }
         });
 
         searchField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue&&!resultListView.focusedProperty().getValue()) {
+            updateAllNotesList();
+            if (!newValue&&!resultListView.focusedProperty().getValue()&&!searchButton.focusedProperty().getValue()) {
                 hideListView();
             }
             else

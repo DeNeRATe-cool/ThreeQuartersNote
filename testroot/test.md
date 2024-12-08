@@ -1,1 +1,0 @@
-okk it is right

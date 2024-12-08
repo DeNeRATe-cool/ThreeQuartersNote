@@ -29,6 +29,13 @@ public class ShareExample {
         List<Note> queryWithPrompt = noteManager.queryByNoteName(prompt);
         System.out.println(queryWithPrompt);
 
+//        List<Note> all = noteManager.queryAll();
+//        int len = all.size();
+//        for(int i = len-1;i >= len / 2;i--)
+//        {
+//            noteManager.delete(all.get(i));
+//        }
+
     }
 
 }

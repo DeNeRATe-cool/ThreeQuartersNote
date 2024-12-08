@@ -2,10 +2,12 @@ package org.threeQuarters.projects;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 import org.threeQuarters.ThreeQuartersApp;
+import org.threeQuarters.options.Options;
 
 
 public class ProjectTitleBar {
@@ -17,6 +19,8 @@ public class ProjectTitleBar {
     // 用于记录鼠标点击时的位置
     private double xOffset = 0;
     private double yOffset = 0;
+
+    private ImageView avatar;
 
     public ProjectTitleBar() {
 
@@ -40,7 +44,17 @@ public class ProjectTitleBar {
         defaultFunctionButtonsBox.getChildren().addAll(new ProjectUserFace().getProjectUserFaceBox());
         defaultFunctionButtonsBox.getChildren().addAll(minimizeButton, maximizeButton, closeButton);
 
+
+//        avatar = LoginDialog.getAvatarCircularWithUserName(Options.getUserName());
+//        avatar.setFitHeight(200);
+//        avatar.setFitWidth(200);
+//        avatar.setPreserveRatio(true);
+//        avatar.setScaleX(0.5);
+//        avatar.setScaleY(0.5);
+
         titleBar = new BorderPane();
+//        titleBar.setLeft(avatar);
+
         titleBar.setRight(defaultFunctionButtonsBox);
         defaultFunctionButtonsBox.setPadding(new Insets(5));
         defaultFunctionButtonsBox.setSpacing(10);

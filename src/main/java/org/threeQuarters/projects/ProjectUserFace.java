@@ -1,10 +1,12 @@
 package org.threeQuarters.projects;
 
+import database.user.UserAction;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
@@ -23,6 +25,8 @@ public class ProjectUserFace {
     Label label;
     Button button;
 
+    ImageView imageView;
+
     public ProjectUserFace()
     {
         borderPane = new BorderPane();
@@ -31,9 +35,11 @@ public class ProjectUserFace {
         label.textProperty().bind(Options.getUserNameProperty());
         hBox = new HBox();
 
+//        imageView = LoginDialog.getAvatarCircularWithUserName(Options.getUserName());
 
         button = new Button();
         button.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.USER));
+
 
         hBox.getChildren().add(button);
         hBox.getChildren().add(label);
@@ -62,7 +68,7 @@ public class ProjectUserFace {
     {
         button.setOnAction(e -> {
             try {
-                LoginDialog.show(ThreeQuartersApp.getPrimaryStage());
+                LoginDialog.getLoginDialog().show(ThreeQuartersApp.getPrimaryStage());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

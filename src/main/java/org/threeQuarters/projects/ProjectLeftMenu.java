@@ -95,10 +95,14 @@ public class ProjectLeftMenu {
             {
                 closeAllToggle(shareResourcesButton);
                 try {
-                    leftPane.setCenter(ProjectShareNote.getInstance().getBorderPane());
+                    leftPane.setCenter(ProjectShareNote.newInstance().getBorderPane());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            }
+            else
+            {
+                leftPane.setCenter(null);
             }
         });
     }
@@ -138,7 +142,8 @@ public class ProjectLeftMenu {
 
         configButton.setOnAction(e -> {
             try {
-                ConfigureDialog.show(ThreeQuartersApp.getPrimaryStage());
+                ConfigureDialog.getConfigureDialog().show(ThreeQuartersApp.getPrimaryStage());
+//                ConfigureDialog.show(ThreeQuartersApp.getPrimaryStage());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

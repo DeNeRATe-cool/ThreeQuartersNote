@@ -1,5 +1,6 @@
 package org.threeQuarters.util;
 
+import com.sun.jna.WString;
 import javafx.beans.binding.StringBinding;
 import org.threeQuarters.FileMaster.ILocalFile;
 
@@ -28,6 +29,23 @@ public class NoteManagerUtil {
         content = new String(sb);
         System.out.println(content);
         return content;
+    }
+
+    public static String getUUIDFromContent(String content) {
+        if(!validateStringStart(content))
+        {
+            matchPatternAndPrintErrors(content);
+            System.out.println("boo how");
+            System.out.println(content);
+            return content;
+        }
+        String pattern = "^uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(\\r\\n|\\r|\\n)" +
+                "coursename:.*(\\r\\n|\\r|\\n)---(\\r\\n|\\r|\\n)";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(content);
+        m.find(0);
+        System.out.println(content.substring(m.start(),m.end()));
+        return content.substring(m.start(),m.end());
     }
 
     public static void matchPatternAndPrintErrors(String input) {
@@ -80,23 +98,21 @@ public class NoteManagerUtil {
         return matcher.find();
     }
 
-    public static String[] extractUuidAndCoursename(String input) {
-        // 定义正则表达式
-        String regex = "^uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(\\r\\n|\\r|\\n)" +
-                "coursename:.*(\\r\\n|\\r|\\n)---(\\r\\n|\\r|\\n)";
+    public static String extractUuid(String input) {
 
-        // 编译正则表达式
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
+        int pt = 0;
+        while(input.charAt(pt)!=':') {pt++;}
+        StringBuffer sb = new StringBuffer();
+        pt++;
+        while(input.charAt(pt)!='\n' && input.charAt(pt)!='\r') {sb.append(input.charAt(pt++));}
+        return new String(sb);
+    }
 
-        // 检测并提取内容
-        if (matcher.find()) {
-            String uuid = matcher.group(1);        // 提取第一个捕获组 (UUID)
-            String coursename = matcher.group(2); // 提取第二个捕获组 (coursename)
-            return new String[]{uuid, coursename};
-        } else {
-            return null; // 不符合格式，返回 null
-        }
+    public static String getPrefix(String uuid,String coursename){
+        // 构造模式串
+        String prefix = "uuid:" + uuid + "\n" +
+                "coursename:" + coursename + "\n---\n";
+        return prefix;
     }
 
     public static String addPrefixWithUuidAndCoursename(String uuid, String coursename, String input) {
@@ -111,13 +127,10 @@ public class NoteManagerUtil {
 
     public static void main(String[] args) {
         String pattern = ".*?---";
-        String str = "uuid:b7180307-39a9-4eb4-824f-b5ea281b3e03\n" +
-                "coursename:11\n" +
-                "---\n" +
-                "this is so good";
-        str = removeUUIDFromContent(str);
+        String str = "计组球球了!!!";
+//        str = removeUUIDFromContent(str);
+        str = addPrefixWithUuidAndCoursename(UUID.randomUUID().toString(), "计组",str);
         System.out.println(str);
-
     }
 
 }

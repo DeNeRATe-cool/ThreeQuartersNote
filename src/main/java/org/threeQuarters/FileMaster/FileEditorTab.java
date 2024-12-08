@@ -2,6 +2,8 @@ package org.threeQuarters.FileMaster;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
+import database.note.Note;
+import database.note.NoteAction;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.property.BooleanProperty;
@@ -15,11 +17,18 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.threeQuarters.projects.ProjectLeftMenu;
+import org.threeQuarters.projects.ProjectShareNote;
+import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.util.NoteManagerUtil;
 import org.threeQuarters.util.TextAreaEnhancer;
 import org.threeQuarters.util.Utils;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class FileEditorTab extends Tab{
 
@@ -30,12 +39,15 @@ public class FileEditorTab extends Tab{
 
     private TextArea textArea;
     private String prefsContent;
+    private String textcontent;
+
 
     private WebView webView;
     private Parser parser;
     private HtmlRenderer renderer;
     Robot robot;
     boolean robotOpened = false;
+
 
     public FileEditorTab(ILocalFile fileData)
     {
@@ -46,7 +58,19 @@ public class FileEditorTab extends Tab{
         this.textArea = new TextArea();
         textArea.setWrapText(true);
         textArea.setEditable(true);
-        textArea.setText(NoteManagerUtil.removeUUIDFromContent(fileData.getContent()));
+
+        if(NoteManagerUtil.validateStringStart(fileData.getContent()))
+        {
+            prefsContent = NoteManagerUtil.getUUIDFromContent(fileData.getContent());
+            textcontent = NoteManagerUtil.removeUUIDFromContent(fileData.getContent());
+
+        }else{
+            prefsContent = "";
+            textcontent = fileData.getContent();
+        }
+
+
+        textArea.setText(textcontent);
 
 
         // markdown 渲染器
@@ -71,6 +95,20 @@ public class FileEditorTab extends Tab{
         // 监听 WebView 的滚动事件
         webView.setOnScroll(event -> syncScroll(webView, textArea));
 
+    }
+
+    public String getTextContent()
+    {
+        return textcontent;
+    }
+
+    public String getPrefsContent()
+    {
+        return prefsContent;
+    }
+    public void setPrefsContent(String prefsContent)
+    {
+        this.prefsContent = prefsContent;
     }
 
     public ILocalFile getFileData() {
@@ -122,6 +160,7 @@ public class FileEditorTab extends Tab{
         this.textArea.textProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 saveProperty.set(false);
+                textcontent = textArea.getText();
                 updateState();
                 updateMarkDownShow();
                 // 获取 WebView 的 WebEngine
@@ -190,15 +229,62 @@ public class FileEditorTab extends Tab{
 
     public void saveFile() throws IOException {
         File file = new File(fileData.getAbsolutePath());
+
         if(file != null)
         {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
-            byte[] bytes = textArea.getText().getBytes();
+            byte[] bytes = (this.prefsContent + textArea.getText()).getBytes();
             fileOutputStream.write(bytes);
 //            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 //            writer.write(textArea.getText());
+            fileOutputStream.close();
             saveProperty.set(true);
             updateState();
+        }
+    }
+
+    public void pushOnDataBase()
+    {
+        System.out.println(this.fileData.getContent());
+        if(!Objects.equals(this.prefsContent, ""))
+        {
+            new MessageBox("","","try modify the existed note");
+            String nowUuid = NoteManagerUtil.extractUuid(this.prefsContent);
+            List<Note> allNotes = NoteAction.getInstance().queryAll();
+            Note operatingNote = null;
+            for(Note note : allNotes)
+            {
+                if(note.getUuid().equals(nowUuid))
+                {
+                    operatingNote = note;
+                }
+            }
+            if(operatingNote == null)
+            {
+                new MessageBox("","","cannot find the note");
+                return;
+            }
+//            new ModifyShareNoteDialog(operatingNote, (FileData) this.fileData).show();
+
+            operatingNote.setContent(prefsContent + textcontent);
+            operatingNote.setUploadTime(new Date());
+            System.out.println("motify\n"+operatingNote.getContent());
+            NoteAction.getInstance().update(operatingNote);
+        }
+        else {
+            new CreateShareNoteDialog((FileData) this.fileData).show();
+        }
+//        else
+//        {
+//
+//        }
+        if(ProjectLeftMenu.getInstance().isShareResourcesButtonSelected())
+        {
+            try {
+                ProjectLeftMenu.getInstance().getLeftMenuPane().setCenter(ProjectShareNote.newInstance().getBorderPane());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

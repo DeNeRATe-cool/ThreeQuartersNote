@@ -292,4 +292,12 @@ public class VideoExecutor extends Crawler implements IVideoCrawlable {
         driver.quit();
         classListExecutor.quit();
     }
+
+    public static void main(String[] args) {
+        VideoExecutor videoExecutor = new VideoExecutor();
+        videoExecutor.initial("","22374271","buAA101199@.@");
+//        videoExecutor.login();
+        System.out.println(videoExecutor.login());
+    }
+
 }

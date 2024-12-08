@@ -13,15 +13,26 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
+import org.checkerframework.checker.units.qual.C;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
+import scrapper.Crawler;
 
 import java.io.IOException;
 
 public class ConfigureDialog {
 
-    public static void show(Stage stage) throws IOException {
+    private static ConfigureDialog configureDialog;
+
+    public static ConfigureDialog getConfigureDialog() {
+        if(configureDialog == null) {
+            configureDialog = new ConfigureDialog();
+        }
+        return configureDialog;
+    }
+
+    public void show(Stage stage) throws IOException {
         Stage configureStage = new Stage();
         configureStage.initModality(Modality.APPLICATION_MODAL);
 
@@ -108,9 +119,20 @@ public class ConfigureDialog {
         // 显示对话框
         configureStage.show();
 
-        loginButton.setOnAction(e -> {
-            buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.CLOUD_DOWNLOAD));
-//            boolean accepted = Crawler.userAccept(IDField.getText(), passwordField.getText());
+
+
+        cancelButton.setOnAction(e -> {
+            configureStage.close();
+        });
+
+    }
+
+    public void setOnLoginButtonAction(Button loginButton,Label buaaLabel,TextField IDField,PasswordField passwordField)
+    {
+//        Crawler crawler = new Crawler();
+//        loginButton.setOnAction(e -> {
+////            buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.CLOUD_DOWNLOAD));
+//            boolean accepted = crawler.userAccept(IDField.getText(), passwordField.getText());
 //
 //            if(accepted)
 //            {
@@ -120,23 +142,13 @@ public class ConfigureDialog {
 //            {
 //                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ERASER));
 //            }
-//            Options.setUserID(IDField.getText());
-//            Options.setPassWord(passwordField.getText());
-//            Options.setUserName(nameField.getText());
-//            configureStage.close();
-        });
-
-        cancelButton.setOnAction(e -> {
-            configureStage.close();
-        });
-
+////            Options.setUserID(IDField.getText());
+////            Options.setPassWord(passwordField.getText());
+////            Options.setUserName(nameField.getText());
+////            configureStage.close();
+//        });
     }
 
-
-    private void setButtonAction(Button loginButton, Button cancelButton,String IDtextField,String passwordField)
-    {
-
-    }
 
 
 }

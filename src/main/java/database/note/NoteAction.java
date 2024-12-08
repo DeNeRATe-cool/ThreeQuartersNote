@@ -153,6 +153,7 @@ public class NoteAction implements INote {
                 newNote.setContent(note.getContent());
 
                 session.merge(newNote);
+                System.out.println("merge successfully");
             } else {
                 System.out.println("No entity found with the uuid: " + note.getUuid());
             }

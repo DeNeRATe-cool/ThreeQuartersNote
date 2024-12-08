@@ -89,3 +89,11 @@
 .combo-box .list-cell:focused {
     -fx-background-color: #e0e0e0;
 }
+
+.circular-avatar {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 2);
+    -fx-background-color: linear-gradient(to bottom, #ff9a9e, #fad0c4); /* 渐变背景 */
+    -fx-padding: 5px; /* 边框宽度 */
+    -fx-border-radius: 50%; /* 圆角 */
+    -fx-background-radius: 50%; /* 背景圆形 */
+}

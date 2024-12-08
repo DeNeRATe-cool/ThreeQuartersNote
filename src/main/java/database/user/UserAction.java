@@ -10,6 +10,8 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.json.JSONObject;
 import org.openqa.selenium.devtools.v85.io.IO;
+import org.threeQuarters.util.ImageUtils;
+import org.threeQuarters.util.MessageBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +27,25 @@ public class UserAction implements IUser {
     private static final String path = "./cache/json";
     private static final String imagePath = "./cache/image";
     private static final String filename = "remember.json";
+    private static User user = null;
+
+    public static User getNowUser() {
+        return user;
+    }
+
+    public static void setNowUser(User user) {
+        UserAction.user = user;
+    }
+
+    private static UserAction instance;
+
+    static{
+        instance = new UserAction();
+    }
+
+    public static UserAction getInstance(){
+        return instance;
+    }
 
     private Session session;
     private Transaction transaction;
@@ -152,8 +173,7 @@ public class UserAction implements IUser {
             return false;
         }
         try {
-            User user = getUser(username);
-
+            user = getUser(username);
             if(user.getPassword().equals(password)) {
                 writeRemember(username, password, rememberMe);
                 return true;
@@ -188,6 +208,11 @@ public class UserAction implements IUser {
             result.add(info.get("password").toString());
             return result;
         }
+    }
+
+    public Map<String,Object> getRememberMap(){
+        Map<String, Object> info = JsonUtils.readJsonFile(path, filename);
+        return info;
     }
 
     /**
@@ -256,9 +281,15 @@ public class UserAction implements IUser {
         }
 
         try {
-            byte[] newAvatar = Files.readAllBytes(Paths.get(path));
-
             initial();
+            byte[] newAvatar = Files.readAllBytes(Paths.get(path));
+//            newAvatar = ImageUtils.compressToTargetSize(newAvatar,50);
+            if(newAvatar.length > 50000)
+            {
+                System.out.println(newAvatar.length);
+                new MessageBox("","","Picture too big");
+                return false;
+            }
             String hql = "FROM User WHERE username = :username";
             Query<User> query = session.createQuery(hql, User.class);
             query.setParameter("username", username);
@@ -276,10 +307,20 @@ public class UserAction implements IUser {
             }
             e.printStackTrace();
             return false;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
             if(session != null) {
                 session.close();
             }
         }
     }
+
+    public static void main(String[] args) {
+        boolean fl = UserAction.getInstance().login("GGengX","123456",true);
+        System.out.println("login:" + fl);
+        System.out.println(UserAction.getInstance().getNowUser().getUsername());
+        System.out.println(UserAction.getInstance().checkIfRemember());
+    }
+
 }

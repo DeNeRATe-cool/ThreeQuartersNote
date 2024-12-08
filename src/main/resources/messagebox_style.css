@@ -1,0 +1,32 @@
+/* Ins 风格消息框样式 */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 20;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 10, 0.5, 0, 5);
+    -fx-font-family: 'Arial', sans-serif;
+}
+
+.dialog-pane .content {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-background-color: #ff9a9e;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 15;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0.5, 0, 3);
+}
+
+.button:hover {
+    -fx-background-color: #fad0ff;
+}
+
+.dialog-pane .header {
+    -fx-text-fill: #ff9aff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}

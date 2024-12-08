@@ -2,6 +2,7 @@ package org.threeQuarters.util;
 
 
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
@@ -344,7 +345,10 @@ public class Utils {
         return configIcon;
     }
 
-    public static void main(String[] args)
+
+
+
+public static void main(String[] args)
     {
         String tmp = "hello";
         System.out.println(tmp.substring(1,5));

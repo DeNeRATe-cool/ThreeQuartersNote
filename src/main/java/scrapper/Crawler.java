@@ -18,7 +18,7 @@ public class Crawler {
 
     protected static final String LOGIN_URL = "https://sso.buaa.edu.cn/login";
 
-    Crawler() {
+    public Crawler() {
         WebDriverManager.chromedriver().setup();
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("download.default_directory", DirectoryInitial.paths.get("PPT"));

@@ -1,6 +1,8 @@
 package org.threeQuarters.options;
 
+import database.user.User;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.StringProperty;
 import org.asynchttpclient.util.StringBuilderPool;
 import org.threeQuarters.util.PrefsBooleanProperty;
@@ -76,11 +78,17 @@ public class Options {
     public static void setCurrentRootPath(String currentRootPath){Options.currentRootPath.set(currentRootPath);}
     public static PrefsStringProperty currentRootPathProperty() { return currentRootPath; }
 
+    private static final PrefsStringProperty rememberUserName = new PrefsStringProperty();
+    public static String getRememberUserName() {return rememberUserName.get();}
+    public static void setRememberUserName(String rememberUserName) {Options.rememberUserName.set(rememberUserName);}
+    public static PrefsStringProperty rememberUserNameProperty() { return rememberUserName; }
+
 
     static{
         Preferences prefs = Preferences.userNodeForPackage(Options.class);
-        buaaID.init(prefs, "buaaID", "defaultID");
-        userName.init(prefs,"userName", "defaultName");
+//        buaaID.init(prefs, "buaaID", "defaultID");
+//        userName.init(prefs,"userName", "");
+        rememberUserName.init(prefs,"rememberUserName","");
         currentRootPath.init(prefs,"currentRootPath", System.getProperty("user.dir"));
     }
 
