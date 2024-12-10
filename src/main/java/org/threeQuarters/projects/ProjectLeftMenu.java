@@ -2,6 +2,8 @@ package org.threeQuarters.projects;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.application.Platform;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
@@ -14,6 +16,8 @@ import org.threeQuarters.util.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class ProjectLeftMenu {
 
@@ -26,7 +30,11 @@ public class ProjectLeftMenu {
     //
     ToggleButton projectButton;
     ToggleButton shareResourcesButton;
+    ToggleButton videoDownloadButton;
+    ToggleButton pptDownloadButton;
     Button configButton;
+
+    private static final Lock lock = new ReentrantLock();
 
     private ProjectLeftMenu()
     {
@@ -68,11 +76,38 @@ public class ProjectLeftMenu {
 
         dialogPane.getChildren().add(configButton);
 
+        videoDownloadButton = getVideoDownloadButton();
+        toolBox.getChildren().add(videoDownloadButton);
+
+        pptDownloadButton = creatPPTDownloadButton();
+        toolBox.getChildren().add(pptDownloadButton);
+
         // 管理只选择一个button
         leftButtons.add(projectButton);
         leftButtons.add(shareResourcesButton);
+        leftButtons.add(videoDownloadButton);
 
         setButtonAction();
+    }
+
+    public ToggleButton getVideoDownloadButton() {
+        ToggleButton toggleButton = new ToggleButton();
+        Image img = new Image(getClass().getResource("/images/video_button.png").toExternalForm());
+        ImageView icon = new ImageView(img);
+        icon.setFitHeight(20);
+        icon.setFitWidth(16);
+        toggleButton.setGraphic(icon);
+        return toggleButton;
+    }
+
+    private ToggleButton creatPPTDownloadButton() {
+        ToggleButton toggleButton = new ToggleButton();
+        Image img = new Image(getClass().getResource("/images/ppt_download_button.png").toExternalForm());
+        ImageView icon = new ImageView(img);
+        icon.setFitHeight(20);
+        icon.setFitWidth(16);
+        toggleButton.setGraphic(icon);
+        return toggleButton;
     }
 
     public ToggleButton getShareResourcesButton() {
@@ -104,6 +139,17 @@ public class ProjectLeftMenu {
             {
                 leftPane.setCenter(null);
             }
+        });
+    }
+
+    public void setVideoDownloadButtonAction(ToggleButton videoDownloadButton) {
+        videoDownloadButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue)
+            {
+                closeAllToggle(videoDownloadButton);
+                leftPane.setCenter(ProjectVideoDownloader.getInstance().getBorderPane());
+            }
+            else leftPane.setCenter(null);
         });
     }
 
@@ -139,6 +185,8 @@ public class ProjectLeftMenu {
         });
 
         setShareResourcesButtonAction(shareResourcesButton);
+        setVideoDownloadButtonAction(videoDownloadButton);
+        setPptDownloadButtonAction(pptDownloadButton);
 
         configButton.setOnAction(e -> {
             try {
@@ -149,6 +197,18 @@ public class ProjectLeftMenu {
             }
         });
 
+    }
+
+    private void setPptDownloadButtonAction(ToggleButton pptDownloadButton)
+    {
+        pptDownloadButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue)
+            {
+                closeAllToggle(pptDownloadButton);
+                leftPane.setCenter(ProjectPPTDownloader.getInstance().getBorderPane());
+            }
+            else leftPane.setCenter(null);
+        });
     }
 
     public static ProjectLeftMenu getInstance()

@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
+import org.apache.poi.sl.draw.geom.GuideIf;
 import org.checkerframework.checker.units.qual.C;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
@@ -20,6 +21,7 @@ import org.threeQuarters.toolkit.SimpleInputDialog;
 import scrapper.Crawler;
 
 import java.io.IOException;
+import java.util.OptionalInt;
 
 public class ConfigureDialog {
 
@@ -49,6 +51,8 @@ public class ConfigureDialog {
         Label IDLabel = new Label("学工号:");
         TextField IDField = new TextField();
         IDField.setPromptText("输入学号");
+        if(Options.getBuaaID()!=null)IDField.setText(Options.getBuaaID());
+
 //        Button usernameButton = new Button("Check");
 
         HBox usernameBox = new HBox(10, IDField);
@@ -58,6 +62,7 @@ public class ConfigureDialog {
         Label passwordLabel = new Label("Password:");
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Enter your password");
+        if(Options.getBuaaPassword()!=null)passwordField.setText(Options.getBuaaPassword());
 //        Button passwordButton = new Button("Show");
 
         HBox passwordBox = new HBox(10, passwordField);
@@ -119,7 +124,7 @@ public class ConfigureDialog {
         // 显示对话框
         configureStage.show();
 
-
+        setOnLoginButtonAction(loginButton,buaaLabel,IDField,passwordField);
 
         cancelButton.setOnAction(e -> {
             configureStage.close();
@@ -129,9 +134,10 @@ public class ConfigureDialog {
 
     public void setOnLoginButtonAction(Button loginButton,Label buaaLabel,TextField IDField,PasswordField passwordField)
     {
+
 //        Crawler crawler = new Crawler();
-//        loginButton.setOnAction(e -> {
-////            buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.CLOUD_DOWNLOAD));
+        loginButton.setOnAction(e -> {
+            buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.CLOUD_DOWNLOAD));
 //            boolean accepted = crawler.userAccept(IDField.getText(), passwordField.getText());
 //
 //            if(accepted)
@@ -142,11 +148,11 @@ public class ConfigureDialog {
 //            {
 //                buaaLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.ERASER));
 //            }
-////            Options.setUserID(IDField.getText());
-////            Options.setPassWord(passwordField.getText());
-////            Options.setUserName(nameField.getText());
-////            configureStage.close();
-//        });
+            Options.setBuaaID(IDField.getText());
+            Options.setBuaaPassword(passwordField.getText());
+//            Options.setUserName(nameField.getText());
+//            configureStage.close();
+        });
     }
 
 

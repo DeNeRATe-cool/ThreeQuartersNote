@@ -88,6 +88,8 @@ public class Options {
         Preferences prefs = Preferences.userNodeForPackage(Options.class);
 //        buaaID.init(prefs, "buaaID", "defaultID");
 //        userName.init(prefs,"userName", "");
+        buaaID.init(prefs,"buaaID","");
+        buaaPassword.init(prefs,"buaaPassword","");
         rememberUserName.init(prefs,"rememberUserName","");
         currentRootPath.init(prefs,"currentRootPath", System.getProperty("user.dir"));
     }
