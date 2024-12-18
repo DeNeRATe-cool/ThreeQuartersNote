@@ -62,9 +62,10 @@ public interface IVideoCrawlable {
 
     /**
      * download class video to local place
+     *
      * @return true iff successful download the video
      */
-    boolean downloadCourseVideo();
+    String downloadCourseVideo();
 
     /**
      * turn off the crawler after finishing

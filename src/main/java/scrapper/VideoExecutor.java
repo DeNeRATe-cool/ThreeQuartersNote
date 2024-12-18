@@ -247,10 +247,11 @@ public class VideoExecutor extends Crawler implements IVideoCrawlable {
     /**
      * after click to the target url
      * download the video to the default local path
+     *
      * @return true iff download successfully
      */
     @Override
-    public boolean downloadCourseVideo() {
+    public String downloadCourseVideo() {
         try {
             wait.until(driver -> ((JavascriptExecutor) driver)
                     .executeScript("return document.readyState").equals("complete"));
@@ -267,9 +268,10 @@ public class VideoExecutor extends Crawler implements IVideoCrawlable {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+//            return false;
+            return null;
         }
-        return true;
+        return course + "_" + teacher + "_" + timeTable + ".mp4";
     }
 
     @Override

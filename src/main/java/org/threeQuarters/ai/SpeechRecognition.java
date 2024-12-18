@@ -46,6 +46,7 @@ public class SpeechRecognition {
         if (!targetFile.isAbsolute()) {
             throw new IllegalArgumentException("Target file illegal.");
         }
+        System.out.println("processing" + source);
         String[] cmd = { exePath, model.toString(), source, target };
         Process process = Runtime.getRuntime().exec(cmd);
         int exitCode = process.waitFor();

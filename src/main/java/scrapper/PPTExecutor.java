@@ -23,6 +23,7 @@ public class PPTExecutor extends Crawler implements IPPTCrawlable {
     private WebElement timeTableSpan;
     private WebElement resourceSpan;
     private String PPTPath;
+    private String PPTName;
 
     private static final String TARGET_URL = "https://spoc.buaa.edu.cn/spocnew/jxkj2";
     private static final String courseClassName = "wdkc";
@@ -227,6 +228,7 @@ public class PPTExecutor extends Crawler implements IPPTCrawlable {
                     downloadButton.click();
                     if(waitForFileToDownload(DirectoryInitial.paths.get("PPT"), detail.get(0))) {
                        System.out.println("download PPT successfully!");
+                       PPTName = detail.get(0);
                     } else System.out.println("download time out...");
                 }
             }

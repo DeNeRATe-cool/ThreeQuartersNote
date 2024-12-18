@@ -3,6 +3,7 @@ package org.threeQuarters.FileMaster;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.*;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -272,6 +274,43 @@ public class FileManager {
         });
 
         projectFileTreeView.refresh();
+    }
+
+
+    public void createNewFile(String fileName,String content)
+    {
+        Platform.runLater(()->{
+            SimpleInputDialog inputDialog = new SimpleInputDialog();
+            inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"AI笔记新建",fileName, input -> {
+                File directFolder = projectFileTreeView.getDirectFolder();
+                if(directFolder != null)
+                {
+                    if(!Utils.isMarkdownFile(input))input += ".md";
+                    Path filePath = Paths.get(directFolder.getAbsolutePath(),input);
+
+                    // 检查文件夹是否存在，如果不存在则创建
+                    try {
+                        // 如果文件夹不存在，创建文件夹
+                        if (!Files.exists(directFolder.getAbsoluteFile().toPath())) {
+                            Files.createDirectories(directFolder.getAbsoluteFile().toPath());
+                        }
+
+                        // 创建文件
+                        if (!Files.exists(filePath)) {
+                            Files.createFile(filePath);
+
+                            Files.write(filePath,content.getBytes(), StandardOpenOption.WRITE);
+
+                        } else {
+                        }
+
+                    } catch (IOException e) {
+                        System.err.println("文件或文件夹创建失败: " + e.getMessage());
+                    }
+                }
+                projectFileTreeView.refresh();
+            });
+        });
     }
 
     public void createNewFile()

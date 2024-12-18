@@ -2,8 +2,6 @@ package org.threeQuarters.projects;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -16,7 +14,6 @@ import org.threeQuarters.util.MessageBox;
 import scrapper.IVideoCrawlable;
 import scrapper.VideoExecutor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectVideoDownloader {
@@ -41,12 +38,15 @@ public class ProjectVideoDownloader {
     private Button restartButton;
     private Button downloadButton;
 
+    private String videoName;
+
     private ProgressBar progressBar;
 
     private Thread courseSelectorThread;
     private Thread teacherSelectorThread;
     private Thread timeTableSelectorThread;
     private Thread videoDownloaderThread;
+    private Thread videoToAiMdThread;
 
     private static String courseName;
     private static String teacherName;
@@ -111,6 +111,8 @@ public class ProjectVideoDownloader {
         button.setOnAction((ActionEvent event) -> {
             creatVideoDownloadThread();
             videoDownloaderThread.start();
+//            creatVideoToAiMdThread();
+//            videoToAiMdThread.start();
         });
         return button;
     }
@@ -183,22 +185,41 @@ public class ProjectVideoDownloader {
         return button;
     }
 
+    private void creatVideoToAiMdThread()
+    {
+        videoToAiMdThread = new Thread(()->{
+            ProjectGenerateAINote projectGenerateAINote = new ProjectGenerateAINote();
+            projectGenerateAINote.executeVideoAInote(courseName,videoName);
+            Platform.runLater(()->{
+                vBox.getChildren().clear();
+                vBox.getChildren().add(new Label("正在生成智能笔记"));
+                vBox.getChildren().add(new Label("请耐心等待！"));
+                vBox.getChildren().add(progressBar);
+            });
+        });
+    }
+
     private void creatVideoDownloadThread(){
         videoDownloaderThread = new Thread(()->{
             Platform.runLater(()->{
-                comboBox.setDisable(true);
+//                comboBox.setDisable(true);
                 vBox.getChildren().add(new Label("downloading. . ."));
                 vBox.getChildren().remove(downloadButton);
                 vBox.getChildren().add(progressBar);
                 vBox.getChildren().remove(restartButton);
             });
             crawler.gotoCourseTime(timeTableName);
-            crawler.downloadCourseVideo();
+            videoName = crawler.downloadCourseVideo();
             crawler.quit();
+
             Platform.runLater(()->{
                 new MessageBox("","","正在生成智能笔记\n"+courseName+" \n/ "+teacherName+" \n/ "+timeTableName+"\n"+"请耐心等待哦");
-                restart();
             });
+            ProjectGenerateAINote projectGenerateAINote = new ProjectGenerateAINote();
+            System.out.println("*courseName"+courseName);
+            System.out.println("*videoName"+videoName);
+            projectGenerateAINote.executeVideoAInote(courseName,videoName);
+            Platform.runLater(this::restart);
         });
     }
 

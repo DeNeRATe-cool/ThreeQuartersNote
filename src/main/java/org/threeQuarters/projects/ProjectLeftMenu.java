@@ -86,6 +86,7 @@ public class ProjectLeftMenu {
         leftButtons.add(projectButton);
         leftButtons.add(shareResourcesButton);
         leftButtons.add(videoDownloadButton);
+        leftButtons.add(pptDownloadButton);
 
         setButtonAction();
     }

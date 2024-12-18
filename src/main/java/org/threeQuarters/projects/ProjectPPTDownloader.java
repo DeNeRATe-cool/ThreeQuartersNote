@@ -18,6 +18,7 @@ import scrapper.IPPTCrawlable;
 import scrapper.NoneResourcesException;
 import scrapper.PPTExecutor;
 
+import java.nio.file.Paths;
 import java.util.List;
 
 public class ProjectPPTDownloader {
@@ -49,6 +50,8 @@ public class ProjectPPTDownloader {
 
     private static String courseName;
     private static String timeTableName;
+
+    private static String pptname;
 
     private ComboBox comboBox;
 
@@ -107,6 +110,9 @@ public class ProjectPPTDownloader {
         button.setOnAction((ActionEvent event) -> {
             creatPPTDownloadThread();
             pptDownloaderThread.start();
+            new Thread(()->{
+
+            }).start();
         });
         return button;
     }
@@ -177,7 +183,8 @@ public class ProjectPPTDownloader {
                 vBox.getChildren().remove(restartButton);
             });
             try {
-                crawler.downloadPPT(timeTableName);
+                pptname = crawler.downloadPPT(timeTableName);
+                pptname = Paths.get(pptname).getFileName().toString();
             } catch (NoneResourcesException e) {
                 Platform.runLater(()->{
                     new MessageBox("", "", "这节课没有ppt资源");
@@ -188,8 +195,11 @@ public class ProjectPPTDownloader {
             crawler.quit();
             Platform.runLater(()->{
                 new MessageBox("","","正在生成智能笔记\n"+courseName+" \n/ "+timeTableName+"\n"+"请耐心等待哦");
-                restart();
             });
+            ProjectGenerateAINote projectGenerateAINote = new ProjectGenerateAINote();
+            System.out.println("pptname" + pptname);
+            projectGenerateAINote.executePPTAInote(courseName,pptname);
+            Platform.runLater(this::restart);
         });
     }
 

@@ -59,6 +59,7 @@ public class AISummary {
             source = resourcePath + source;
             textFile = new File(source);
         }
+        System.out.println(source);
         if (!textFile.isFile()) {
             throw new FileNotFoundException();
         }
@@ -82,10 +83,30 @@ public class AISummary {
                 .resultFormat(GenerationParam.ResultFormat.MESSAGE)
                 .build();
         GenerationResult result = generation.call(param);
-        String content = result.getOutput().getChoices().getFirst().getMessage().getContent();
+        String content = result.getOutput().getChoices().get(0).getMessage().getContent();
+//        String content = result.getOutput().getChoices().getFirst().getMessage().getContent();
         try (FileWriter writer = new FileWriter(target)) {
             writer.write(content);
         }
+        return content;
+    }
+
+    public String generate(String courseName,String source) throws NoApiKeyException, InputRequiredException {
+        Generation generation = new Generation();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(source);
+        Message userMessage = Message.builder()
+                .role(Role.USER.getValue())
+                .content(stringBuilder.toString())
+                .build();
+        GenerationParam param = GenerationParam.builder()
+                .apiKey("sk-625740cda11745a39e90cd975d7b7220")
+                .model("qwen-max")
+                .messages(Arrays.asList(systemMessage, userMessage))
+                .resultFormat(GenerationParam.ResultFormat.MESSAGE)
+                .build();
+        GenerationResult result = generation.call(param);
+        String content = result.getOutput().getChoices().get(0).getMessage().getContent();
         return content;
     }
 
