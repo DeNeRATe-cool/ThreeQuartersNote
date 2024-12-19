@@ -1,14 +1,9 @@
 package org.threeQuarters.options;
 
-import database.user.User;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.StringProperty;
-import org.asynchttpclient.util.StringBuilderPool;
 import org.threeQuarters.util.PrefsBooleanProperty;
 import org.threeQuarters.util.PrefsStringProperty;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.prefs.Preferences;
 
 public class Options {

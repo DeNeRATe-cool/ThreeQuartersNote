@@ -528,7 +528,7 @@
 
 /* 设置 BorderPane 的整体样式 */
 .border-pane {
-    -fx-background-color: #f7f7f7; /* 设置背景色为浅灰色，符合简洁的 ins 风格 */
+    -fx-background-color: lightblue; /* 设置背景色为浅灰色，符合简洁的 ins 风格 */
     -fx-border-color: #ddd;       /* 设置边框颜色为灰色 */
     -fx-border-width: 1;          /* 设置边框宽度 */
     -fx-padding: 20px;            /* 设置内部间距 */

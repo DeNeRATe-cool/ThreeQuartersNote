@@ -1,8 +1,8 @@
 package org.threeQuarters;
 
-import database.DirectoryInitial;
-import scrapper.VideoExecutor;
-import scrapper.IVideoCrawlable;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.scrapper.VideoExecutor;
+import org.threeQuarters.scrapper.IVideoCrawlable;
 
 public class VideoCrawlerExample {
 

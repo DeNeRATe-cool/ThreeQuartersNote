@@ -1,7 +1,8 @@
 package database;
 
-import database.user.IUser;
-import database.user.UserAction;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.database.user.IUser;
+import org.threeQuarters.database.user.UserAction;
 
 public class UserTest {
 

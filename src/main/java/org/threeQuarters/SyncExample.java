@@ -1,8 +1,8 @@
 package org.threeQuarters;
 
-import database.DirectoryInitial;
-import database.sync.ISync;
-import database.sync.SyncAction;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.database.sync.ISync;
+import org.threeQuarters.database.sync.SyncAction;
 
 import java.nio.file.Paths;
 

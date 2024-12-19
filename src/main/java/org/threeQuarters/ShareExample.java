@@ -1,9 +1,9 @@
 package org.threeQuarters;
 
-import database.DirectoryInitial;
-import database.note.INote;
-import database.note.Note;
-import database.note.NoteAction;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.database.note.INote;
+import org.threeQuarters.database.note.Note;
+import org.threeQuarters.database.note.NoteAction;
 
 import java.util.Date;
 import java.util.List;

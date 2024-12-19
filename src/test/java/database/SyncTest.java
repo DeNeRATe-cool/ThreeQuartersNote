@@ -1,9 +1,10 @@
 package database;
 
-import database.sync.FileUtils;
-import database.sync.ISync;
-import database.sync.SyncAction;
-import database.sync.SyncNote;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.database.sync.FileUtils;
+import org.threeQuarters.database.sync.ISync;
+import org.threeQuarters.database.sync.SyncAction;
+import org.threeQuarters.database.sync.SyncNote;
 
 import java.nio.file.Paths;
 import java.util.List;

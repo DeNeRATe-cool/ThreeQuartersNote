@@ -1,6 +1,5 @@
 package org.threeQuarters.projects;
 
-import database.user.UserAction;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.animation.FadeTransition;

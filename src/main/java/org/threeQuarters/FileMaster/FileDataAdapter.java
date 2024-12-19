@@ -1,6 +1,6 @@
 package org.threeQuarters.FileMaster;
 
-import database.note.*;
+import org.threeQuarters.database.note.Note;
 import org.threeQuarters.options.Options;
 
 import java.io.IOException;

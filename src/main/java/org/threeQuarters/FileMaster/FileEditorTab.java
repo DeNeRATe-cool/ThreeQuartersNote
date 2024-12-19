@@ -2,8 +2,8 @@ package org.threeQuarters.FileMaster;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import database.note.Note;
-import database.note.NoteAction;
+import org.threeQuarters.database.note.Note;
+import org.threeQuarters.database.note.NoteAction;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.property.BooleanProperty;
@@ -25,7 +25,6 @@ import org.threeQuarters.util.TextAreaEnhancer;
 import org.threeQuarters.util.Utils;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

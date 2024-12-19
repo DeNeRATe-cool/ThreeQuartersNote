@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import scrapper.IVideoCrawlable;
-import scrapper.VideoExecutor;
+import org.threeQuarters.scrapper.IVideoCrawlable;
+import org.threeQuarters.scrapper.VideoExecutor;
 
 public class TestThread extends Application {
 

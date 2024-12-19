@@ -13,15 +13,11 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-import org.apache.poi.sl.draw.geom.GuideIf;
-import org.checkerframework.checker.units.qual.C;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
-import scrapper.Crawler;
 
 import java.io.IOException;
-import java.util.OptionalInt;
 
 public class ConfigureDialog {
 

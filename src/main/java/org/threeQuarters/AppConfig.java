@@ -1,9 +1,6 @@
 package org.threeQuarters;
 
-import database.note.*;
 import org.threeQuarters.options.Options;
-
-import java.util.prefs.Preferences;
 
 public class AppConfig {
 

@@ -1,12 +1,9 @@
 package org.threeQuarters.projects;
 
-import com.mysql.cj.log.Log;
-import database.user.User;
-import database.user.UserAction;
+import org.threeQuarters.database.user.UserAction;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -16,7 +13,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-import org.hibernate.annotations.Check;
 import org.threeQuarters.ThreeQuartersApp;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
@@ -24,11 +20,9 @@ import org.threeQuarters.util.ImageUtils;
 import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.util.Utils;
 
-import javax.swing.text.html.Option;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class LoginDialog {
 

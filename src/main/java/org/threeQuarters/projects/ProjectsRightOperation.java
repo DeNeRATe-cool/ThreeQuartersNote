@@ -1,8 +1,7 @@
 package org.threeQuarters.projects;
 
-import database.sync.SyncAction;
-import database.user.UserAction;
-import io.netty.handler.codec.MessageAggregationException;
+import org.threeQuarters.database.sync.SyncAction;
+import org.threeQuarters.database.user.UserAction;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;

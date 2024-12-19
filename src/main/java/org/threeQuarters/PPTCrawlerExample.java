@@ -1,9 +1,9 @@
 package org.example;
 
-import database.DirectoryInitial;
-import scrapper.IPPTCrawlable;
-import scrapper.NoneResourcesException;
-import scrapper.PPTExecutor;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.scrapper.IPPTCrawlable;
+import org.threeQuarters.scrapper.NoneResourcesException;
+import org.threeQuarters.scrapper.PPTExecutor;
 
 public class PPTCrawlerExample {
 

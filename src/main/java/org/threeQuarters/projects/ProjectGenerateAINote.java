@@ -1,6 +1,6 @@
 package org.threeQuarters.projects;
 
-import PPTExtracter.PowerPointTextExtractor;
+import org.threeQuarters.PPTExtracter.PowerPointTextExtractor;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
 import org.threeQuarters.FileMaster.FileManager;

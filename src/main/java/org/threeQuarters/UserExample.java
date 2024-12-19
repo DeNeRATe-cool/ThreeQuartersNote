@@ -1,9 +1,8 @@
 package org.example;
 
-import database.DirectoryInitial;
-import database.user.IUser;
-import database.user.UserAction;
-import jakarta.persistence.PersistenceException;
+import org.threeQuarters.database.DirectoryInitial;
+import org.threeQuarters.database.user.IUser;
+import org.threeQuarters.database.user.UserAction;
 
 public class UserExample {
     private static final IUser iUser = new UserAction();

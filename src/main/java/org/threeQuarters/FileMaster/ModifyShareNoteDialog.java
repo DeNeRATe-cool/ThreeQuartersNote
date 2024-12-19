@@ -1,9 +1,6 @@
 package org.threeQuarters.FileMaster;
 
-import database.note.Note;
-import database.note.NoteAction;
-import database.user.User;
-import database.user.UserAction;
+import org.threeQuarters.database.note.Note;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,11 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.threeQuarters.toolkit.SimpleInputDialog;
-import org.threeQuarters.util.MessageBox;
 
 public class ModifyShareNoteDialog {
 

@@ -1,20 +1,16 @@
 package org.threeQuarters.projects;
 
-import database.user.UserAction;
+import org.threeQuarters.database.user.UserAction;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.threeQuarters.toolkit.SimpleInputDialog;
-import org.threeQuarters.util.ImageUtils;
 import org.threeQuarters.util.MessageBox;
-import org.threeQuarters.util.Utils;
 
 import java.io.IOException;
 

@@ -5,14 +5,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.util.MessageBox;
-import scrapper.IVideoCrawlable;
-import scrapper.VideoExecutor;
+import org.threeQuarters.scrapper.IVideoCrawlable;
+import org.threeQuarters.scrapper.VideoExecutor;
 
 import java.util.List;
 
@@ -57,6 +59,14 @@ public class ProjectVideoDownloader {
     private ProjectVideoDownloader(){
         borderPane = new BorderPane();
         borderPane.setPrefWidth(200.0);
+
+        // 设置浅色边框和背景颜色
+        borderPane.setStyle("-fx-background-color: lightblue; " +  // 背景颜色
+                "-fx-border-color: lightgray; " +  // 浅色边框颜色
+                "-fx-border-width: 2; " +         // 边框宽度
+                "-fx-border-radius: 15; " +       // 圆角半径
+                "-fx-background-radius: 15;");    // 背景圆角半径
+
         vBox = creatVBox();
         borderPane.setCenter(vBox);
         progressBar = new ProgressBar(ProgressBar.INDETERMINATE_PROGRESS);
@@ -339,6 +349,7 @@ public class ProjectVideoDownloader {
         vBox.getChildren().clear();
         label = new Label("点击登录");
         goButton = getGoButton();
+        vBox.getChildren().add(new Label("课程录像智能总结"));
         vBox.getChildren().add(label);
         vBox.getChildren().add(goButton);
         vBox.getChildren().add(restartButton);

@@ -1,6 +1,5 @@
 package org.threeQuarters.projects;
 
-import database.note.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.threeQuarters.database.note.Note;
+import org.threeQuarters.database.note.NoteAction;
 import org.threeQuarters.util.Utils;
 
 import java.util.List;
