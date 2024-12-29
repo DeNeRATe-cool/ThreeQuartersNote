@@ -64,13 +64,13 @@ public class ConfigureDialog {
         HBox passwordBox = new HBox(10, passwordField);
         passwordBox.setAlignment(Pos.CENTER_LEFT);
 
-        // 姓名部分
-        Label nameLabel = new Label("Name:");
-        TextField nameField = new TextField();
-        nameField.setPromptText("Enter your name");
-
-        HBox nameBox = new HBox(10, nameField);
-        nameBox.setAlignment(Pos.CENTER_LEFT);
+//        // 姓名部分
+//        Label nameLabel = new Label("Name:");
+//        TextField nameField = new TextField();
+//        nameField.setPromptText("Enter your name");
+//
+//        HBox nameBox = new HBox(10, nameField);
+//        nameBox.setAlignment(Pos.CENTER_LEFT);
 
         // 配置学工号成功
         Label buaaLabel = new Label();
@@ -87,7 +87,7 @@ public class ConfigureDialog {
         HBox rootFolderBox = new HBox(10, rootFolderField, rootFolderButton);
         rootFolderBox.setAlignment(Pos.CENTER_LEFT);
         // 登录按钮
-        Button loginButton = new Button("Login");
+        Button loginButton = new Button("保存配置");
         loginButton.setPrefWidth(150);
 
         // 退出按钮
@@ -98,19 +98,19 @@ public class ConfigureDialog {
         gridPane.add(IDLabel, 0, 0);
         gridPane.add(usernameBox, 1, 0);
 
-        gridPane.add(nameLabel,0,1);
-        gridPane.add(nameBox,1,1);
+//        gridPane.add(nameLabel,0,1);
+//        gridPane.add(nameBox,1,1);
 
-        gridPane.add(passwordLabel, 0, 2);
-        gridPane.add(passwordBox, 1, 2);
+        gridPane.add(passwordLabel, 0, 1);
+        gridPane.add(passwordBox, 1, 1);
 
-        gridPane.add(rootFolderLabel, 0, 4);
-        gridPane.add(rootFolderBox, 1, 4);
+        gridPane.add(rootFolderLabel, 0, 3);
+        gridPane.add(rootFolderBox, 1, 3);
 
-        gridPane.add(buaaLabel, 2, 3);
-        gridPane.add(loginButton, 1, 3);
+        gridPane.add(buaaLabel, 2, 2);
+        gridPane.add(loginButton, 1, 2);
 
-        gridPane.add(cancelButton, 1, 5);
+        gridPane.add(cancelButton, 1, 4);
 
         Scene scene = new Scene(gridPane);
         configureStage.setScene(scene);

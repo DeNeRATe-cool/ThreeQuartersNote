@@ -1,9 +1,12 @@
 package org.threeQuarters.options;
 
 import javafx.beans.property.BooleanProperty;
+import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.util.PrefsBooleanProperty;
 import org.threeQuarters.util.PrefsStringProperty;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.prefs.Preferences;
 
 public class Options {
@@ -79,6 +82,19 @@ public class Options {
     public static PrefsStringProperty rememberUserNameProperty() { return rememberUserName; }
 
 
+    public static void createFolderIfNotExists(String folderPath) {
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            if (folder.mkdirs()) {
+                System.out.println("文件夹 '" + folderPath + "' 已创建。");
+            } else {
+                System.out.println("文件夹 '" + folderPath + "' 创建失败。");
+            }
+        } else {
+            System.out.println("文件夹 '" + folderPath + "' 已存在。");
+        }
+    }
+
     static{
         Preferences prefs = Preferences.userNodeForPackage(Options.class);
 //        buaaID.init(prefs, "buaaID", "defaultID");
@@ -86,7 +102,11 @@ public class Options {
         buaaID.init(prefs,"buaaID","");
         buaaPassword.init(prefs,"buaaPassword","");
         rememberUserName.init(prefs,"rememberUserName","");
-        currentRootPath.init(prefs,"currentRootPath", System.getProperty("user.dir"));
+
+        String rootpath = String.valueOf(Paths.get("D","ThreeQuartersNotes"));
+        createFolderIfNotExists(rootpath);
+
+        currentRootPath.init(prefs,"currentRootPath", rootpath);
     }
 
 
