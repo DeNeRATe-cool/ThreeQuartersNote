@@ -26,7 +26,7 @@ public class Crawler {
         prefs.put("download.directory_uploaded", true);
         prefs.put("safebrowsing.enabled", true);
         options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
         options.setExperimentalOption("prefs", prefs);
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
