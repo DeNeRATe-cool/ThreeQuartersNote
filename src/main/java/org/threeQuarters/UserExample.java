@@ -1,4 +1,4 @@
-package org.example;
+package org.threeQuarters;
 
 import org.threeQuarters.database.DirectoryInitial;
 import org.threeQuarters.database.user.IUser;

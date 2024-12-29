@@ -1,7 +1,6 @@
 package org.threeQuarters.util;
 
 import javafx.scene.image.Image;
-
 import javafx.scene.image.ImageView;
 
 import javax.imageio.IIOImage;

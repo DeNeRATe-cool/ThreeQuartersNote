@@ -6,15 +6,20 @@ import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.robot.Robot;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
-import jdk.jshell.execution.Util;
+import javafx.stage.FileChooser;
+import org.threeQuarters.AiFileAssistant.TextExtractor;
 import org.threeQuarters.MainWindow;
 import org.threeQuarters.ModeManager;
 import org.threeQuarters.ThreeQuartersApp;
 import org.threeQuarters.options.Options;
+import org.threeQuarters.projects.ProjectFileAiToMd;
 import org.threeQuarters.projects.ProjectFileTreeView;
 import org.threeQuarters.projects.ProjectsFilesButtons;
 import org.threeQuarters.toolkit.SimpleInputDialog;
@@ -39,6 +44,8 @@ public class FileManager {
     private static FileManager instance;
 
     private BooleanProperty openWebView;
+
+    private Robot robot = new Robot();
 
     static {
         try {
@@ -113,6 +120,49 @@ public class FileManager {
             ModeManager.getInstance().setOpenWebViewBoolean(false);
             ModeManager.getInstance().setOpenWebViewBoolean(true);
         });
+    }
+
+    public static Button getOpenDirectoryChooserButton() {
+        Button button = new Button();
+        button.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.FOLDER_OPEN_ALT));
+
+        // 设置按钮点击事件
+        button.setOnAction(event -> {
+            // 创建文件选择器
+            FileChooser fileChooser = new FileChooser();
+
+            // 设置文件选择器的标题
+            fileChooser.setTitle("选择文件");
+
+            // 设置文件过滤器（可选）
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("所有文件", "*.*"),
+                    new FileChooser.ExtensionFilter("文本文件", "*.txt"),
+                    new FileChooser.ExtensionFilter("图片文件", "*.png", "*.jpg", "*.jpeg")
+            );
+
+            // 显示打开文件的对话框，并获取选定的文件
+            File selectedFile = null;
+            try {
+                selectedFile = fileChooser.showOpenDialog(MainWindow.getMainWindow().getScene().getWindow());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            // 如果用户选择了文件，打印文件路径
+            if (selectedFile != null) {
+                System.out.println("选定的文件路径: " + selectedFile.getAbsolutePath());
+                if(TextExtractor.isSupportFileType(selectedFile.getAbsolutePath()))
+                {
+                    ProjectFileAiToMd.getInstance().writeInPath(selectedFile.getAbsolutePath());
+                }
+                // 这里可以添加对文件的进一步处理逻辑
+            } else {
+                System.out.println("未选择文件");
+            }
+        });
+
+        return button;
     }
 
     private void setOpenFolderButtonAction() throws IOException {
@@ -246,6 +296,41 @@ public class FileManager {
         }
     }
 
+    public void renameFile() throws IOException {
+        SimpleInputDialog inputDialog = new SimpleInputDialog();
+        inputDialog.show(ThreeQuartersApp.getPrimaryStage(), "Rename File", input -> {
+//            File selectedFile = new File(fileAbsolutePath);
+            if(!Utils.isMarkdownFile(input))input = input + ".md";
+            File selectedFile = projectFileTreeView.getFileTreeView().getSelectionModel().getSelectedItem().getValue();
+            if (selectedFile.exists() && selectedFile.isFile()) {
+                File parentFolder = selectedFile.getParentFile();
+                if (parentFolder != null) {
+                    Path oldFilePath = selectedFile.toPath();
+                    Path newFilePath = Paths.get(parentFolder.getAbsolutePath(), input);
+
+                    // Check if the new file name already exists
+                    if (Files.exists(newFilePath)) {
+                        System.out.println("A file with the name '" + input + "' already exists.");
+                        return;
+                    }
+
+                    // Rename the file
+                    try {
+                        Files.move(oldFilePath, newFilePath);
+                    } catch (IOException e) {
+                        throw new RuntimeException("Failed to rename the file", e);
+                    }
+                }
+            } else {
+                System.out.println("The file does not exist or is not a valid file.");
+            }
+        });
+
+        projectFileTreeView.refresh();
+
+    }
+
+
     public void createNewFolder() throws IOException {
         SimpleInputDialog inputDialog = new SimpleInputDialog();
         inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"new Folder", input -> {
@@ -282,6 +367,42 @@ public class FileManager {
         Platform.runLater(()->{
             SimpleInputDialog inputDialog = new SimpleInputDialog();
             inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"AI笔记新建",fileName, input -> {
+                File directFolder = projectFileTreeView.getDirectFolder();
+                if(directFolder != null)
+                {
+                    if(!Utils.isMarkdownFile(input))input += ".md";
+                    Path filePath = Paths.get(directFolder.getAbsolutePath(),input);
+
+                    // 检查文件夹是否存在，如果不存在则创建
+                    try {
+                        // 如果文件夹不存在，创建文件夹
+                        if (!Files.exists(directFolder.getAbsoluteFile().toPath())) {
+                            Files.createDirectories(directFolder.getAbsoluteFile().toPath());
+                        }
+
+                        // 创建文件
+                        if (!Files.exists(filePath)) {
+                            Files.createFile(filePath);
+
+                            Files.write(filePath,content.getBytes(), StandardOpenOption.WRITE);
+
+                        } else {
+                        }
+
+                    } catch (IOException e) {
+                        System.err.println("文件或文件夹创建失败: " + e.getMessage());
+                    }
+                }
+                projectFileTreeView.refresh();
+            });
+        });
+    }
+
+    public void createNewFile(String content)
+    {
+        Platform.runLater(()->{
+            SimpleInputDialog inputDialog = new SimpleInputDialog();
+            inputDialog.show(ThreeQuartersApp.getPrimaryStage(),"AI笔记新建",input -> {
                 File directFolder = projectFileTreeView.getDirectFolder();
                 if(directFolder != null)
                 {

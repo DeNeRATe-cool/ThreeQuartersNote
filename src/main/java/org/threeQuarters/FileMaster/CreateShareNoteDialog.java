@@ -1,9 +1,5 @@
 package org.threeQuarters.FileMaster;
 
-import org.threeQuarters.database.note.Note;
-import org.threeQuarters.database.note.NoteAction;
-import org.threeQuarters.database.user.User;
-import org.threeQuarters.database.user.UserAction;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,6 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.threeQuarters.database.note.Note;
+import org.threeQuarters.database.note.NoteAction;
+import org.threeQuarters.database.user.User;
+import org.threeQuarters.database.user.UserAction;
 import org.threeQuarters.toolkit.SimpleInputDialog;
 import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.util.NoteManagerUtil;

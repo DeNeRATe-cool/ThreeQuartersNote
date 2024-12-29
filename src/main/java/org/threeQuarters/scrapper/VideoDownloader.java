@@ -1,7 +1,10 @@
 
 package org.threeQuarters.scrapper;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 public class VideoDownloader {

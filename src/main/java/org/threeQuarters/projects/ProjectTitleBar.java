@@ -5,9 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
 import org.threeQuarters.ThreeQuartersApp;
-import org.threeQuarters.options.Options;
 
 
 public class ProjectTitleBar {

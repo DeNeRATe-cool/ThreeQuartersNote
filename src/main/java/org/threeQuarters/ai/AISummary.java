@@ -1,16 +1,5 @@
 package org.threeQuarters.ai;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Arrays;
-
-import org.threeQuarters.util.ResourceUtils;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.System;
 import com.alibaba.dashscope.aigc.generation.Generation;
 import com.alibaba.dashscope.aigc.generation.GenerationParam;
 import com.alibaba.dashscope.aigc.generation.GenerationResult;
@@ -18,6 +7,13 @@ import com.alibaba.dashscope.common.Message;
 import com.alibaba.dashscope.common.Role;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
+import org.threeQuarters.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Generate notes from text.

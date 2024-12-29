@@ -1,9 +1,5 @@
 package org.threeQuarters.util;
 
-import com.sun.jna.WString;
-import javafx.beans.binding.StringBinding;
-import org.threeQuarters.FileMaster.ILocalFile;
-
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

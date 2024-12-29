@@ -1,6 +1,5 @@
 package org.threeQuarters.database.sync;
 
-import org.threeQuarters.database.HibernateUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaDelete;
@@ -8,6 +7,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.threeQuarters.database.HibernateUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;

@@ -12,16 +12,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import org.threeQuarters.addons.LeftPaneAddon;
 import org.threeQuarters.options.Options;
-import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.scrapper.IPPTCrawlable;
 import org.threeQuarters.scrapper.NoneResourcesException;
 import org.threeQuarters.scrapper.PPTExecutor;
+import org.threeQuarters.util.MessageBox;
 
 import java.nio.file.Paths;
 import java.util.List;
 
-public class ProjectPPTDownloader {
+public class ProjectPPTDownloader implements LeftPaneAddon {
 
     private static ProjectPPTDownloader instance;
 
@@ -110,7 +111,7 @@ public class ProjectPPTDownloader {
         Button button = new Button();
 
         Image img = new Image(getClass().getResource("/images/pull_downButton.png").toExternalForm());
-        javafx.scene.image.ImageView icon = new ImageView(img);
+        ImageView icon = new ImageView(img);
         icon.setFitHeight(20);
         icon.setFitWidth(16);
         button.setGraphic(icon);
@@ -118,9 +119,6 @@ public class ProjectPPTDownloader {
         button.setOnAction((ActionEvent event) -> {
             creatPPTDownloadThread();
             pptDownloaderThread.start();
-            new Thread(()->{
-
-            }).start();
         });
         return button;
     }

@@ -3,7 +3,10 @@ package org.threeQuarters.scrapper;
 
 import org.openqa.selenium.WebElement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class TeacherExecutor {

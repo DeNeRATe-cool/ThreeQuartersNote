@@ -1,7 +1,6 @@
 package org.threeQuarters.projects;
 
-import org.threeQuarters.database.sync.SyncAction;
-import org.threeQuarters.database.user.UserAction;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -11,6 +10,8 @@ import javafx.scene.layout.VBox;
 import org.threeQuarters.FileMaster.FileEditorTab;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.ModeManager;
+import org.threeQuarters.database.sync.SyncAction;
+import org.threeQuarters.database.user.UserAction;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.util.Utils;
@@ -41,7 +42,6 @@ public class ProjectsRightOperation {
 
         syncButton = creatSyncButton();
 
-
         vbox = new VBox();
         putButtonsInVBox();
 
@@ -69,10 +69,12 @@ public class ProjectsRightOperation {
         imageView.setFitHeight(20);
         imageView.setFitWidth(16);
         backupButton.setGraphic(imageView);
-        Utils.applyTooltip(backupButton,"back up");
+        Utils.applyTooltip(backupButton,"备份（备份当前根目录）\n所有文件到数据库");
         setBackUpAction(backupButton);
         return backupButton;
     }
+
+
     private Button creatSyncButton()
     {
         Button syncButton = new Button();
@@ -81,7 +83,7 @@ public class ProjectsRightOperation {
         imageView.setFitHeight(20);
         imageView.setFitWidth(16);
         syncButton.setGraphic(imageView);
-        Utils.applyTooltip(syncButton,"update");
+        Utils.applyTooltip(syncButton,"同步（同步数据库\n所有文件到根目录）");
         setSyncAction(syncButton);
         return syncButton;
     }
@@ -99,6 +101,9 @@ public class ProjectsRightOperation {
             {
                 System.out.printf("try sync");
                 action.sync(Options.getCurrentRootPath(),UserAction.getNowUser().getUsername());
+                Platform.runLater(()->{
+                    new MessageBox("","","成功将数据同步到本地");
+                });
             }
         });
 
@@ -115,8 +120,11 @@ public class ProjectsRightOperation {
             }
             else
             {
-                System.out.println("try back up");
+//                System.out.println("try back up");
                 action.backUp(Options.getCurrentRootPath(),UserAction.getNowUser().getUsername());
+                Platform.runLater(()->{
+                    new MessageBox("","","成功将本地数据备份到数据库");
+                });
             }
         });
 
@@ -130,7 +138,7 @@ public class ProjectsRightOperation {
         shareIcon.setFitHeight(20);
         shareIcon.setFitWidth(16);
         shareButton.setGraphic(shareIcon);
-        Utils.applyTooltip(shareButton,"Share it On Community");
+        Utils.applyTooltip(shareButton,"推送到共享资源库");
         setShareButtonAction(shareButton);
 
         return shareButton;

@@ -7,11 +7,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import org.threeQuarters.FileMaster.FileManager;
-import org.threeQuarters.FileMaster.FileData;
-import org.threeQuarters.FileMaster.FileTreeCell;
-import org.threeQuarters.FileMaster.FileTreeItem;
-import org.threeQuarters.FileMaster.FileTreeView;
+import org.threeQuarters.FileMaster.*;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.util.Utils;
 

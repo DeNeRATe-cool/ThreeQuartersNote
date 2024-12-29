@@ -1,14 +1,17 @@
 package org.threeQuarters.projects;
 
-import org.threeQuarters.database.user.UserAction;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.threeQuarters.database.user.UserAction;
 import org.threeQuarters.toolkit.SimpleInputDialog;
 import org.threeQuarters.util.MessageBox;
 
@@ -31,12 +34,12 @@ public class SignUpDialog {
 
 
         // 用户名部分
-        Label IDLabel = new Label("Username:");
+        Label IDLabel = new Label("用户名");
 //        ComboBox<String> idBox = new ComboBox<>();
 //        idBox.setEditable(true);
 //        idBox.setPromptText("Enter your username");
         TextField IDField = new TextField();
-        IDField.setPromptText("Enter your username");
+        IDField.setPromptText("请输入用户名");
 
 //        Button usernameButton = new Button("Check");
 
@@ -46,15 +49,15 @@ public class SignUpDialog {
         usernameBox.setAlignment(Pos.CENTER_LEFT);
 
         // 密码部分
-        Label passwordLabel = new Label("Password:");
+        Label passwordLabel = new Label("密码");
         PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Enter your password");
+        passwordField.setPromptText("请输入密码");
 //        Button passwordButton = new Button("Show");
 
         // 密码确认部分
-        Label repasswordLabel = new Label("Confirm Password:");
+        Label repasswordLabel = new Label("确认密码");
         PasswordField repasswordField = new PasswordField();
-        repasswordField.setPromptText("Enter your password Again");
+        repasswordField.setPromptText("再次输入密码");
 
         HBox passwordBox = new HBox(10, passwordField);
         passwordBox.setAlignment(Pos.CENTER_LEFT);
@@ -91,23 +94,23 @@ public class SignUpDialog {
     }
 
     public static Button getSignUpButton(TextField IDField, PasswordField passwordField, PasswordField confirmPasswordField, Stage signUpStage) {
-        Button signUpButton = new Button("Sign Up");
+        Button signUpButton = new Button("注册");
         signUpButton.setOnAction(e -> {
 
             if(IDField.getText().isEmpty() || passwordField.getText().isEmpty() || confirmPasswordField.getText().isEmpty()) {
-                new MessageBox("","","Please input Username \nPassword and Confirm Password!!");
+                new MessageBox("","","请正确输入注册信息");
             }
             else
             {
                 boolean success = UserAction.getInstance().signUp(IDField.getText(), passwordField.getText(), confirmPasswordField.getText());
                 if(success)
                 {
-                    new MessageBox("","","Sign Up Successful!!\nWelcome to 3/4,"+IDField.getText());
+                    new MessageBox("","","注册成功\n欢迎来到 3/4 notes "+IDField.getText());
                     signUpStage.close();
                 }
                 else
                 {
-                    new MessageBox("","","Sign Up Failed!!");
+                    new MessageBox("","","注册失败");
                 }
             }
         });

@@ -4,21 +4,23 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import org.threeQuarters.addons.LeftPaneAddon;
 import org.threeQuarters.options.Options;
-import org.threeQuarters.util.MessageBox;
 import org.threeQuarters.scrapper.IVideoCrawlable;
 import org.threeQuarters.scrapper.VideoExecutor;
+import org.threeQuarters.util.MessageBox;
 
 import java.util.List;
 
-public class ProjectVideoDownloader {
+public class ProjectVideoDownloader implements LeftPaneAddon {
 
     private static ProjectVideoDownloader instance;
 
@@ -113,7 +115,7 @@ public class ProjectVideoDownloader {
         Button button = new Button();
 
         Image img = new Image(getClass().getResource("/images/pull_downButton.png").toExternalForm());
-        javafx.scene.image.ImageView icon = new ImageView(img);
+        ImageView icon = new ImageView(img);
         icon.setFitHeight(20);
         icon.setFitWidth(16);
         button.setGraphic(icon);

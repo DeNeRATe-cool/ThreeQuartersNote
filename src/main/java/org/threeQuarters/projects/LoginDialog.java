@@ -1,7 +1,7 @@
 package org.threeQuarters.projects;
 
-import org.threeQuarters.database.user.UserAction;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -12,8 +12,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.geometry.Pos;
 import org.threeQuarters.ThreeQuartersApp;
+import org.threeQuarters.database.user.UserAction;
 import org.threeQuarters.options.Options;
 import org.threeQuarters.toolkit.SimpleInputDialog;
 import org.threeQuarters.util.ImageUtils;
@@ -54,7 +54,7 @@ public class LoginDialog {
 
 
         // 用户名部分
-        Label IDLabel = new Label("Username:");
+        Label IDLabel = new Label("用户名");
 //        ComboBox<String> idBox = new ComboBox<>();
 //        idBox.setEditable(true);
 //        idBox.setPromptText("Enter your username");
@@ -73,7 +73,7 @@ public class LoginDialog {
         usernameBox.setAlignment(Pos.CENTER_LEFT);
 
         // 密码部分
-        Label passwordLabel = new Label("Password:");
+        Label passwordLabel = new Label("密码：");
         PasswordField passwordField = getPasswordField();
 //        Button passwordButton = new Button("Show");
 
@@ -159,7 +159,7 @@ public class LoginDialog {
     public static Label getClickableLabel()
     {
         // 创建一个标签
-        Label clickableLabel = new Label("Click to Sign in");
+        Label clickableLabel = new Label("点击注册");
 
         // 设置标签的样式，模拟磁力标签的外观
         clickableLabel.setStyle("-fx-text-fill: #0066cc; -fx-font-size: 16px; -fx-underline: true;");
@@ -191,13 +191,13 @@ public class LoginDialog {
 
 
             if(IDField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-                new MessageBox("","","Please enter your username and password");
+                new MessageBox("","","请正确输入登录信息");
             }
             else
             {
                 boolean loginsuccess = UserAction.getInstance().login(IDField.getText(), passwordField.getText(), rememberCheck.isSelected());
                 if(loginsuccess) {
-                    new MessageBox("login info", "login info", "you have logined");
+                    new MessageBox("login info", "login info", "您已成功登录\n欢迎来到3/4note");
 
                     loginStage.close();
                     Options.setRememberUserName(UserAction.getNowUser().getUsername());
@@ -205,7 +205,7 @@ public class LoginDialog {
                 }
                 else
                 {
-                    new MessageBox("nono","nono","you have not login");
+                    new MessageBox("nono","nono","登录失败");
                 }
             }
         });
@@ -227,9 +227,9 @@ public class LoginDialog {
                 if(ls != null && ls.contains(Options.getRememberUserName())) {
                     textField.setText(Options.getRememberUserName());
                 }
-                else textField.setPromptText("Enter your username");
+                else textField.setPromptText("输入用户名");
             } else {
-                textField.setPromptText("Enter your username");
+                textField.setPromptText("输入用户名");
             }
         }
         return textField;
@@ -242,9 +242,9 @@ public class LoginDialog {
             if(ls!=null && ls.contains(Options.getRememberUserName())) {
                 passwordField.setText(ls.get(ls.indexOf(Options.getRememberUserName())+1));
             }
-            else passwordField.setPromptText("Enter your password");
+            else passwordField.setPromptText("输入密码");
         }
-        else passwordField.setPromptText("Enter your password");
+        else passwordField.setPromptText("输入密码");
         if(UserAction.getInstance().getNowUser() != null)passwordField.setText(UserAction.getNowUser().getPassword());
         return passwordField;
     }
@@ -252,13 +252,13 @@ public class LoginDialog {
 
     public Button getSetAvatarButton(Stage loginStage) {
 
-        Button setAvatarButton = new Button("Set Avatar");
+        Button setAvatarButton = new Button("设置头像");
 
         setAvatarButton.setOnAction(e -> {
 
             if(UserAction.getInstance().getNowUser() == null)
             {
-                new MessageBox("","","Please Log in first");
+                new MessageBox("","","请先登录");
                 return;
             }
 

@@ -1,8 +1,8 @@
 package org.threeQuarters.projects;
 
-import org.threeQuarters.PPTExtracter.PowerPointTextExtractor;
 import com.alibaba.dashscope.exception.InputRequiredException;
 import com.alibaba.dashscope.exception.NoApiKeyException;
+import org.threeQuarters.AiFileAssistant.PowerPointTextExtractor;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.ai.AISummary;
 import org.threeQuarters.ai.ASRModelType;
@@ -28,7 +28,6 @@ public class ProjectGenerateAINote {
     {
         SpeechRecognition speechRecognition = new SpeechRecognition();
         try{
-            System.out.println(Paths.get(videoRootPath.toString(), filename).toString());
             int exitCode = speechRecognition.transcribe(ASRModelType.TINY, Paths.get(videoRootPath, filename).toString(), Paths.get(videoRootPath, "result.txt").toString());
         }catch (Exception e)
         {
@@ -60,13 +59,12 @@ public class ProjectGenerateAINote {
 
     public void executePPTAInote(String CourseName,String filename)
     {
-        System.out.println(Paths.get(pptRootPath, filename).toString());
-        String source = PowerPointTextExtractor.extractTextFromPPTX(Paths.get(pptRootPath, filename).toString());
+//        String source = PowerPointTextExtractor.extractText(Paths.get(pptRootPath, filename).toString());
+        String source = PowerPointTextExtractor.getInstance().extractText(Paths.get(pptRootPath,filename).toString());
         AISummary aiSummary = null;
         try {
             aiSummary = new AISummary();
             String content = aiSummary.generate(CourseName,source);
-            System.out.println(content);
             FileManager.getInstance().createNewFile(filename+".md",content);
         } catch (IOException e) {
             throw new RuntimeException(e);

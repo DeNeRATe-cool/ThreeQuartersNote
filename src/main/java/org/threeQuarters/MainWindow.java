@@ -2,11 +2,16 @@ package org.threeQuarters;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import org.threeQuarters.FileMaster.FileManager;
 import org.threeQuarters.options.Options;
-import org.threeQuarters.projects.*;
+import org.threeQuarters.projects.ProjectLeftMenu;
+import org.threeQuarters.projects.ProjectTitleBar;
+import org.threeQuarters.projects.ProjectsRightOperation;
 
 import java.io.IOException;
 
@@ -82,6 +87,7 @@ public class MainWindow {
 
 //        editorAndWebViewPane.add(fileManager.getMDWebView(),0,1);
         mainLayout.setCenter(editorAndWebViewPane);
+//        mainLayout.setTop(new ChatView());
 
         HBox.setHgrow(fileManager.getOpenedFilesTabPane(),Priority.ALWAYS);
 

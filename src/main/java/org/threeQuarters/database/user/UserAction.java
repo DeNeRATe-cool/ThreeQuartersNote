@@ -1,6 +1,5 @@
 package org.threeQuarters.database.user;
 
-import org.threeQuarters.database.HibernateUtils;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -9,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.json.JSONObject;
+import org.threeQuarters.database.HibernateUtils;
 import org.threeQuarters.util.MessageBox;
 
 import java.io.File;

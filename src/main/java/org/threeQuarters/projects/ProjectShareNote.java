@@ -16,9 +16,8 @@ import org.threeQuarters.database.note.Note;
 import org.threeQuarters.database.note.NoteAction;
 import org.threeQuarters.util.Utils;
 
-import java.util.List;
-
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class ProjectShareNote {

@@ -188,6 +188,41 @@
     -fx-border-width: 3px; /* 聚焦时边框加粗 */
 }
 
+#toggle-button2 {
+    -fx-font-family: "Arial", sans-serif; /* 设置字体 */
+    -fx-font-size: 16px;                 /* 设置字体大小 */
+    -fx-text-fill: #4a4a4a;              /* 默认文字颜色 */
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f7f7f7); /* 渐变背景 */
+    -fx-background-radius: 20;          /* 圆角效果 */
+    -fx-padding: 10 20;                 /* 内边距，适应较长文字 */
+    -fx-border-color: #dcdcdc;          /* 边框颜色 */
+    -fx-border-radius: 20;              /* 圆角边框 */
+    -fx-border-width: 2;                /* 边框宽度 */
+    -fx-cursor: hand;                   /* 鼠标悬停时的手型指针 */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 10, 0, 0, 2); /* 阴影效果 */
+}
+
+/* 鼠标悬停效果 */
+#toggle-button2:hover {
+    -fx-background-color: linear-gradient(to bottom, #f7f7f7, #eaeaea);
+    -fx-border-color: #c0c0c0;
+}
+
+/* 选中状态 */
+#toggle-button2:selected {
+    -fx-background-color: linear-gradient(to bottom, #a8d8ea, #66c2dc); /* 蓝色渐变背景 */
+    -fx-text-fill: #ffffff; /* 文字颜色改为白色 */
+    -fx-border-color: #66c2dc;
+}
+
+/* 禁用状态 */
+#toggle-button2:disabled {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #e0e0e0;
+    -fx-text-fill: #a8a8a8;
+    -fx-cursor: default;
+}
+
 /* 文件树样式设置 */
 
 /* 整体 FileTreeView 样式 */

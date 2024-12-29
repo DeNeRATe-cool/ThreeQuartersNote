@@ -1,6 +1,5 @@
 package org.threeQuarters.FileMaster;
 
-import org.threeQuarters.util.NoteManagerUtil;
 import org.threeQuarters.util.Utils;
 
 import java.io.File;

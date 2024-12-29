@@ -1,7 +1,5 @@
 package org.threeQuarters.FileMaster;
 
-import org.threeQuarters.util.Utils;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

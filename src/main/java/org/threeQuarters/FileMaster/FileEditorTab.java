@@ -2,8 +2,6 @@ package org.threeQuarters.FileMaster;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import org.threeQuarters.database.note.Note;
-import org.threeQuarters.database.note.NoteAction;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
 import javafx.beans.property.BooleanProperty;
@@ -17,6 +15,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.robot.Robot;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.threeQuarters.database.note.Note;
+import org.threeQuarters.database.note.NoteAction;
 import org.threeQuarters.projects.ProjectLeftMenu;
 import org.threeQuarters.projects.ProjectShareNote;
 import org.threeQuarters.util.MessageBox;
@@ -24,7 +24,9 @@ import org.threeQuarters.util.NoteManagerUtil;
 import org.threeQuarters.util.TextAreaEnhancer;
 import org.threeQuarters.util.Utils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;

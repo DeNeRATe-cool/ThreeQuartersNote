@@ -2,12 +2,10 @@ package org.threeQuarters.projects;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
-import javafx.application.Platform;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import org.threeQuarters.FileMaster.FileManager;
@@ -32,6 +30,9 @@ public class ProjectLeftMenu {
     ToggleButton shareResourcesButton;
     ToggleButton videoDownloadButton;
     ToggleButton pptDownloadButton;
+    ToggleButton fileToMdButton;
+    ToggleButton aiFileButton;
+    ToggleButton aiExamButton;
     Button configButton;
 
     private static final Lock lock = new ReentrantLock();
@@ -82,11 +83,30 @@ public class ProjectLeftMenu {
         pptDownloadButton = creatPPTDownloadButton();
         toolBox.getChildren().add(pptDownloadButton);
 
+        fileToMdButton = creatFileToMdButton();
+        toolBox.getChildren().add(fileToMdButton);
+
+        aiFileButton = creatAiFileButton();
+        toolBox.getChildren().add(aiFileButton);
+
+        aiExamButton =creatAiExamButton();
+        toolBox.getChildren().add(aiExamButton);
+
+
+        Utils.applyTooltip(shareResourcesButton,"共享资源库");
+        Utils.applyTooltip(videoDownloadButton,"spoc视频ai总结笔记");
+        Utils.applyTooltip(pptDownloadButton,"spoc-PPT-ai总结笔记");
+        Utils.applyTooltip(fileToMdButton, "文档->ai总结笔记");
+        Utils.applyTooltip(aiFileButton,"和ai聊聊吧");
+        Utils.applyTooltip(aiExamButton,"来刷刷题");
         // 管理只选择一个button
         leftButtons.add(projectButton);
         leftButtons.add(shareResourcesButton);
         leftButtons.add(videoDownloadButton);
         leftButtons.add(pptDownloadButton);
+        leftButtons.add(fileToMdButton);
+        leftButtons.add(aiFileButton);
+        leftButtons.add(aiExamButton);
 
         setButtonAction();
     }
@@ -101,9 +121,41 @@ public class ProjectLeftMenu {
         return toggleButton;
     }
 
+    private ToggleButton creatFileToMdButton()
+    {
+        ToggleButton toggleButton = new ToggleButton();
+        Image img = new Image(getClass().getResource("/images/fileai.png").toExternalForm());
+        ImageView icon = new ImageView(img);
+        icon.setFitHeight(20);
+        icon.setFitWidth(16);
+        toggleButton.setGraphic(icon);
+        return toggleButton;
+    }
+
     private ToggleButton creatPPTDownloadButton() {
         ToggleButton toggleButton = new ToggleButton();
         Image img = new Image(getClass().getResource("/images/ppt_download_button.png").toExternalForm());
+        ImageView icon = new ImageView(img);
+        icon.setFitHeight(20);
+        icon.setFitWidth(16);
+        toggleButton.setGraphic(icon);
+        return toggleButton;
+    }
+
+    private ToggleButton creatAiExamButton()
+    {
+        ToggleButton toggleButton = new ToggleButton();
+        Image img = new Image(getClass().getResource("/images/examButton.png").toExternalForm());
+        ImageView icon = new ImageView(img);
+        icon.setFitHeight(20);
+        icon.setFitWidth(16);
+        toggleButton.setGraphic(icon);
+        return toggleButton;
+    }
+
+    private ToggleButton creatAiFileButton(){
+        ToggleButton toggleButton = new ToggleButton();
+        Image img = new Image(getClass().getResource("/images/aiButton.png").toExternalForm());
         ImageView icon = new ImageView(img);
         icon.setFitHeight(20);
         icon.setFitWidth(16);
@@ -188,6 +240,9 @@ public class ProjectLeftMenu {
         setShareResourcesButtonAction(shareResourcesButton);
         setVideoDownloadButtonAction(videoDownloadButton);
         setPptDownloadButtonAction(pptDownloadButton);
+        setFileToMdButtonAction(fileToMdButton);
+        setAiFileButtonAction(aiFileButton);
+        setAiExamButtonAction(aiExamButton);
 
         configButton.setOnAction(e -> {
             try {
@@ -197,7 +252,42 @@ public class ProjectLeftMenu {
                 throw new RuntimeException(ex);
             }
         });
+    }
 
+    private void setAiExamButtonAction(ToggleButton aiExamButton)
+    {
+        aiExamButton.selectedProperty().addListener((observable,oldValue,newValue)->{
+            if(newValue)
+            {
+                closeAllToggle(aiExamButton);
+                leftPane.setCenter(ProjectExamer.getInstance().getBorderPane());
+            }
+            else leftPane.setCenter(null);
+        });
+    }
+
+    private void setAiFileButtonAction(ToggleButton aiFileButton)
+    {
+        aiFileButton.selectedProperty().addListener((observable,oldValue,newValue)->{
+            if(newValue)
+            {
+                closeAllToggle(aiFileButton);
+                leftPane.setCenter(ProjectAIForFile.getInstance().getBorderPane());
+            }
+            else leftPane.setCenter(null);
+        });
+    }
+
+    private void setFileToMdButtonAction(ToggleButton fileToMdButton)
+    {
+        fileToMdButton.selectedProperty().addListener((observable,oldValue,newValue) -> {
+            if(newValue)
+            {
+                closeAllToggle(fileToMdButton);
+                leftPane.setCenter(ProjectFileAiToMd.getInstance().getBorderPane());
+            }
+            else leftPane.setCenter(null);
+        });
     }
 
     private void setPptDownloadButtonAction(ToggleButton pptDownloadButton)

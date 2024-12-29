@@ -1,18 +1,17 @@
 package org.threeQuarters.util;
 
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.File;
 import java.util.*;
-import java.util.List;
 import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -345,7 +344,230 @@ public class Utils {
         return configIcon;
     }
 
+    /**
+     * 判断给定的文件是否是 PowerPoint 文件。
+     *
+     * @param file 要判断的文件
+     * @return 如果是 PowerPoint 文件，返回 true；否则返回 false
+     */
+    public static boolean isPowerPointFile(File file) {
+        if (file == null || !file.exists() || file.isDirectory()) {
+            return false;
+        }
 
+        // 获取文件名并检查扩展名
+        String fileName = file.getName().toLowerCase(); // 忽略大小写
+        return fileName.endsWith(".ppt") || fileName.endsWith(".pptx") || fileName.endsWith(".ppsx");
+    }
+
+    /**
+     * 判断给定的文件路径是否是 PowerPoint 文件。
+     *
+     * @param filePath 要判断的文件路径
+     * @return 如果是 PowerPoint 文件，返回 true；否则返回 false
+     */
+    public static boolean isPowerPointFile(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            return false;
+        }
+
+        return isPowerPointFile(new File(filePath));
+    }
+
+    public static boolean isWordFile(File file) {
+        if (file == null || !file.exists() || file.isDirectory()) {
+            return false;
+        }
+
+        // 获取文件名并检查扩展名
+        String fileName = file.getName().toLowerCase(); // 忽略大小写
+        return fileName.endsWith(".doc") || fileName.endsWith(".docx");
+    }
+
+    /**
+     * 判断给定的文件路径是否是 PowerPoint 文件。
+     *
+     * @param filePath 要判断的文件路径
+     * @return 如果是 PowerPoint 文件，返回 true；否则返回 false
+     */
+    public static boolean isWordFile(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            return false;
+        }
+
+        return isWordFile(new File(filePath));
+    }
+
+    public static boolean isPDFFile(File file) {
+        if (file == null || !file.exists() || file.isDirectory()) {
+            return false;
+        }
+
+        // 获取文件名并检查扩展名
+        String fileName = file.getName().toLowerCase(); // 忽略大小写
+        return fileName.endsWith(".pdf");
+    }
+
+    /**
+     * 判断给定的文件路径是否是 PowerPoint 文件。
+     *
+     * @param filePath 要判断的文件路径
+     * @return 如果是 PowerPoint 文件，返回 true；否则返回 false
+     */
+    public static boolean isPDFFile(String filePath) {
+        if (filePath == null || filePath.trim().isEmpty()) {
+            return false;
+        }
+
+        return isPDFFile(new File(filePath));
+    }
+
+    public static int countLines(String text) {
+        if (text == null || text.isEmpty()) {
+            return 0;
+        }
+
+        // 行宽度限制
+        final int CHINESE_WIDTH = 20; // 一个汉字等于一个宽度单位
+        final int ENGLISH_WIDTH = 45; // 英文字母、数字、标点等 40 个算一行
+
+        int totalWidth = 0; // 当前行的总宽度
+        int lineCount = 1; // 默认至少有一行
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            if (c == '\n') {
+                // 换行符单独算一行
+                lineCount++;
+                totalWidth = 0; // 重置当前行宽度
+            } else if (isChinese(c)) {
+                // 汉字增加宽度
+                totalWidth += 1;
+            } else {
+                // 英文字符增加宽度
+                totalWidth += 0.5;
+            }
+
+            // 如果当前宽度超出限制，增加行数并重置宽度
+            if (totalWidth >= CHINESE_WIDTH) {
+                lineCount++;
+                totalWidth = 0;
+            }
+        }
+
+        return lineCount;
+    }
+
+    public static int calculateLineCount(String text) {
+        if (text == null || text.isEmpty()) {
+            return 0;
+        }
+
+        int lineCount = 0; // 行数计数器
+        int currentLineLength = 0; // 当前行已占用的长度
+
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            if (c == '\n') {
+                // 遇到换行符，增加一行，重置当前行长度
+                lineCount++;
+                currentLineLength = 0;
+            } else {
+                // 计算字符长度，汉字和全角字符为1，半角字符为0.5
+                int charLength = isFullWidth(c) ? 1 : 1;
+                currentLineLength += charLength;
+
+                // 如果当前行长度超过20，增加一行，并重置当前行长度
+                if (currentLineLength > 20) {
+                    lineCount++;
+                    currentLineLength = charLength; // 新行以当前字符开始
+                }
+            }
+        }
+
+        // 如果最后一行有内容，增加一行
+        if (currentLineLength > 0) {
+            lineCount++;
+        }
+
+        return lineCount;
+    }
+
+    // 判断字符是否为全角字符（包括汉字）
+    private static boolean isFullWidth(char c) {
+        // 汉字范围 (CJK Unified Ideographs)
+        if (c >= '\u4e00' && c <= '\u9fff') {
+            return true;
+        }
+
+        // 全角字符范围
+        return Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || Character.UnicodeBlock.of(c) == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS
+                || Character.UnicodeBlock.of(c) == Character.UnicodeBlock.CJK_COMPATIBILITY_FORMS;
+    }
+
+
+    public static int countRenderedLines(String markdown) {
+        // 使用 Flexmark 库渲染 Markdown 内容
+        Parser parser = Parser.builder().build();
+
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+
+        // 解析 Markdown 为 HTML
+        com.vladsch.flexmark.util.ast.Document document = parser.parse(markdown);
+        String htmlContent = renderer.render(document);
+
+        // 计算渲染后的 HTML 内容的行数
+        return countLinesInHtml(htmlContent);
+    }
+
+    private static int countLinesInHtml(String htmlContent) {
+        // 去掉 HTML 标签
+        String plainText = htmlContent.replaceAll("<[^>]+>", ""); // 移除 HTML 标签
+
+        // 按行分割文本
+        String[] lines = plainText.split("\n");
+
+        // 根据行内容的长度，进行简单的行数估算（可以根据需要更复杂的逻辑）
+        int totalLines = 0;
+        for (String line : lines) {
+            totalLines += calculateLinesForText(line);
+        }
+        return totalLines;
+    }
+
+    private static int calculateLinesForText(String text) {
+        int chineseCharCount = 0;
+        int englishCharCount = 0;
+
+        // 统计中文和英文字符数
+        for (char c : text.toCharArray()) {
+            if (isChinese(c)) {
+                chineseCharCount++;
+            } else if (isEnglish(c)) {
+                englishCharCount++;
+            }
+        }
+
+        // 计算中文和英文的行数
+        int chineseLines = (int) Math.ceil((double) chineseCharCount / 20);
+        int englishLines = (int) Math.ceil((double) englishCharCount / 45);
+
+        return chineseLines + englishLines;
+    }
+
+    // 判断是否是中文字符
+    private static boolean isChinese(char c) {
+        return String.valueOf(c).matches("[\u4E00-\u9FA5]");
+    }
+
+    // 判断是否是英文字符
+    private static boolean isEnglish(char c) {
+        return String.valueOf(c).matches("[a-zA-Z0-9\\p{Punct}]");
+    }
 
 
 public static void main(String[] args)

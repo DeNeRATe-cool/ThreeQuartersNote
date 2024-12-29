@@ -19,6 +19,7 @@ public class ProjectsFilesButtons {
     Button newFileButton;
     Button newFolderButton;
     Button deleteFileButton;
+    Button renameFileButton;
 
     public ProjectsFilesButtons() {
         buttons = new HBox();
@@ -45,9 +46,13 @@ public class ProjectsFilesButtons {
         configIcon.setFitWidth(16);
         deleteFileButton.setGraphic(configIcon);
 
+        renameFileButton = new Button();
+        Utils.applyTooltip(renameFileButton,"Rename File");
+        renameFileButton.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.STICKY_NOTE));
+
         setButtonAction();
 
-        buttons.getChildren().addAll(newFileButton, newFolderButton,saveFileButton,deleteFileButton);
+        buttons.getChildren().addAll(newFileButton, newFolderButton,saveFileButton,deleteFileButton,renameFileButton);
 
     }
 
@@ -82,6 +87,13 @@ public class ProjectsFilesButtons {
                 FileManager.getInstance().delFile();
             } catch (IOException er) {
                 throw new RuntimeException(er);
+            }
+        });
+        renameFileButton.setOnAction(e->{
+            try {
+                FileManager.getInstance().renameFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         });
     }
