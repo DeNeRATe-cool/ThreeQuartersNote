@@ -1,0 +1,99 @@
+/* 全局背景色 */
+.root {
+    -fx-background-color: #f9f9f9;
+}
+
+/* 标签样式 */
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+}
+
+/* 输入框样式 */
+.text-field, .password-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #8888ff;
+    -fx-background-color: #f9f9f9;
+}
+
+/* 按钮样式 */
+.button {
+    -fx-background-color: #8888ff;
+    -fx-text-fill: white;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Arial";
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #6666cc;
+}
+
+.button:pressed {
+    -fx-background-color: #4444aa;
+}
+
+/* ComboBox样式 */
+.combo-box {
+    /*-fx-background-color: #f0f0f0;*/
+    /*-fx-border-radius: 10;*/
+    /*-fx-border-color: #d1d1d1;*/
+    /*-fx-padding: 5 10 5 10;*/
+    -fx-font-size: 14px;
+    -fx-font-family: "Helvetica Neue", sans-serif;
+}
+
+.combo-box .arrow {
+    -fx-background-color: transparent;
+    -fx-shape: "M0,0 L10,10 L20,0 Z";
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+    -fx-fill: #999;
+}
+
+.combo-box-popup {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10;
+    -fx-border-color: #d1d1d1;
+    -fx-padding: 5;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 10,0.5,0,2 );
+}
+
+/* 高亮选中项 */
+.combo-box .list-cell:hover {
+    -fx-background-color: #f3f3f3;
+}
+
+/* 下拉项的样式 */
+.combo-box .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Helvetica Neue", sans-serif;
+}
+
+/* 设置选中项的背景 */
+.combo-box .list-cell:focused {
+    -fx-background-color: #e0e0e0;
+}
+
+.circular-avatar {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.5, 0, 2);
+    -fx-background-color: linear-gradient(to bottom, #ff9a9e, #fad0c4); /* 渐变背景 */
+    -fx-padding: 5px; /* 边框宽度 */
+    -fx-border-radius: 50%; /* 圆角 */
+    -fx-background-radius: 50%; /* 背景圆形 */
+}

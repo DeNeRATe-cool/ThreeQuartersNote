@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://47.94.184.148:3307/notes</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Nn~=jeQxK</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.format_sql">true</property>
+
+    <mapping class = "org.threeQuarters.database.note.Note"/>
+    <mapping class = "org.threeQuarters.database.sync.SyncNote"/>
+    <mapping class = "org.threeQuarters.database.user.User"/>
+  </session-factory>
+</hibernate-configuration>
