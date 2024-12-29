@@ -85,13 +85,14 @@ public class Options {
     public static void createFolderIfNotExists(String folderPath) {
         File folder = new File(folderPath);
         if (!folder.exists()) {
-            if (folder.mkdirs()) {
-                System.out.println("文件夹 '" + folderPath + "' 已创建。");
-            } else {
-                System.out.println("文件夹 '" + folderPath + "' 创建失败。");
-            }
-        } else {
-            System.out.println("文件夹 '" + folderPath + "' 已存在。");
+            folder.mkdirs();
+//            if (folder.mkdirs()) {
+//                System.out.println("文件夹 '" + folderPath + "' 已创建。");
+//            } else {
+//                System.out.println("文件夹 '" + folderPath + "' 创建失败。");
+//            }
+//        } else {
+//            System.out.println("文件夹 '" + folderPath + "' 已存在。");
         }
     }
 
@@ -103,7 +104,7 @@ public class Options {
         buaaPassword.init(prefs,"buaaPassword","");
         rememberUserName.init(prefs,"rememberUserName","");
 
-        String rootpath = String.valueOf(Paths.get("D","ThreeQuartersNotes"));
+        String rootpath = String.valueOf(Paths.get(System.getProperty("user.home"),"ThreeQuartersNotes"));
         createFolderIfNotExists(rootpath);
 
         currentRootPath.init(prefs,"currentRootPath", rootpath);
