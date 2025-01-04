@@ -4,6 +4,8 @@
 
 **项目仓库：[ThreeQuartersNote](https://github.com/DeNeRATe-cool/ThreeQuartersNote)**
 
+> 由于视频转文字模型过大，不在仓库进行保存
+
 ## 项目介绍
 
 本项目是一个**专为北航学生设计的笔记软件**。旨在帮助北航学生更方便快速进行课程内容的总结提升，以及安全有效地进行笔记的交流共享。
